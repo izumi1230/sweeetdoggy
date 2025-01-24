@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>梦是榛果巧克力</title>
     <script>
-        const backgrounds = ['background.1.jpg', 'background.2.jpg', 'background.3.jpg','background.4.jpg','background.5.jpg','background.6.jpg''background.7.jpg']; 
-        let currentIndex = background.2.jpg;
+        const backgrounds = ['background.1.jpg', 'background.2.jpg', 'background.3.jpg','background.4.jpg','background.5.jpg','background.6.jpg','background.7.jpg'];
+        let currentIndex = background.4.jpg;
 
         function changeBackground() {
             currentIndex = (currentIndex + 1) % backgrounds.length;
@@ -16,11 +16,23 @@
         function checkPassword() {
             const input = prompt("请输入密码进入下一页：");
             if (input === "oureverlastingcode") {
-                window.location.href = "nextpage.html"; 
+                window.location.href = "nextpage.html";
             } else {
                 alert("密码错误，请重试！");
             }
         }
+
+        function createSnowflakes() {
+            for (let i = 0; i < 100; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                snowflake.style.left = `${Math.random() * 100}vw`;
+                snowflake.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                snowflake.style.opacity = Math.random();
+                document.body.appendChild(snowflake);
+            }
+        }
+        createSnowflakes();
     </script>
     <style>
         body {
@@ -42,22 +54,35 @@
 
         .text-box .chinese {
             font-size: 1.5em;
-            color: #D9B1BD; 
+            color: #D9B1BD;
         }
 
         .text-box .japanese {
             font-size: 1em;
-            color: #a1a1a1; 
+            color: #a1a1a1;
         }
 
         .signature {
             font-family: 'Old English Text MT', serif;
             font-size: 1em;
             color: #a1a1a1;
-            margin-top: 20px;
+            margin-top: 40px;
+            text-align: center;
         }
 
-        button {
+        button.change-bg {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 12px;
+            padding: 5px 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button.next-page {
             position: fixed;
             bottom: 10px;
             right: 10px;
@@ -67,6 +92,33 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+        }
+
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            left: 0;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: fall 5s linear infinite, sway 3s ease-in-out infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        @keyframes sway {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(20px);
+            }
         }
     </style>
 </head>
@@ -78,7 +130,11 @@
         </div>
         <div class="signature">by 浅见湛 & 泉</div>
     </div>
-    <button onclick="changeBackground()">切换背景</button>
-    <button onclick="checkPassword()">进入下一页</button>
+    <button class="change-bg" onclick="changeBackground()">切换背景</button>
+    <button class="next-page" onclick="checkPassword()">进入下一页</button>
+    <audio id="bg-music" autoplay loop>
+        <source src="background-music.mp3" type="audio/mpeg">
+        您的浏览器不支持音频播放。
+    </audio>
 </body>
 </html>
