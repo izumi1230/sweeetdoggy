@@ -19,6 +19,47 @@
             display: flex;
             gap: 20px;
         }
+        /* TimeLine Section */
+        .timeline {
+            flex: 1;
+            position: relative;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 50px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #ccc;
+        }
+        .timeline-event {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .timeline-event:hover .timeline-content {
+            display: block;
+        }
+        .timeline-star {
+            width: 16px;
+            height: 16px;
+            background-color: #ccc;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            position: absolute;
+            left: 42px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        .timeline-content {
+            display: none;
+            position: absolute;
+            left: 80px;
+            top: -10px;
+            background: rgba(200, 200, 200, 0.9);
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
         /* Profile Section */
         .profile {
             flex: 1;
@@ -41,6 +82,13 @@
         .profile p {
             font-size: 0.9em;
             line-height: 1.6;
+        }
+         /*泉泉的自我介绍*/
+        .泉泉-profile {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px；
         }
         /* 上传头像按钮样式 */
         .upload-avatar input {
@@ -67,6 +115,34 @@
         }
         .index a:hover {
             color: #7b2a3f;
+        }
+        /* Message Board Section */
+        .message-board {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .message-board h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(230, 230, 230, 1);
+            border-radius: 5px;
+        }
+        .message .nickname {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .message textarea {
+            width: 100%;
+            height: 80px;
+            margin-top: 10px;
+            border-radius: 5px;
+            background: rgba(230, 230, 230, 1);
         }
     </style>
 </head>
@@ -109,6 +185,22 @@
     </div>
 
     <div class="container">
+        <!-- Timeline Section -->
+        <div class="timeline">
+            <div class="timeline-line"></div>
+            <div class="timeline-event">
+                <div class="timeline-star"></div>
+                <div class="timeline-content">
+                    <strong>2024.12.30</strong>
+                    <p>我们的初遇，从这里开始书写故事。</p>
+                </div>
+            </div>
+         </div>
+            <div class="timeline-event">
+                <div class="timeline-star"></div>
+                <div class="timeline-content">
+                    <strong>未来的节点</strong>
+                    <p>继续增加我们的回忆吧！</p>
         <!-- 阿湛的自我介绍 -->
         <div class="profile">
             <img src="default_avatar.jpg" alt="阿湛头像" id="阿湛头像">
@@ -131,5 +223,31 @@
             </div>
         </div>
     </div>
+         <!-- Message Board Section -->
+        <div class="message-board">
+            <h2>这是一块留言板</h2>
+            <div class="message">
+                <div class="nickname">Doggy's Love</div>
+                <div class="text">希望在探索我们的过程中你也能感到幸福与快乐</div>
+            </div>
+            <textarea placeholder="留下你的留言吧！(请填写昵称)"></textarea>
+        </div>
+    </div>
+    <script>
+        function uploadAvatar(id) {
+            const fileInput = document.getElementById(`upload-${id}`);
+            const imgElement = document.getElementById(id);
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imgElement.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
 </body>
 </html>
