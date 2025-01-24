@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -92,12 +91,30 @@
             border-radius: 10px;
         }
         /* 上传头像按钮样式 */
-        .upload-avatar {
-            text-align: center;
-            margin: 10px 0;
-        }
         .upload-avatar input {
             margin-top: 10px;
+        }
+        /* 索引部分样式 */
+        .index {
+            position: fixed;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .index a {
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #333;
+            font-size: 1em;
+            text-align: center;
+        }
+        .index a:hover {
+            color: #7b2a3f;
         }
         /* Message Board Section */
         .message-board {
@@ -130,6 +147,13 @@
     </style>
 </head>
 <body>
+<!-- 索引菜单 -->
+    <div class="index">
+        <a href="pomodoro.html">番茄钟</a>
+        <a href="profile.html">个人主页</a>
+        <a href="notebook.html">记录本</a>
+    </div>
+
     <div class="container">
         <!-- Timeline Section -->
         <div class="timeline">
@@ -157,16 +181,6 @@
             <div class="upload-avatar">
                 <label for="upload-阿湛头像">上传阿湛的头像：</label>
                 <input type="file" id="upload-阿湛头像" onchange="uploadAvatar('阿湛头像')">
-            </div>
-            <!-- 泉泉的自我介绍 -->
-            <div class="泉泉-profile">
-                <img src="泉泉_default.jpg" alt="泉泉头像" id="泉泉头像">
-                <h2>泉泉's 自我介绍</h2>
-                <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好:爱好有关文艺的一切，也喜欢看各种血腥猎奇cult片，有时候也玩一点电吉他<br>对大家说:希望大家都幸福！！爱你萌（啾啾 </p>
-                <div class="upload-avatar">
-                    <label for="upload-泉泉头像">上传泉泉的头像：</label>
-                    <input type="file" id="upload-泉泉头像" onchange="uploadAvatar('泉泉头像')">
-                </div>
             </div>
         </div>
         <!-- Message Board Section -->
