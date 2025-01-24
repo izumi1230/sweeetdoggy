@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>梦是榛果巧克力 - 第二页</title>
+    <title>梦是榛果巧克力</title>
     <style>
         body {
             font-family: "Microsoft Yahei", sans-serif;
@@ -91,6 +91,14 @@
             background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
         }
+        /* 上传头像按钮样式 */
+        .upload-avatar {
+            text-align: center;
+            margin: 10px 0;
+        }
+        .upload-avatar input {
+            margin-top: 10px;
+        }
         /* Message Board Section */
         .message-board {
             flex: 1;
@@ -143,25 +151,47 @@
         </div>
         <!-- Profile Section -->
         <div class="profile">
-            <img src="default_avatar.jpg" alt="阿湛头像">
+            <img src="default_avatar.jpg" alt="阿湛头像" id="阿湛头像">
             <h2>阿湛的自我介绍</h2>
-            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠<br>爱好: 和泉泉在一起的每一刻<br>想对大家说: 希望你们也能感受到这份爱！</p>
+            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 研究一切和泉泉有关的事物，喜欢和泉泉在一起的每一刻<br>对大家说: 泉泉是我的全世界，希望你们都能珍惜她！希望你们也可以在这里感受到爱！</p>
+            <div class="upload-avatar">
+                <label for="upload-阿湛头像">上传阿湛的头像：</label>
+                <input type="file" id="upload-阿湛头像" onchange="uploadAvatar('阿湛头像')">
+            </div>
             <!-- 泉泉的自我介绍 -->
             <div class="泉泉-profile">
-                <img src="泉泉_default.jpg" alt="泉泉头像">
+                <img src="泉泉_default.jpg" alt="泉泉头像" id="泉泉头像">
                 <h2>泉泉's 自我介绍</h2>
-                <p>MBTI:INTJ <br>性格关键词:理性、敏感、企图站在宇宙中心呼唤爱 <br>爱好:爱好有关文艺的一切但也喜欢看各种血腥猎奇cult片，有时候也玩点电吉他 <br>对大家说:希望大家都幸福！！爱你萌（啾啾 </p>
+                <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好:爱好有关文艺的一切，也喜欢看各种血腥猎奇cult片，有时候也玩一点电吉他<br>对大家说:希望大家都幸福！！爱你萌（啾啾 </p>
+                <div class="upload-avatar">
+                    <label for="upload-泉泉头像">上传泉泉的头像：</label>
+                    <input type="file" id="upload-泉泉头像" onchange="uploadAvatar('泉泉头像')">
+                </div>
             </div>
         </div>
         <!-- Message Board Section -->
         <div class="message-board">
             <h2>这是一块留言板</h2>
             <div class="message">
-                <div class="nickname">Doggy's Love＞＜</div>
+                <div class="nickname">Doggy's Love</div>
                 <div class="text">希望在探索我们的过程中你也能感到幸福与快乐</div>
             </div>
             <textarea placeholder="留下你的留言吧！(请填写昵称)"></textarea>
         </div>
     </div>
+    <script>
+        function uploadAvatar(id) {
+            const fileInput = document.getElementById(`upload-${id}`);
+            const imgElement = document.getElementById(id);
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imgElement.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
 </body>
 </html>
