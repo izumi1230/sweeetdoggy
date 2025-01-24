@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>梦是榛果巧克力 - 第二页</title>
+    <style>
+        body {
+            font-family: "Microsoft Yahei", sans-serif;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            display: flex;
+            gap: 20px;
+        }
+        /* TimeLine Section */
+        .timeline {
+            flex: 1;
+            position: relative;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 50px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #ccc;
+        }
+        .timeline-event {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .timeline-event:hover .timeline-content {
+            display: block;
+        }
+        .timeline-star {
+            width: 16px;
+            height: 16px;
+            background-color: #ccc;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            position: absolute;
+            left: 42px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        .timeline-content {
+            display: none;
+            position: absolute;
+            left: 80px;
+            top: -10px;
+            background: rgba(200, 200, 200, 0.9);
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        /* Profile Section */
+        .profile {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .profile img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 10px;
+        }
+        .profile h2 {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .profile p {
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+        /* Message Board Section */
+        .message-board {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .message-board h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(230, 230, 230, 1);
+            border-radius: 5px;
+        }
+        .message .nickname {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .message textarea {
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Timeline Section -->
+        <div class="timeline">
+            <div class="timeline-line"></div>
+            <div class="timeline-event">
+                <div class="timeline-star"></div>
+                <div class="timeline-content">
+                    <strong>2024.12.30</strong>
+                    <p>我们的初遇，从这里开始书写故事。</p>
+                </div>
+            </div>
+            <div class="timeline-event">
+                <div class="timeline-star"></div>
+                <div class="timeline-content">
+                    <strong>未来的节点</strong>
+                    <p>继续增加我们的回忆吧！</p>
+                </div>
+            </div>
+        </div>
+        <!-- Profile Section -->
+        <div class="profile">
+            <img src="default_avatar.jpg" alt="头像">
+            <h2>阿湛's 自我介绍</h2>
+            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠<br>爱好: 和泉泉在一起的每一刻<br>对大家说: 希望你们也能感受到这份爱！</p>
+        </div>
+        <!-- Message Board Section -->
+        <div class="message-board">
+            <h2>留言板</h2>
+            <div class="message">
+                <div class="nickname">小狗</div>
+                <div class="text">这是我们的故事，欢迎来留言哦！</div>
+            </div>
+            <textarea placeholder="留下你的留言吧！(请填写昵称)"></textarea>
+        </div>
+    </div>
+</body>
+</html>
