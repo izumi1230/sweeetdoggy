@@ -23,6 +23,7 @@
         .timeline {
             flex: 1;
             position: relative;
+            max-width: 200px;
         }
         .timeline-line {
             position: absolute;
@@ -35,9 +36,6 @@
         .timeline-event {
             position: relative;
             margin-bottom: 40px;
-        }
-        .timeline-event:hover .timeline-content {
-            display: block;
         }
         .timeline-star {
             width: 16px;
@@ -59,6 +57,9 @@
             border-radius: 8px;
             max-width: 300px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .timeline-event:hover .timeline-content {
+            display: block;
         }
         /* Profile Section */
         .profile {
@@ -83,12 +84,12 @@
             font-size: 0.9em;
             line-height: 1.6;
         }
-         /*泉泉的自我介绍*/
+         /* 泉泉的自我介绍 */
         .泉泉-profile {
             margin-top: 20px;
             padding: 20px;
             background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px；
+            border-radius: 10px;
         }
         /* 上传头像按钮样式 */
         .upload-avatar input {
@@ -164,16 +165,16 @@
                 reader.readAsDataURL(file);
             }
         }
-
         // 页面加载时检查LocalStorage中是否有保存的头像数据
         window.onload = function () {
-            const ids = ["阿湛头像", "泉泉头像"];
-            ids.forEach(id => {
-                const savedAvatar = localStorage.getItem(id);
-                if (savedAvatar) {
-                    document.getElementById(id).src = savedAvatar;
-                }
-            });
+            const 阿湛头像 = localStorage.getItem("阿湛头像");
+            const 泉泉头像 = localStorage.getItem("泉泉头像");
+            if (阿湛头像) {
+                document.getElementById("阿湛头像").src = 阿湛头像;
+            }
+            if (泉泉头像) {
+                document.getElementById("泉泉头像").src = 泉泉头像;
+            }
         };
     </script>
 
@@ -195,35 +196,35 @@
                     <p>我们的初遇，从这里开始书写故事。</p>
                 </div>
             </div>
-         </div>
             <div class="timeline-event">
                 <div class="timeline-star"></div>
                 <div class="timeline-content">
                     <strong>未来的节点</strong>
                     <p>继续增加我们的回忆吧！</p>
-        <!-- 阿湛的自我介绍 -->
+                </div>
+            </div>
+        </div>
+        <!-- Profile Section -->
         <div class="profile">
             <img src="default_avatar.jpg" alt="阿湛头像" id="阿湛头像">
             <h2>阿湛的自我介绍</h2>
-            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 研究一切和泉泉有关的事物，喜欢和泉泉在一起的每一刻<br>对大家说: 泉泉是我的全世界，希望你们都能珍惜她！希望你们在这里也可以感受到爱！</p>
+            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 研究一切和泉泉有关的事物，喜欢和泉泉在一起的每一刻<br>对大家说: 泉泉是我的全世界，希望你们都能珍惜她！希望你们也可以在这里感受到爱！</p>
             <div class="upload-avatar">
                 <label for="upload-阿湛头像">上传阿湛的头像：</label>
                 <input type="file" id="upload-阿湛头像" onchange="uploadAvatar('阿湛头像')">
             </div>
-        </div>
-
-        <!-- 泉泉的自我介绍 -->
-        <div class="profile">
-            <img src="泉泉_default.jpg" alt="泉泉头像" id="泉泉头像">
-            <h2>泉泉's 自我介绍</h2>
-            <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好:爱好有关文艺的一切，也喜欢看各种血腥猎奇cult片，有时候也玩一点电吉他<br>对大家说:希望大家都幸福！！爱你萌（啾啾）</p>
-            <div class="upload-avatar">
-                <label for="upload-泉泉头像">上传泉泉的头像：</label>
-                <input type="file" id="upload-泉泉头像" onchange="uploadAvatar('泉泉头像')">
+            <!-- 泉泉的自我介绍 -->
+            <div class="泉泉-profile">
+                <img src="泉泉_default.jpg" alt="泉泉头像" id="泉泉头像">
+                <h2>泉泉's 自我介绍</h2>
+                <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好:爱好有关文艺的一切，也喜欢看各种血腥猎奇cult片，有时候也玩一点电吉他<br>对大家说:希望大家都幸福！！爱你萌（啾啾 </p>
+                <div class="upload-avatar">
+                    <label for="upload-泉泉头像">上传泉泉的头像：</label>
+                    <input type="file" id="upload-泉泉头像" onchange="uploadAvatar('泉泉头像')">
+                </div>
             </div>
         </div>
-    </div>
-         <!-- Message Board Section -->
+        <!-- Message Board Section -->
         <div class="message-board">
             <h2>这是一块留言板</h2>
             <div class="message">
@@ -233,21 +234,5 @@
             <textarea placeholder="留下你的留言吧！(请填写昵称)"></textarea>
         </div>
     </div>
-    <script>
-        function uploadAvatar(id) {
-            const fileInput = document.getElementById(`upload-${id}`);
-            const imgElement = document.getElementById(id);
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imgElement.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-    </script>
-</body>
-</html>
 </body>
 </html>
