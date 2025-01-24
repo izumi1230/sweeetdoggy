@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>梦是榛果巧克力</title>
     <script>
-        const backgrounds = ['background.1.jpg', 'background.2.jpg', 'background.3.jpg','background.4.jpg','background.5.jpg','background.6.jpg','background.7.jpg'];
+        const backgrounds = ['background.1.jpg', 'background.2.jpg', 'background.3.jpg', 'background.4.jpg', 'background.5.jpg', 'background.6.jpg', 'background.7.jpg'];
         let currentIndex = 0;
 
         function changeBackground() {
@@ -13,7 +13,7 @@
             document.body.style.backgroundImage = `url(${backgrounds[currentIndex]})`;
         }
 
-        function validatePassword() {
+        function checkPassword() {
             const password = prompt("请输入密码进入下一页：");
             if (password === "oureverlastingcode") {
                 window.location.href = "nextpage.html";
@@ -21,31 +21,27 @@
                 alert("密码错误，请重试！");
             }
         }
-<button onclick="validatePassword()">进入下一页</button>
+
+        window.onload = function() {
+            createSnowflakes();
+        };
+
         function createSnowflakes() {
-            for (let i = 0; i < 100; i++) {
-                const snowflake = document.createElement('div');
-                snowflake.classList.add('snowflake');
-                snowflake.style.left = `${Math.random() * 100}vw`;
+            const snowContainer = document.createElement("div");
+            snowContainer.className = "snow-container";
+            document.body.appendChild(snowContainer);
+
+            setInterval(() => {
+                const snowflake = document.createElement("div");
+                snowflake.className = "snowflake";
+                snowflake.textContent = "❄️";
+                snowflake.style.left = Math.random() * window.innerWidth + "px";
                 snowflake.style.animationDuration = `${Math.random() * 3 + 2}s`;
-                snowflake.style.opacity = Math.random();
-                document.body.appendChild(snowflake);
-            }
+                snowContainer.appendChild(snowflake);
+
+                setTimeout(() => snowContainer.removeChild(snowflake), 5000);
+            }, 300);
         }
-   const snowContainer = document.createElement("div");
-snowContainer.className = "snow-container";
-document.body.appendChild(snowContainer);
-
-setInterval(() => {
-    const snowflake = document.createElement("div");
-    snowflake.className = "snowflake";
-    snowflake.textContent = "❄️";
-    snowflake.style.left = Math.random() * window.innerWidth + "px";
-    snowContainer.appendChild(snowflake);
-
-    setTimeout(() => snowContainer.removeChild(snowflake), 5000);
-}, 300)；
-
     </script>
     <style>
         body {
@@ -73,13 +69,14 @@ setInterval(() => {
         .text-box .japanese {
             font-size: 1em;
             color: #a1a1a1;
+            margin-top: 10px;
         }
 
         .signature {
             font-family: 'Old English Text MT', serif;
             font-size: 1em;
             color: #a1a1a1;
-            margin-top: 40px;
+            margin-top: 20px;
             text-align: center;
         }
 
@@ -106,6 +103,7 @@ setInterval(() => {
             border-radius: 5px;
             cursor: pointer;
         }
+
         .snow-container {
             position: fixed;
             top: 0;
@@ -115,7 +113,7 @@ setInterval(() => {
             pointer-events: none;
         }
 
-         .snowflake {
+        .snowflake {
             position: absolute;
             top: -50px;
             font-size: 20px;
@@ -125,22 +123,7 @@ setInterval(() => {
 
         @keyframes fall {
             to {
-            transform: translateY(100vh);
-        }
-    } 
-  
-        @keyframes fall {
-            to {
                 transform: translateY(100vh);
-            }
-        }
-
-        @keyframes sway {
-            0%, 100% {
-                transform: translateX(0);
-            }
-            50% {
-                transform: translateX(20px);
             }
         }
     </style>
@@ -156,7 +139,7 @@ setInterval(() => {
     <button class="change-bg" onclick="changeBackground()">切换背景</button>
     <button class="next-page" onclick="checkPassword()">进入下一页</button>
     <audio id="bg-music" autoplay loop>
-        <source src="张悬-喜欢.flac" type="audio">
+        <source src="张悬-喜欢.flac" type="audio/flac">
         您的浏览器不支持音频播放。
     </audio>
 </body>
