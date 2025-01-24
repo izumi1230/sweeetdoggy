@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>梦是榛果巧克力</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+        }
+        .textbox {
+            margin: 10px;
+            padding: 10px;
+            font-size: 1rem;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #d9b1bd;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>我的灵魂将进入冬眠，尽头是你回来那天。</h1>
+        <p>夢の終わりは、あなたが戻るその日。</p>
+        <input type="password" id="password" class="textbox" placeholder="请输入密码">
+        <button class="button" onclick="checkPassword()">进入下一页</button>
+    </div>
+    <script>
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            if (password === "oureverlastingcode") {
+                window.location.href = "nextpage.html";
+            } else {
+                alert("密码错误，请重试！");
+            }
+        }
+    </script>
+</body>
+</html>
