@@ -16,13 +16,13 @@
         .container {
             width: 90%;
             margin: 20px auto;
+            display: flex;
+            gap: 20px;
         }
         /* TimeLine Section */
         .timeline {
-            margin-bottom: 40px;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
+            flex: 1;
+            position: relative;
         }
         .timeline-line {
             position: absolute;
@@ -34,7 +34,7 @@
         }
         .timeline-event {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
         }
         .timeline-event:hover .timeline-content {
             display: block;
@@ -61,30 +61,64 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         /* Profile Section */
-        .profile, .泉泉-profile {
+        .profile {
+            flex: 1;
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
-            margin-bottom: 40px;
         }
-        .profile img, .泉泉-profile img {
+        .profile img {
             width: 100px;
             height: 100px;
             border-radius: 50%;
             display: block;
             margin: 0 auto 10px;
         }
-        .profile h2, .泉泉-profile h2 {
+        .profile h2 {
             text-align: center;
             font-size: 1.2em;
             margin-bottom: 10px;
         }
-        .profile p, .泉泉-profile p {
+        .profile p {
             font-size: 0.9em;
             line-height: 1.6;
         }
+         /*泉泉的自我介绍*/
+        .泉泉-profile {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+        }
+        /* 上传头像按钮样式 */
+        .upload-avatar input {
+            margin-top: 10px;
+        }
+        /* 索引部分样式 */
+        .index {
+            position: fixed;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .index a {
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #333;
+            font-size: 1em;
+            text-align: center;
+        }
+        .index a:hover {
+            color: #7b2a3f;
+        }
         /* Message Board Section */
         .message-board {
+            flex: 1;
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
@@ -99,6 +133,10 @@
             background: rgba(230, 230, 230, 1);
             border-radius: 5px;
         }
+        .message .nickname {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
         .message textarea {
             width: 100%;
             height: 80px;
@@ -109,7 +147,7 @@
     </style>
 </head>
 <body>
-     <!-- 索引菜单 -->
+<!-- 索引菜单 -->
     <div class="index">
         <a href="pomodoro.html">番茄钟</a>
         <a href="profile.html">个人主页</a>
@@ -119,7 +157,7 @@
     <div class="container">
         <!-- Timeline Section -->
         <div class="timeline">
-            <h2>时间线</h2>
+            <div class="timeline-line"></div>
             <div class="timeline-event">
                 <div class="timeline-star"></div>
                 <div class="timeline-content">
@@ -127,22 +165,34 @@
                     <p>我们的初遇，从这里开始书写故事。</p>
                 </div>
             </div>
+            <div class="timeline-event">
+                <div class="timeline-star"></div>
+                <div class="timeline-content">
+                    <strong>未来的节点</strong>
+             <p>继续增加我们的回忆吧！</p>
+                </div>
+            </div>
         </div>
-
-        <!-- 阿湛的自我介绍 -->
+        <!-- Profile Section -->
         <div class="profile">
             <img src="default_avatar.jpg" alt="阿湛头像" id="阿湛头像">
             <h2>阿湛的自我介绍</h2>
             <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 研究一切和泉泉有关的事物，喜欢和泉泉在一起的每一刻<br>对大家说: 泉泉是我的全世界，希望你们都能珍惜她！希望你们也可以在这里感受到爱！</p>
+            <div class="upload-avatar">
+                <label for="upload-阿湛头像">上传阿湛的头像：</label>
+                <input type="file" id="upload-阿湛头像" onchange="uploadAvatar('阿湛头像')">
+            </div>
+            <!-- 泉泉的自我介绍 -->
+            <div class="泉泉-profile">
+                <img src="泉泉_default.jpg" alt="泉泉头像" id="泉泉头像">
+                <h2>泉泉's 自我介绍</h2>
+                <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好:爱好有关文艺的一切，也喜欢看各种血腥猎奇cult片，有时候也玩一点电吉他<br>对大家说:希望大家都幸福！！爱你萌（啾啾 </p>
+                <div class="upload-avatar">
+                    <label for="upload-泉泉头像">上传泉泉的头像：</label>
+                    <input type="file" id="upload-泉泉头像" onchange="uploadAvatar('泉泉头像')">
+                </div>
+            </div>
         </div>
-
-        <!-- 泉泉的自我介绍 -->
-        <div class="泉泉-profile">
-            <img src="泉泉_default.jpg" alt="泉泉头像" id="泉泉头像">
-            <h2>泉泉的自我介绍</h2>
-            <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好:爱好有关文艺的一切，也喜欢看各种血腥猎奇cult片，有时候也玩一点电吉他 <br>对大家说: 希望大家都幸福！！爱你萌（啾啾</p>
-        </div>
-
         <!-- Message Board Section -->
         <div class="message-board">
             <h2>这是一块留言板</h2>
