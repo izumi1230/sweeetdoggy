@@ -225,14 +225,102 @@
             </div>
         </div>
         <!-- Message Board Section -->
-        <div class="message-board">
-            <h2>这是一块留言板</h2>
-            <div class="message">
-                <div class="nickname">Doggy's Love</div>
-                <div class="text">希望在探索我们的过程中你也能感到幸福与快乐</div>
-            </div>
-            <textarea placeholder="留下你的留言吧！(请填写昵称)"></textarea>
-        </div>
-    </div>
+        <!-- 留言板 HTML -->
+<div class="message-board">
+    <h2>这是一块留言板</h2>
+    <div class="messages"></div> <!-- 用于显示留言 -->
+    <textarea placeholder="留下你的留言吧！(请填写昵称)"></textarea>
+    <button onclick="saveMessage()">提交留言</button>
+</div>
+
+<!-- 留言功能脚本 -->
+<script>
+    // 保存留言
+    function saveMessage() {
+        const textarea = document.querySelector("textarea");
+        const nickname = "泉泉"; // 可以改成动态获取昵称
+        const message = textarea.value.trim();
+        const timestamp = new Date().toLocaleString(); // 获取当前时间
+
+        if (message) {
+            // 从LocalStorage获取已有留言
+            let messages = JSON.parse(localStorage.getItem("messages")) || [];
+            
+            // 添加新留言
+            messages.push({ nickname, message, timestamp });
+            localStorage.setItem("messages", JSON.stringify(messages)); // 保存到LocalStorage
+            
+            // 更新页面
+            displayMessages();
+            textarea.value = ""; // 清空输入框
+        } else {
+            alert("留言不能为空哦～");
+        }
+    }
+
+    // 显示留言
+    function displayMessages() {
+        const messageBoard = document.querySelector(".message-board .messages");
+        messageBoard.innerHTML = ""; // 清空当前内容
+        let messages = JSON.parse(localStorage.getItem("messages")) || [];
+
+        messages.forEach(msg => {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message");
+            messageDiv.innerHTML = `
+                <div class="nickname">${msg.nickname}</div>
+                <div class="text">${msg.message}</div>
+                <div class="time">${msg.timestamp}</div>
+            `;
+            messageBoard.appendChild(messageDiv);
+        });
+    }
+
+    // 页面加载时显示历史留言
+    window.onload = displayMessages;
+</script>
+
+<!-- 留言样式 -->
+<style>
+    .message-board {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .message-board h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .messages {
+        margin-bottom: 15px;
+        max-height: 300px;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+    .message {
+        margin-bottom: 15px;
+        padding: 10px;
+        background: rgba(230, 230, 230, 1);
+        border-radius: 5px;
+    }
+    .message .nickname {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .message .time {
+        font-size: 0.8em;
+        color: #777;
+        text-align: right;
+        margin-top: 5px;
+    }
+    .message textarea {
+        width: 100%;
+        height: 80px;
+        margin-top: 10px;
+        border-radius: 5px;
+        background: rgba(230, 230, 230, 1);
+    }
+</style>
 </body>
 </html>
