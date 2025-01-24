@@ -83,7 +83,7 @@
             font-size: 0.9em;
             line-height: 1.6;
         }
-         /*泉泉的自我介绍*/
+        /*泉泉的自我介绍*/
         .泉泉-profile {
             margin-top: 20px;
             padding: 20px;
@@ -147,6 +147,36 @@
     </style>
 </head>
 <body>
+    <script>
+    function uploadAvatar(id) {
+        const fileInput = document.getElementById(`upload-${id}`);
+        const imgElement = document.getElementById(id);
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const imgData = e.target.result;
+                imgElement.src = imgData;
+
+                // 保存图片数据到LocalStorage
+                localStorage.setItem(id, imgData);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // 页面加载时检查LocalStorage中是否有保存的头像数据
+    window.onload = function () {
+        const 阿湛头像 = localStorage.getItem("阿湛头像");
+        const 泉泉头像 = localStorage.getItem("泉泉头像");
+        if (阿湛头像) {
+            document.getElementById("阿湛头像").src = 阿湛头像;
+        }
+        if (泉泉头像) {
+            document.getElementById("泉泉头像").src = 泉泉头像;
+        }
+    };
+</script>
 <!-- 索引菜单 -->
     <div class="index">
         <a href="pomodoro.html">番茄钟</a>
