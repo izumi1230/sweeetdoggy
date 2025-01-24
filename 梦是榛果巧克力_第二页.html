@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: "Microsoft Yahei", sans-serif;
-            background-image: url('background.jpg');
+            background-image: url('background.3.jpg');
             background-size: cover;
             background-attachment: fixed;
             margin: 0;
@@ -84,6 +84,13 @@
             font-size: 0.9em;
             line-height: 1.6;
         }
+        /*泉泉的自我介绍*/
+        .泉泉-profile {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+        }
         /* Message Board Section */
         .message-board {
             flex: 1;
@@ -107,8 +114,10 @@
         }
         .message textarea {
             width: 100%;
+            height: 80px;
             margin-top: 10px;
             border-radius: 5px;
+            background: rgba(230, 230, 230, 1);
         }
     </style>
 </head>
@@ -134,16 +143,22 @@
         </div>
         <!-- Profile Section -->
         <div class="profile">
-            <img src="default_avatar.jpg" alt="头像">
-            <h2>阿湛's 自我介绍</h2>
-            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠<br>爱好: 和泉泉在一起的每一刻<br>对大家说: 希望你们也能感受到这份爱！</p>
+            <img src="default_avatar.jpg" alt="阿湛头像">
+            <h2>阿湛的自我介绍</h2>
+            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠<br>爱好: 和泉泉在一起的每一刻<br>想对大家说: 希望你们也能感受到这份爱！</p>
+            <!-- 泉泉的自我介绍 -->
+            <div class="泉泉-profile">
+                <img src="泉泉_default.jpg" alt="泉泉头像">
+                <h2>泉泉's 自我介绍</h2>
+                <p>MBTI:INTJ <br>性格关键词:理性、敏感、企图站在宇宙中心呼唤爱 <br>爱好:爱好有关文艺的一切但也喜欢看各种血腥猎奇cult片，有时候也玩点电吉他 <br>对大家说:希望大家都幸福！！爱你萌（啾啾 </p>
+            </div>
         </div>
         <!-- Message Board Section -->
         <div class="message-board">
-            <h2>留言板</h2>
+            <h2>这是一块留言板</h2>
             <div class="message">
-                <div class="nickname">小狗</div>
-                <div class="text">这是我们的故事，欢迎来留言哦！</div>
+                <div class="nickname">Doggy's Love＞＜</div>
+                <div class="text">希望在探索我们的过程中你也能感到幸福与快乐</div>
             </div>
             <textarea placeholder="留下你的留言吧！(请填写昵称)"></textarea>
         </div>
