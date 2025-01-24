@@ -1,10 +1,27 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>梦是榛果巧克力</title>
+    <script>
+        const backgrounds = ['background.1.jpg', 'background.2.jpg', 'background.3.jpg','background.4.jpg','background.5.jpg','background.6.jpg''background.7.jpg']; 
+        let currentIndex = background.2.jpg;
+
+        function changeBackground() {
+            currentIndex = (currentIndex + 1) % backgrounds.length;
+            document.body.style.backgroundImage = `url(${backgrounds[currentIndex]})`;
+        }
+
+        function checkPassword() {
+            const input = prompt("请输入密码进入下一页：");
+            if (input === "oureverlastingcode") {
+                window.location.href = "nextpage.html"; 
+            } else {
+                alert("密码错误，请重试！");
+            }
+        }
+    </script>
     <style>
         body {
             display: flex;
@@ -12,44 +29,56 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f5f5f5;
-            font-family: Arial, sans-serif;
+            background-image: url('background.1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
-        .container {
+
+        .text-box {
             text-align: center;
+            line-height: 1.5;
         }
-        .textbox {
-            margin: 10px;
-            padding: 10px;
-            font-size: 1rem;
+
+        .text-box .chinese {
+            font-size: 1.5em;
+            color: #D9B1BD; 
         }
-        .button {
-            padding: 10px 20px;
-            background-color: #d9b1bd;
+
+        .text-box .japanese {
+            font-size: 1em;
+            color: #a1a1a1; 
+        }
+
+        .signature {
+            font-family: 'Old English Text MT', serif;
+            font-size: 1em;
+            color: #a1a1a1;
+            margin-top: 20px;
+        }
+
+        button {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 12px;
+            padding: 5px 10px;
+            background: rgba(255, 255, 255, 0.5);
             border: none;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
             border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>我的灵魂将进入冬眠，尽头是你回来那天。</h1>
-        <p>夢の終わりは、あなたが戻るその日。</p>
-        <input type="password" id="password" class="textbox" placeholder="请输入密码">
-        <button class="button" onclick="checkPassword()">进入下一页</button>
+        <div class="text-box">
+            <p class="chinese">我的灵魂将进入冬眠，尽头是你回来那天。</p>
+            <p class="japanese">夢の終わりは、あなたが戻るその日。</p>
+        </div>
+        <div class="signature">by 浅见湛 & 泉</div>
     </div>
-    <script>
-        function checkPassword() {
-            const password = document.getElementById('password').value;
-            if (password === "oureverlastingcode") {
-                window.location.href = "nextpage.html";
-            } else {
-                alert("密码错误，请重试！");
-            }
-        }
-    </script>
+    <button onclick="changeBackground()">切换背景</button>
+    <button onclick="checkPassword()">进入下一页</button>
 </body>
 </html>
