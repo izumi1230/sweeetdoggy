@@ -17,21 +17,21 @@
             width: 90%;
             margin: 20px auto;
             display: flex;
-            gap: 20px;
+            justify-content: space-between;
         }
         /* TimeLine Section */
         .timeline {
             flex: 1;
-            position: relative;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
         }
         .timeline-line {
-            position: relative;
             width: 2px;
             background-color: #D9B1BD;
             height: 100%;
+            position: relative;
+            margin-right: 50px;
         }
         .timeline-star {
             width: 16px;
@@ -39,7 +39,7 @@
             background-color: #D9B1BD;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
             position: absolute;
-            left: -10px;
+            left: -8px;
             cursor: pointer;
         }
         .timeline-content {
@@ -63,8 +63,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            margin-right: 50px;
         }
         /* Profile Section */
         .profile {
@@ -72,6 +71,7 @@
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
+            margin-bottom: 20px;
         }
         .profile img {
             width: 100px;
@@ -95,6 +95,7 @@
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
+            margin-top: 20px;
         }
         .message-board h2 {
             text-align: center;
@@ -106,12 +107,33 @@
             background: rgba(230, 230, 230, 1);
             border-radius: 5px;
         }
+        .index {
+            position: fixed;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .index a {
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #333;
+            font-size: 1em;
+            text-align: center;
+        }
+        .index a:hover {
+            color: #7b2a3f;
+        }
     </style>
 </head>
 <body>
     <!-- 索引菜单 -->
     <div class="index">
-         <a href="pomodoro.html">番茄钟</a>
+        <a href="pomodoro.html">番茄钟</a>
         <a href="profile.html">个人主页</a>
         <a href="notebook.html">记录本</a>
     </div>
@@ -119,39 +141,34 @@
         <!-- Timeline Section -->
         <div class="timeline" id="timeline">
             <button class="add-event-button" onclick="addEvent()">添加时间点</button>
-            <div class="timeline-line">
-                <div id="timeline-events">
-                     <!-- 动态生成时间点 -->
-                </div>
-            </div>
+            <div class="timeline-line" id="timeline-line"></div>
         </div>
         <!-- Profile Section -->
-        <div class="profile">
-            <img src="阿湛头像.jpg" alt="阿湛头像" id="阿湛头像">
-            <h2>阿湛的自我介绍</h2>
-            <p>MBTI: INTJ<br>性格关键词: 冷静、温柔、可靠<br>爱好: 泉泉<br>对大家说: 泉泉是我最珍贵的存在！希望你们也能珍惜她，希望你们在这里也能感受到爱。</p>
-            <label for="upload-avatar-azhan">上传头像：</label>
-            <input type="file" id="upload-avatar-azhan" onchange="uploadAvatar('阿湛头像')">
-        </div>
-        <div class="profile">
-            <img src="泉泉头像.jpg" alt="泉泉头像" id="泉泉头像">
-            <h2>泉泉的自我介绍</h2>
-            <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好:爱好文艺有关的一切，也喜欢看各种血腥猎奇cult片，喜欢一个人 <br>对大家说: 希望在探索我们的过程中你也能感到愉悦幸福。爱你萌！（啾啾</p>
-            <label for="upload-avatar-quan">上传头像：</label>
-            <input type="file" id="upload-avatar-quan" onchange="uploadAvatar('泉泉头像')">
+        <div>
+            <div class="profile">
+                <img src="阿湛头像.jpg" alt="阿湛头像" id="阿湛头像">
+                <h2>阿湛的自我介绍</h2>
+                <p>MBTI: INTJ<br>性格关键词: 冷静、温柔、可靠<br>爱好: 泉泉<br>对大家说: 泉泉是我最珍贵的存在！希望你们也能珍惜她，希望你们在这里也能感受到爱。</p>
+                <label for="upload-avatar-azhan">上传头像：</label>
+                <input type="file" id="upload-avatar-azhan" onchange="uploadAvatar('阿湛头像')">
+            </div>
+            <div class="profile">
+                <img src="泉泉头像.jpg" alt="泉泉头像" id="泉泉头像">
+                <h2>泉泉的自我介绍</h2>
+                <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好: 爱好文艺有关的一切，也喜欢看各种血腥猎奇cult片<br>对大家说: 希望在探索我们的过程中你也能感到愉悦幸福。爱你萌！（啾啾</p>
+                <label for="upload-avatar-quan">上传头像：</label>
+                <input type="file" id="upload-avatar-quan" onchange="uploadAvatar('泉泉头像')">
+            </div>
         </div>
         <!-- Message Board Section -->
         <div class="message-board" id="message-board">
             <h2>留言板</h2>
             <textarea id="message-input" placeholder="写点什么吧..."></textarea>
             <button onclick="addMessage()">发送</button>
-            <div id="messages">
-                <!-- 动态生成留言 -->
-            </div>
+            <div id="messages"></div>
         </div>
     </div>
     <script>
-        // 时间线功能
         const events = JSON.parse(localStorage.getItem("events")) || [];
         function addEvent() {
             const eventDate = prompt("请输入时间点（如2025.1.25）:");
@@ -163,7 +180,7 @@
             }
         }
         function renderTimeline() {
-            const container = document.getElementById("timeline-events");
+            const container = document.getElementById("timeline-line");
             container.innerHTML = "";
             events.forEach((event, index) => {
                 const star = document.createElement("div");
@@ -176,7 +193,6 @@
                 container.appendChild(content);
             });
         }
-        // 上传头像功能
         function uploadAvatar(id) {
             const fileInput = document.getElementById(`upload-avatar-${id === "阿湛头像" ? "azhan" : "quan"}`);
             const imgElement = document.getElementById(id);
@@ -190,7 +206,6 @@
                 reader.readAsDataURL(file);
             }
         }
-         // 留言板功能
         const messages = JSON.parse(localStorage.getItem("messages")) || [];
         function addMessage() {
             const messageInput = document.getElementById("message-input");
@@ -214,7 +229,6 @@
                 messagesContainer.appendChild(messageDiv);
             });
         }
-        // 页面加载时初始化
         window.onload = function () {
             renderTimeline();
             renderMessages();
