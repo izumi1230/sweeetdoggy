@@ -23,14 +23,15 @@
         .timeline {
             flex: 1;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
         }
         .timeline-line {
-            position: absolute;
-            left: 50px;
-            top: 0;
-            bottom: 0;
+            position: relative;
             width: 2px;
             background-color: #D9B1BD;
+            height: 100%;
         }
         .timeline-star {
             width: 16px;
@@ -38,14 +39,13 @@
             background-color: #D9B1BD;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
             position: absolute;
-            left: 42px;
-            transform: translateY(-50%);
+            left: -10px;
             cursor: pointer;
         }
         .timeline-content {
             display: none;
             position: absolute;
-            left: 80px;
+            left: 20px;
             top: -10px;
             background: rgba(255, 255, 255, 0.9);
             padding: 10px;
@@ -57,9 +57,6 @@
             display: block;
         }
         .add-event-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
             background: rgba(255, 255, 255, 0.8);
             border: none;
             padding: 5px 10px;
@@ -67,9 +64,7 @@
             cursor: pointer;
             font-size: 14px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .add-event-button:hover {
-            background: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
         }
         /* Profile Section */
         .profile {
@@ -93,28 +88,6 @@
         .profile p {
             font-size: 0.9em;
             line-height: 1.6;
-        }
-        /* 索引部分样式 */
-        .index {
-            position: fixed;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .index a {
-            display: block;
-            margin: 10px 0;
-            text-decoration: none;
-            color: #333;
-            font-size: 1em;
-            text-align: center;
-        }
-        .index a:hover {
-            color: #7b2a3f;
         }
         /* Message Board Section */
         .message-board {
@@ -142,33 +115,31 @@
         <a href="profile.html">个人主页</a>
         <a href="notebook.html">记录本</a>
     </div>
-
     <div class="container">
         <!-- Timeline Section -->
         <div class="timeline" id="timeline">
-            <div class="timeline-line"></div>
-            <div id="timeline-events">
-                <!-- 动态生成时间点 -->
+            <button class="add-event-button" onclick="addEvent()">添加时间点</button>
+            <div class="timeline-line">
+                <div id="timeline-events">
+                     <!-- 动态生成时间点 -->
+                </div>
             </div>
-            <button onclick="addEvent()">添加时间点</button>
         </div>
-
         <!-- Profile Section -->
-        <div class="profile" id="profile">
-            <img src="default_avatar.jpg" alt="阿湛头像" id="阿湛头像">
+        <div class="profile">
+            <img src="阿湛头像.jpg" alt="阿湛头像" id="阿湛头像">
             <h2>阿湛的自我介绍</h2>
-            <p>MBTI: INTJ<br>性格关键词: 冷静、温柔、可靠<br>爱好: 泉泉<br>对大家说: 泉泉是我最珍贵的存在！希望你们也能珍惜她，希望你们在这里也能感受到爱。</p>
+            <p>MBTI: INTJ<br>性格关键词: 冷静、温柔、可靠<br>爱好: 泉泉<br>对大家说: 泉泉是我最珍贵的存在！</p>
             <label for="upload-avatar-azhan">上传头像：</label>
-            <input type="file"id="upload-avatar-azhan" onchange="uploadAvater('阿湛头像')> 
+            <input type="file" id="upload-avatar-azhan" onchange="uploadAvatar('阿湛头像')">
         </div>
-        <div class="profile" id="泉泉-profile">
-            <img src="泉泉_default.jpg" alt="泉泉头像" id="泉泉头像“>
+        <div class="profile">
+            <img src="泉泉头像.jpg" alt="泉泉头像" id="泉泉头像">
             <h2>泉泉的自我介绍</h2>
-            <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好: 爱好文艺有关的一切，也喜欢看各种血腥猎奇cult片，喜欢一个人<br>对大家说:希望在探索我们的过程中你也能感到愉悦幸福。爱你萌！（啾啾</p>
+            <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好: 看电影和音乐<br>对大家说: 爱你们！</p>
             <label for="upload-avatar-quan">上传头像：</label>
             <input type="file" id="upload-avatar-quan" onchange="uploadAvatar('泉泉头像')">
         </div>
-    </div>
         <!-- Message Board Section -->
         <div class="message-board" id="message-board">
             <h2>留言板</h2>
@@ -191,7 +162,6 @@
                 renderTimeline();
             }
         }
-
         function renderTimeline() {
             const container = document.getElementById("timeline-events");
             container.innerHTML = "";
@@ -220,8 +190,7 @@
                 reader.readAsDataURL(file);
             }
         }
-
-        // 留言板功能
+         // 留言板功能
         const messages = JSON.parse(localStorage.getItem("messages")) || [];
         function addMessage() {
             const messageInput = document.getElementById("message-input");
@@ -235,7 +204,6 @@
                 messageInput.value = "";
             }
         }
-
         function renderMessages() {
             const messagesContainer = document.getElementById("messages");
             messagesContainer.innerHTML = "";
@@ -246,7 +214,6 @@
                 messagesContainer.appendChild(messageDiv);
             });
         }
-
         // 页面加载时初始化
         window.onload = function () {
             renderTimeline();
