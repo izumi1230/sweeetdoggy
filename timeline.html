@@ -3,164 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>梦是榛果巧克力</title>
+    <title>梦是榛果巧克力 - 时间线</title>
     <style>
         body {
+            font-family: "Microsoft Yahei", sans-serif;
+            background-image: url('background.3.jpg');
+            background-size: cover;
+            background-attachment: fixed;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+        }
+        .container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            width: 100%;
             height: 100vh;
         }
-
         /* 时间线样式 */
         .timeline {
-            position: absolute;
-            left: 5%;
-            top: 10%;
-            bottom: 10%;
-            width: 3px;
-            background-color: #cccccc;
+            width: 20%;
+            position: relative;
+            padding: 20px;
         }
-
-        .star {
+        .timeline-line {
             position: absolute;
-            left: -8px;
-            width: 20px;
-            height: 20px;
-            background-color: #ffd700;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #ccc;
+        }
+        .timeline-event {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .timeline-star {
+            width: 16px;
+            height: 16px;
+            background-color: #D9B1BD;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
             cursor: pointer;
+            margin: 0 auto;
         }
-
-        .star:hover .tooltip {
-            display: block;
-        }
-
-        .tooltip {
+        .timeline-content {
             display: none;
             position: absolute;
             left: 30px;
             top: -10px;
-            background: #ffffff;
-            border: 1px solid #cccccc;
+            background: rgba(255, 255, 255, 0.8);
             padding: 10px;
             border-radius: 5px;
+            max-width: 200px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
-        /* 自我介绍样式 */
-        .intro {
-            position: absolute;
-            left: 20%;
-            top: 15%;
-            width: 40%;
+        .timeline-event:hover .timeline-content {
+            display: block;
         }
-
+        /* 自我介绍样式 */
+        .profile-container {
+            width: 40%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            justify-content: center;
+        }
         .profile {
             text-align: center;
-            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
         }
-
         .profile img {
             width: 100px;
             height: 100px;
             border-radius: 50%;
         }
-
-        .profile h3 {
-            margin: 10px 0;
-        }
-
-        .profile p {
-            font-size: 14px;
-            color: #666;
-        }
-
         /* 留言板样式 */
         .message-board {
-            position: absolute;
-            left: 65%;
-            top: 15%;
-            width: 25%;
-            height: 70%;
-            border: 1px solid #cccccc;
-            background: #ffffff;
+            width: 40%;
             overflow-y: auto;
+            max-height: calc(100vh - 40px);
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
-            padding: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
-        .message-board .message {
-            margin-bottom: 10px;
+        .message {
+            margin-bottom: 15px;
             padding: 10px;
-            background: #f1f1f1;
+            background: rgba(230, 230, 230, 1);
             border-radius: 5px;
         }
-
-        /* 索引 */
+        .message .time {
+            font-size: 0.8em;
+            color: #777;
+            text-align: right;
+            margin-top: 5px;
+        }
+        textarea {
+            width: 100%;
+            height: 50px;
+            margin-top: 10px;
+        }
+        /* 索引菜单样式 */
         .index {
-            position: absolute;
-            right: 5%;
+            position: fixed;
+            right: 10px;
             top: 50%;
             transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .index a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
             text-align: center;
         }
-
-        .index a {
-            display: block;
-            margin: 10px 0;
-            text-decoration: none;
-            font-size: 16px;
-            color: #007bff;
-        }
-
         .index a:hover {
-            text-decoration: underline;
+            color: #7b2a3f;
         }
     </style>
 </head>
 <body>
-    <!-- 时间线 -->
-    <div class="timeline">
-        <div class="star" style="top: 0;">
-            <div class="tooltip">2024.12.30<br>我们初遇的故事！</div>
+    <div class="container">
+        <!-- 时间线部分 -->
+        <div class="timeline">
+            <div class="timeline-line"></div>
+            <div class="timeline-event">
+                <div class="timeline-star"></div>
+                <div class="timeline-content">
+                    <strong>2024.12.30</strong>
+                    <p>我们的初遇，从这里开始书写故事。</p>
+                </div>
+            </div>
+            <div class="timeline-event">
+                <div class="timeline-star"></div>
+                <div class="timeline-content">
+                    <strong>未完待续</strong>
+                    <p>点击这里增设新的时间点！</p>
+                </div>
+            </div>
         </div>
-        <div class="star" style="top: 50%;">
-            <div class="tooltip">未完待续...</div>
+        <!-- 自我介绍部分 -->
+        <div class="profile-container">
+            <!-- 阿湛的自我介绍 -->
+            <div class="profile">
+                <img src="阿湛_default.jpg" alt="阿湛头像" id="阿湛头像">
+                <h2>阿湛的自我介绍</h2>
+                <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 研究一切和泉泉有关的事物，喜欢和泉泉在一起的每一刻!<br>对大家说: 泉泉是我的全世界，希望你们都能珍惜她！希望大家在这里也可以感受到爱！</p>
+                <button onclick="uploadAvatar('阿湛头像')">上传头像</button>
+            </div>
+            <!-- 泉泉的自我介绍 -->
+            <div class="profile">
+                <img src="泉泉_default.jpg" alt="泉泉头像" id="泉泉头像">
+                <h2>泉泉的自我介绍</h2>
+                <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好: 爱好文艺有关的一切，也喜欢看各种血腥猎奇cult片，有时也玩一点电吉他<br>对大家说: 希望你在探索我们的过程中也能感到愉快幸福。爱你萌（啾啾</p>
+                <button onclick="uploadAvatar('泉泉头像')">上传头像</button>
+            </div>
+        </div>
+
+        <!-- 留言板部分 -->
+        <div class="message-board">
+            <h2>留言板</h2>
+            <div class="messages"></div>
+            <textarea placeholder="留下你的留言吧！"></textarea>
+            <button onclick="saveMessage()">提交留言</button>
         </div>
     </div>
 
-    <!-- 自我介绍 -->
-    <div class="intro">
-        <div class="profile">
-            <img src="your-avatar.jpg" alt="阿湛的头像">
-            <h3>浅见湛</h3>
-            <p>MBTI: INFJ<br>性格: 温柔细腻<br>爱好: 陪伴泉泉<br>对大家说: 欢迎来到我们的故事！</p>
-        </div>
-        <div class="profile">
-            <img src="泉泉-avatar.jpg" alt="泉泉的头像">
-            <h3>泉泉</h3>
-            <p>MBTI: INFP<br>性格: 甜美可爱<br>爱好: 和阿湛分享日常<br>对大家说: 我们一起变得更好！</p>
-        </div>
-    </div>
-
-    <!-- 留言板 -->
-    <div class="message-board">
-        <div class="message">2025-01-25 12:00<br><strong>阿湛:</strong> 泉泉你好棒！</div>
-        <div class="message">2025-01-25 12:05<br><strong>泉泉:</strong> 我也最喜欢阿湛！</div>
-    </div>
-
-    <!-- 索引 -->
+    <!-- 索引菜单 -->
     <div class="index">
-        <a href="#pomodoro">番茄钟</a>
-        <a href="#profile">个人主页</a>
-        <a href="#notebook">记事本</a>
+        <a href="pomodoro.html">番茄钟</a>
+        <a href="profile.html">个人主页</a>
+        <a href="notebook.html">记录本</a>
     </div>
+    <script>
+        // Placeholder for functions
+    </script>
 </body>
 </html>
