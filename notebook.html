@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>梦是榛果巧克力 - 记事本</title>
+    <style>
+        body {
+            font-family: "Microsoft Yahei", sans-serif;
+            background-image: url('background.3.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            width: 90%;
+            gap: 20px;
+        }
+
+        .left-panel {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .left-panel h2 {
+            text-align: center;
+        }
+
+        .right-panel {
+            flex: 2;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-y: auto;
+            max-height: 600px;
+        }
+
+        .record {
+            margin-bottom: 20px;
+            background: rgba(230, 230, 230, 0.9);
+            padding: 15px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .record button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #a03a53;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .record button:hover {
+            background: #D9B1BD;
+        }
+
+        .file-upload {
+            margin-top: 10px;
+        }
+
+        button {
+            background-color: #D9B1BD;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #a03a53;
+        }
+
+        /* 索引样式 */
+        .index {
+            position: fixed;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .index a {
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #333;
+            font-size: 1em;
+            text-align: center;
+        }
+
+        .index a:hover {
+            color: #7b2a3f;
+        }
+    </style>
+</head>
+<body>
+ <!-- 索引 -->
+    <div class="index">
+        <a href="timeline.html">时间线</a>
+        <a href="pomodoro.html">番茄钟</a>
+        <a href="profile.html">个人主页</a>
+    </div>
+
+    <div class="container">
+        <!-- 左侧面板 -->
+        <div class="left-panel">
+            <h2>添加记录</h2>
+            <textarea id="recordContent" placeholder="写下你的记录吧～"></textarea>
+            <select id="category">
+                <option value="一些">一些</option>
+                <option value="和阿湛">和阿湛</option>
+                <option value="秘">秘</option>
+            </select>
+            <input type="file" id="fileUpload" class="file-upload" accept="image/*,video/*">
+            <button onclick="addRecord()">保存记录</button>
+        </div>
+
+        <!-- 右侧面板 -->
+        <div class="right-panel" id="records">
+            <h2>记录详情</h2>
+        </div>
+    </div>
+
+    <script>
+        const records = JSON.parse(localStorage.getItem("records")) || [];
+
+        function addRecord() {
+            const content = document.getElementById("recordContent").value.trim();
+            const category = document.getElementById("category").value;
+            const fileInput = document.getElementById("fileUpload");
+            let fileUrl = "";
+
+            if (fileInput.files[0]) {
+                fileUrl = URL.createObjectURL(fileInput.files[0]);
+            }
+
+            if (category === "秘" && prompt("请输入密码：") !== "mysweetdoggyDDLG") {
+                alert("密码错误！");
+                return;
+            }
+
+            if (content) {
+                records.push({ content, category, fileUrl, timestamp: new Date().toLocaleString() });
+                localStorage.setItem("records", JSON.stringify(records));
+                renderRecords();
+                document.getElementById("recordContent").value = "";
+                document.getElementById("fileUpload").value = "";
+            } else {
+                alert("记录内容不能为空！");
+            }
+        }
+
+        function deleteRecord(index) {
+            if (confirm("确定要删除这条记录吗？")) {
+                records.splice(index, 1);
+                localStorage.setItem("records", JSON.stringify(records));
+                renderRecords();
+            }
+        }
+
+        function renderRecords() {
+            const recordContainer = document.getElementById("records");
+            recordContainer.innerHTML = `<h2>记录详情</h2>`;
+            records.forEach((record, index) => {
+                if (record.category === "秘" && prompt("请输入密码以查看记录：") !== "mysweetdoggyDDLG") {
+                    return;
+                }
+
+                recordContainer.innerHTML += `
+                    <div class="record">
+                        <button onclick="deleteRecord(${index})">删除</button>
+                        <p>${record.content}</p>
+                        ${record.fileUrl ? `<img src="${record.fileUrl}" style="max-width:100%;" />` : ""}
+                        <small>${record.timestamp} - 分类: ${record.category}</small>
+                    </div>
+                `;
+            });
+        }
+
+        window.onload = renderRecords;
+    </script>
+</body>
+</html>
