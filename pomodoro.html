@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>番茄钟 - 梦是榛果巧克力</title>
+    <title>梦是榛果巧克力</title>
     <style>
         body {
             font-family: "Microsoft Yahei", sans-serif;
@@ -12,6 +12,7 @@
             background-attachment: fixed;
             margin: 0;
             padding: 0;
+            overflow: hidden; /* 禁止页面滚动 */
         }
 
         .container {
@@ -75,56 +76,26 @@
             border: none;
             font-size: 1em;
         }
-        /* 时间轴样式 */
-        .timeline {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            height: 500px;
-            overflow-y: auto;
-        }
-        .timeline h3 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .date-record {
-            padding: 10px;
-            background: rgba(230, 230, 230, 1);
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
 
         /* 动画角色 */
         .character {
             position: fixed;
             bottom: 10px;
             left: 20px;
-            width: 256px;
-            height: 256px;
+            width: 100px; /* 角色更窄 */
+            height: 150px; /* 角色更高 */
             background-image: url('animation_frames.png'); /* 帧序列图片路径 */
-            background-size: 1024px 256px; /* 总宽度 1024px，每帧 256px */
+            background-size: 400px 150px; /* 调整图片大小比例 */
             animation: idleAnimation 1s steps(4) infinite; /* 默认站立动画 */
-            background-color：red;
+            background-color: transparent; /* 透明背景 */
         }
-
-        /* 帧动画 */
+         /* 帧动画 */
         @keyframes idleAnimation {
             from {
                 background-position: 0 0;
             }
             to {
-                background-position: -1024px 0; /* 总宽度1024像素 */
-            }
-        }
-
-        /* 移动动画 */
-        @keyframes moveCharacter {
-            from {
-                left: 20px;
-            }
-            to {
-                left: calc(100% - 256px);
+                background-position: -400px 0; /* 总宽度400像素 */
             }
         }
 
@@ -179,11 +150,6 @@
                 <button onclick="saveLog()">保存记录</button>
             </div>
         </div>
-        <!-- 时间轴 -->
-        <div class="timeline">
-            <h3>学习记录时间轴</h3>
-            <div id="timelineRecords"></div>
-        </div>
     </div>
 
     <!-- 动画角色 -->
@@ -210,7 +176,6 @@
                 } else {
                     clearInterval(interval);
                     alert("时间到！请记录学习内容。");
-                    triggerCharacterCelebration();
                 }
             }, 1000);
         }
@@ -223,7 +188,6 @@
             clearInterval(interval);
             time = 25 * 60;
             updateTimerDisplay();
-            resetCharacter();
         }
 
         function setCustomTime() {
@@ -235,42 +199,6 @@
                 alert("请输入有效的分钟数！");
             }
         }
-
-        function saveLog() {
-            const logInput = document.getElementById("logInput").value.trim();
-            if (logInput) {
-                const now = new Date();
-                const record = { time: now.toLocaleString(), content: logInput };
-                const records = JSON.parse(localStorage.getItem("timelineRecords") || "[]");
-                records.push(record);
-                localStorage.setItem("timelineRecords", JSON.stringify(records));
-                renderTimeline();
-                document.getElementById("logInput").value = "";
-                alert("记录已保存！");
-            } else {
-                alert("请填写学习内容！");
-            }
-        }
-
-        function renderTimeline() {
-            const records = JSON.parse(localStorage.getItem("timelineRecords") || "[]");
-            const timeline = document.getElementById("timelineRecords");
-            timeline.innerHTML = records
-                .map(record => `<div class="date-record">${record.time} - ${record.content}</div>`)
-                .join("");
-        }
-
-        function triggerCharacterCelebration() {
-            const character = document.getElementById("character");
-            character.style.animation = "moveCharacter 5s linear forwards, idleAnimation 1s steps(4) infinite";
-        }
-
-        function resetCharacter() {
-            const character = document.getElementById("character");
-            character.style.animation = "idleAnimation 1s steps(4) infinite";
-        }
-
-        window.onload = renderTimeline;
     </script>
 </body>
 </html>
