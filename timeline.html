@@ -13,208 +13,189 @@
             margin: 0;
             padding: 0;
         }
-        .container {
-            width: 90%;
-            margin: 20px auto;
-            display: flex;
-            gap: 20px;
-        }
-        /* TimeLine Section */
+
+        /* 时间线样式 */
         .timeline {
-            flex: 1;
-            position: relative;
-        }
-        .timeline-line {
-            position: absolute;
-            left: 50px;
+            position: fixed;
+            left: 20px;
             top: 0;
             bottom: 0;
+            width: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .timeline-line {
             width: 2px;
+            height: 100%;
             background-color: #ccc;
-        }
-        .timeline-event {
-            position: relative;
-            margin-bottom: 40px;
-        }
-        .timeline-event:hover .timeline-content {
-            display: block;
         }
         .timeline-star {
             width: 16px;
             height: 16px;
-            background-color: #ccc;
+            background-color: #D9B1BD;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            position: absolute;
-            left: 42px;
-            transform: translateY(-50%);
             cursor: pointer;
+        }
+        .timeline-star:hover .timeline-content {
+            display: block;
         }
         .timeline-content {
             display: none;
             position: absolute;
-            left: 80px;
-            top: -10px;
-            background: rgba(200, 200, 200, 0.9);
+            left: 50px;
+            background: rgba(255, 255, 255, 0.8);
             padding: 10px;
-            border-radius: 8px;
-            max-width: 300px;
+            border-radius: 5px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        /* Profile Section */
+
+        /* 自我介绍样式 */
         .profile {
-            flex: 1;
+            margin: 20px auto;
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .profile-section {
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
         .profile img {
             width: 100px;
             height: 100px;
             border-radius: 50%;
             display: block;
-            margin: 0 auto 10px;
+            margin: 0 auto;
         }
-        .profile h2 {
-            text-align: center;
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-        .profile p {
-            font-size: 0.9em;
-            line-height: 1.6;
-        }
-        /*泉泉的自我介绍*/
-        .泉泉-profile {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-        }
-        /* 上传头像按钮样式 */
-        .upload-avatar input {
+        .profile input[type="file"] {
             margin-top: 10px;
         }
-        /* 索引部分样式 */
+
+        /* 留言板样式 */
+        .message-board {
+            position: fixed;
+            right: 20px;
+            top: 50px;
+            width: 25%;
+            height: calc(100vh - 100px);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-y: auto;
+        }
+        .message {
+            margin-bottom: 15px;
+        }
+        .message .nickname {
+            font-weight: bold;
+        }
+        .message textarea {
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        /* 索引样式 */
         .index {
             position: fixed;
-            top: 50%;
             right: 10px;
+            top: 50%;
             transform: translateY(-50%);
             background: rgba(255, 255, 255, 0.8);
             padding: 10px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
         .index a {
             display: block;
             margin: 10px 0;
             text-decoration: none;
             color: #333;
-            font-size: 1em;
-            text-align: center;
         }
         .index a:hover {
             color: #7b2a3f;
         }
-        /* Message Board Section */
-        .message-board {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .message-board h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .message {
-            margin-bottom: 15px;
-            padding: 10px;
-            background: rgba(230, 230, 230, 1);
-            border-radius: 5px;
-        }
-        .message .nickname {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .message textarea {
-            width: 100%;
-            height: 80px;
-            margin-top: 10px;
-            border-radius: 5px;
-            background: rgba(230, 230, 230, 1);
-        }
     </style>
 </head>
 <body>
-    <!-- 索引菜单 -->
+    <!-- 时间线 -->
+    <div class="timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-star">
+            <div class="timeline-content">
+                <strong>2024.12.30</strong>
+                <p>我们的初遇，从这里开始书写故事。</p>
+            </div>
+        </div>
+        <button onclick="addTimeline()">新增时间点</button>
+    </div>
+    <!-- 自我介绍 -->
+    <div class="profile">
+        <div class="profile-section" id="阿湛">
+            <img src="阿湛_default.jpg" alt="阿湛头像">
+            <h2>阿湛的自我介绍</h2>
+            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠<br>爱好: 和泉泉在一起<br>对大家说: 泉泉是我的全世界！</p>
+            <input type="file" onchange="uploadAvatar('阿湛')">
+        </div>
+        <div class="profile-section" id="泉泉">
+            <img src="泉泉_default.jpg" alt="泉泉头像">
+            <h2>泉泉的自我介绍</h2>
+            <p>MBTI: INFJ<br>性格关键词: 温柔<br>爱好: 喜欢看文艺片<br>对大家说: 爱你萌！</p>
+            <input type="file" onchange="uploadAvatar('泉泉')">
+        </div>
+    </div>
+
+    <!-- 留言板 -->
+    <div class="message-board">
+        <h2>留言板</h2>
+        <div id="message-list"></div>
+        <textarea id="message-input" placeholder="留下你的留言吧！"></textarea>
+        <input id="nickname-input" placeholder="输入昵称">
+        <button onclick="addMessage()">发送</button>
+    </div>
+
+    <!-- 索引 -->
     <div class="index">
         <a href="#timeline">时间线</a>
-        <a href="#profile">自我介绍</a>
+        <a href="#阿湛">阿湛</a>
+        <a href="#泉泉">泉泉</a>
         <a href="#message-board">留言板</a>
     </div>
 
-    <div class="container">
-        <!-- Timeline Section -->
-        <div class="timeline" id="timeline">
-            <div class="timeline-line"></div>
-            <div class="timeline-event">
-                <div class="timeline-star"></div>
-                <div class="timeline-content">
-                    <strong>2024.12.30</strong>
-                    <p>我们的初遇，从这里开始书写故事。</p>
-                </div>
-            </div>
-            <div class="timeline-event">
-                <div class="timeline-star"></div>
-                <div class="timeline-content">
-                    <strong>未来的节点</strong>
-                    <p>继续增加我们的回忆吧！</p>
-                </div>
-            </div>
-        </div>
-        <!-- Profile Section -->
-        <div class="profile" id="profile">
-            <img src="default_avatar.jpg" alt="阿湛头像" id="阿湛头像">
-            <h2>阿湛的自我介绍</h2>
-            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 研究一切和泉泉有关的事物，喜欢和泉泉在一起的每一刻<br>对大家说: 泉泉是我的全世界，希望你们都能珍惜她！希望你们也可以在这里感受到爱！</p>
-            <div class="upload-avatar">
-                <label for="upload-阿湛头像">上传阿湛的头像：</label>
-                <input type="file" id="upload-阿湛头像" onchange="uploadAvatar('阿湛头像')">
-            </div>
-            <!-- 泉泉的自我介绍 -->
-            <div class="泉泉-profile">
-                <img src="泉泉_default.jpg" alt="泉泉头像" id="泉泉头像">
-                <h2>泉泉's 自我介绍</h2>
-                <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好:爱好有关文艺的一切，也喜欢看各种血腥猎奇cult片，有时候也玩一点电吉他<br>对大家说:希望大家都幸福！！爱你萌（啾啾 </p>
-                <div class="upload-avatar">
-                    <label for="upload-泉泉头像">上传泉泉的头像：</label>
-                    <input type="file" id="upload-泉泉头像" onchange="uploadAvatar('泉泉头像')">
-                </div>
-            </div>
-        </div>
-        <!-- Message Board Section -->
-        <div class="message-board" id="message-board">
-            <h2>这是一块留言板</h2>
-            <div class="message">
-                <div class="nickname">Doggy's Love</div>
-                <div class="text">希望在探索我们的过程中你也能感到幸福与快乐</div>
-            </div>
-            <textarea placeholder="留下你的留言吧！(请填写昵称)"></textarea>
-        </div>
-    </div>
     <script>
         function uploadAvatar(id) {
-            const fileInput = document.getElementById(`upload-${id}`);
-            const imgElement = document.getElementById(id);
+            const fileInput = document.querySelector(`#${id} input[type="file"]`);
+            const imgElement = document.querySelector(`#${id} img`);
             const file = fileInput.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     imgElement.src = e.target.result;
+                    localStorage.setItem(`${id}-avatar`, e.target.result);
                 };
                 reader.readAsDataURL(file);
             }
+        }
+
+        function addMessage() {
+            const nickname = document.getElementById('nickname-input').value.trim() || '匿名用户';
+            const message = document.getElementById('message-input').value.trim();
+            const messageList = document.getElementById('message-list');
+            if (!message) return;
+            const now = new Date();
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.innerHTML = `<div class="nickname">${nickname} - ${now.toLocaleString()}</div>
+                                    <div>${message}</div>`;
+            messageList.appendChild(messageDiv);
+            document.getElementById('message-input').value = '';
         }
     </script>
 </body>
