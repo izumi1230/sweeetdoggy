@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>梦是榛果巧克力</title>
+    <title>番茄钟 - 梦是榛果巧克力</title>
     <style>
         body {
             font-family: "Microsoft Yahei", sans-serif;
@@ -13,12 +13,14 @@
             margin: 0;
             padding: 0;
         }
+
         .container {
             display: flex;
             justify-content: space-between;
             width: 90%;
             margin: 20px auto;
         }
+
         /* 番茄钟样式 */
         .pomodoro {
             flex: 2;
@@ -76,6 +78,7 @@
         .log button {
             margin-top: 10px;
         }
+
         /* 时间轴样式 */
         .timeline {
             flex: 1;
@@ -97,13 +100,24 @@
             color: #D9B1BD;
         }
         .date-record {
-            display: none;
             padding: 10px;
             background: rgba(230, 230, 230, 1);
             border-radius: 5px;
             margin-top: 10px;
         }
-        /* 索引部分样式 */
+
+        /* 动画区域 */
+        .character {
+            position: fixed;
+            bottom: 10px;
+            left: 20px;
+            width: 100px;
+            height: 100px;
+            background-image: url('character_idle.gif'); /* 默认角色站立动画 */
+            background-size: cover;
+        }
+
+        /* 索引样式 */
         .index {
             position: fixed;
             top: 50%;
@@ -128,7 +142,7 @@
     </style>
 </head>
 <body>
-<!-- 索引菜单 -->
+   <!-- 索引菜单 -->
     <div class="index">
         <a href="timeline.html">时间轴</a>
         <a href="profile.html">个人主页</a>
@@ -143,6 +157,8 @@
                 <span id="timer">25:00</span>
             </div>
             <div class="controls">
+                <input type="number" id="customTime" placeholder="分钟数" min="1" max="60">
+                <button onclick="setCustomTime()">设置时间</button>
                 <button onclick="startTimer()">开始</button>
                 <button onclick="pauseTimer()">暂停</button>
                 <button onclick="resetTimer()">重置</button>
@@ -152,30 +168,38 @@
                 <button onclick="saveLog()">保存记录</button>
             </div>
         </div>
-
         <!-- 时间轴 -->
         <div class="timeline">
             <h3>学习记录时间轴</h3>
-            <div class="date" onclick="toggleRecord(this)">
-                2025-01-25
-                <div class="date-record">09:00 - 09:25 学习了HTML结构设计</div>
-            </div>
+            <div id="timelineRecords"></div>
         </div>
     </div>
 
+    <!-- 动画角色 -->
+    <div class="character" id="character"></div>
+
     <script>
         let interval;
-        let time = 25 * 60; // 默认25分钟
+        let time = 25 * 60;
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(time / 60).toString().padStart(2, '0');
+            const seconds = (time % 60).toString().padStart(2, '0');
+            document.getElementById("timer").innerText = `${minutes}:${seconds}`;
+            const percentage = ((25 * 60 - time) / (25 * 60)) * 100;
+            document.getElementById("progress").style.background = `conic-gradient(#D9B1BD 0% ${percentage}%, #e0e0e0 ${percentage}% 100%)`;
+        }
 
         function startTimer() {
             clearInterval(interval);
             interval = setInterval(() => {
                 if (time > 0) {
                     time--;
-                    updateProgress();
+                    updateTimerDisplay();
                 } else {
                     clearInterval(interval);
                     alert("时间到！请记录学习内容。");
+                    document.getElementById("character").style.backgroundImage = "url('character_happy.gif')"; // 切换为庆祝动画
                 }
             }, 1000);
         }
@@ -187,30 +211,31 @@
         function resetTimer() {
             clearInterval(interval);
             time = 25 * 60;
-            updateProgress();
+            updateTimerDisplay();
         }
 
-        function updateProgress() {
-            const minutes = Math.floor(time / 60).toString().padStart(2, '0');
-            const seconds = (time % 60).toString().padStart(2, '0');
-            document.getElementById("timer").innerText = `${minutes}:${seconds}`;
-            const percentage = ((25 * 60 - time) / (25 * 60)) * 100;
-            document.getElementById("progress").style.background = `conic-gradient(#D9B1BD 0% ${percentage}%, #e0e0e0 ${percentage}% 100%)`;
-        }
-
-        function saveLog() {
-            const logInput = document.getElementById("logInput").value;
-            if (logInput.trim()) {
-                alert("记录已保存！");
+        function setCustomTime() {
+            const customTime = parseInt(document.getElementById("customTime").value);
+            if (customTime && customTime > 0) {
+                time = customTime * 60;
+                updateTimerDisplay();
             } else {
-                alert("请写下学习内容！");
+                alert("请输入有效的分钟数！");
             }
         }
 
-        function toggleRecord(element) {
-            const record = element.querySelector(".date-record");
-            record.style.display = record.style.display === "block" ? "none" : "block";
+        function saveLog() {
+            const logInput = document.getElementById("logInput").value.trim();
+            if (logInput) {
+                const now = new Date();
+                const record = `<div class="date-record">${now.toLocaleString()} - ${logInput}</div>`;
+                document.getElementById("timelineRecords").innerHTML += record;
+                document.getElementById("logInput").value = "";
+                alert("记录已保存！");
+            } else {
+                alert("请填写学习内容！");
+            }
         }
     </script>
 </body>
-</html>
+</html> 
