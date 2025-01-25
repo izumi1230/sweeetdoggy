@@ -3,126 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>梦是榛果巧克力 - 时间线</title>
+    <title>梦是榛果巧克力</title>
     <style>
         body {
             font-family: "Microsoft Yahei", sans-serif;
-            background-image: url('background.3.jpg');
-            background-size: cover;
-            background-attachment: fixed;
+            background-color: #f5f5f5;
             margin: 0;
             padding: 0;
-        }
-        .container {
             display: flex;
-            width: 100%;
-            height: 100vh;
+            justify-content: space-between;
         }
-        /* 时间线样式 */
+
+        /* 左侧时间线 */
         .timeline {
-            width: 20%;
-            position: relative;
-            padding: 20px;
-        }
-        .timeline-line {
-            position: absolute;
-            left: 50%;
+            position: fixed;
+            left: 20px;
             top: 0;
             bottom: 0;
-            width: 2px;
-            background-color: #ccc;
+            width: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        .timeline-event {
-            position: relative;
-            margin-bottom: 40px;
+        .timeline-line {
+            width: 2px;
+            height: 100%;
+            background-color: #ccc;
+            position: absolute;
         }
         .timeline-star {
-            width: 16px;
-            height: 16px;
-            background-color: #D9B1BD;
+            width: 20px;
+            height: 20px;
+            background-color: #ffcc00;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            margin: 20px 0;
             cursor: pointer;
-            margin: 0 auto;
+            position: relative;
+        }
+        .timeline-star:hover .timeline-content {
+            display: block;
         }
         .timeline-content {
             display: none;
             position: absolute;
             left: 30px;
-            top: -10px;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             padding: 10px;
             border-radius: 5px;
-            max-width: 200px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .timeline-event:hover .timeline-content {
-            display: block;
-        }
-        /* 自我介绍样式 */
-        .profile-container {
-            width: 40%;
-            margin: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            justify-content: center;
-        }
+
+        /* 中间自我介绍 */
         .profile {
+            margin: 50px auto;
+            width: 60%;
+        }
+        .profile-section {
+            margin: 20px 0;
             text-align: center;
-            background: rgba(255, 255, 255, 0.8);
             padding: 20px;
+            background: #ffffff;
             border-radius: 10px;
-            width: 80%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .profile img {
             width: 100px;
             height: 100px;
             border-radius: 50%;
+            margin-bottom: 10px;
         }
-        /* 留言板样式 */
+        .profile input[type="file"] {
+            margin-top: 10px;
+        }
+
+        /* 右侧留言板 */
         .message-board {
-            width: 40%;
-            overflow-y: auto;
-            max-height: calc(100vh - 40px);
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.8);
+            position: fixed;
+            right: 20px;
+            top: 50px;
+            width: 25%;
+            height: calc(100vh - 100px);
+            background: #ffffff;
             border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            padding: 20px;
         }
         .message {
             margin-bottom: 15px;
-            padding: 10px;
-            background: rgba(230, 230, 230, 1);
+        }
+        .message .nickname {
+            font-weight: bold;
+        }
+        .message textarea {
+            width: 100%;
+            margin-top: 10px;
             border-radius: 5px;
         }
-        .message .time {
-            font-size: 0.8em;
-            color: #777;
-            text-align: right;
-            margin-top: 5px;
-        }
-        textarea {
-            width: 100%;
-            height: 50px;
-            margin-top: 10px;
-        }
-        /* 索引菜单样式 */
+
+        /* 索引模块 */
         .index {
             position: fixed;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            right: 20px;
+            bottom: 50%;
+            transform: translateY(50%);
+            width: 120px;
+            background: #ffffff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
         .index a {
+            display: block;
+            margin: 10px 0;
             text-decoration: none;
             color: #333;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 5px;
-            text-align: center;
+            font-size: 1em;
         }
         .index a:hover {
             color: #7b2a3f;
@@ -130,60 +128,53 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- 时间线部分 -->
-        <div class="timeline">
-            <div class="timeline-line"></div>
-            <div class="timeline-event">
-                <div class="timeline-star"></div>
-                <div class="timeline-content">
-                    <strong>2024.12.30</strong>
-                    <p>我们的初遇，从这里开始书写故事。</p>
-                </div>
-            </div>
-            <div class="timeline-event">
-                <div class="timeline-star"></div>
-                <div class="timeline-content">
-                    <strong>未完待续</strong>
-                    <p>点击这里增设新的时间点！</p>
-                </div>
+    <!-- 左侧时间线 -->
+    <div class="timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-star">
+            <div class="timeline-content">
+                <strong>2024.12.30</strong>
+                <p>我们的初遇，从这里开始书写故事。</p>
             </div>
         </div>
-        <!-- 自我介绍部分 -->
-        <div class="profile-container">
-            <!-- 阿湛的自我介绍 -->
-            <div class="profile">
-                <img src="阿湛_default.jpg" alt="阿湛头像" id="阿湛头像">
-                <h2>阿湛的自我介绍</h2>
-                <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 研究一切和泉泉有关的事物，喜欢和泉泉在一起的每一刻!<br>对大家说: 泉泉是我的全世界，希望你们都能珍惜她！希望大家在这里也可以感受到爱！</p>
-                <button onclick="uploadAvatar('阿湛头像')">上传头像</button>
-            </div>
-            <!-- 泉泉的自我介绍 -->
-            <div class="profile">
-                <img src="泉泉_default.jpg" alt="泉泉头像" id="泉泉头像">
-                <h2>泉泉的自我介绍</h2>
-                <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好: 爱好文艺有关的一切，也喜欢看各种血腥猎奇cult片，有时也玩一点电吉他<br>对大家说: 希望你在探索我们的过程中也能感到愉快幸福。爱你萌（啾啾</p>
-                <button onclick="uploadAvatar('泉泉头像')">上传头像</button>
+        <div class="timeline-star">
+            <div class="timeline-content">
+                <strong>未完待续</strong>
+                <p>点击编辑新时间点。</p>
             </div>
         </div>
-
-        <!-- 留言板部分 -->
-        <div class="message-board">
-            <h2>留言板</h2>
-            <div class="messages"></div>
-            <textarea placeholder="留下你的留言吧！"></textarea>
-            <button onclick="saveMessage()">提交留言</button>
+    </div>
+    <!-- 中间自我介绍 -->
+    <div class="profile">
+        <div class="profile-section" id="阿湛">
+            <img src="阿湛_default.jpg" alt="阿湛头像">
+            <h2>阿湛的自我介绍</h2>
+            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 和泉泉在一起的每一刻！研究关于泉泉的一切！<br>对大家说: 泉泉是我的全世界，希望你们珍惜她！希望你们也能在这里感受到爱。</p>
+            <input type="file">
+        </div>
+        <div class="profile-section" id="泉泉">
+            <img src="泉泉_default.jpg" alt="泉泉头像">
+            <h2>泉泉的自我介绍</h2>
+            <p>MBTI: INTJ<br>性格关键词: 理性、敏感<br>爱好: 爱好和文艺有关的一切，也喜欢看各种血腥猎奇cult片，有时也玩一点电吉他<br>对大家说: 希望在探索我们的过程中你们也能感到愉悦幸福。爱你萌（啾啾</p>
+            <input type="file">
         </div>
     </div>
 
-    <!-- 索引菜单 -->
+    <!-- 右侧留言板 -->
+    <div class="message-board">
+        <h2>留言板</h2>
+        <div class="message">
+            <div class="nickname">Doggy's Love</div>
+            <div class="text">希望你们在探索我们的故事时感受到幸福！</div>
+        </div>
+        <textarea placeholder="留下你的留言吧！"></textarea>
+    </div>
+
+    <!-- 索引模块 -->
     <div class="index">
-        <a href="pomodoro.html">番茄钟</a>
-        <a href="profile.html">个人主页</a>
-        <a href="notebook.html">记录本</a>
+        <a href="#timeline">时间线</a>
+        <a href="#阿湛">阿湛自我介绍</a>
+        <a href="#泉泉">泉泉自我介绍</a>
     </div>
-    <script>
-        // Placeholder for functions
-    </script>
 </body>
 </html>
