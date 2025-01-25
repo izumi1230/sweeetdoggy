@@ -75,9 +75,6 @@
             border: none;
             font-size: 1em;
         }
-        .log button {
-            margin-top: 10px;
-        }
 
         /* 时间轴样式 */
         .timeline {
@@ -92,28 +89,21 @@
             text-align: center;
             margin-bottom: 20px;
         }
-        .date {
-            margin-bottom: 15px;
-            cursor: pointer;
-        }
-        .date:hover {
-            color: #D9B1BD;
-        }
         .date-record {
             padding: 10px;
             background: rgba(230, 230, 230, 1);
             border-radius: 5px;
-            margin-top: 10px;
+            margin-bottom: 10px;
         }
 
-        /* 动画区域 */
+        /* 动画角色 */
         .character {
             position: fixed;
             bottom: 10px;
             left: 20px;
             width: 100px;
             height: 100px;
-            background-image: url('character_idle.gif'); /* 默认角色站立动画 */
+            background-image: url('character_idle.gif'); /* 默认站立动画 */
             background-size: cover;
         }
 
@@ -142,7 +132,7 @@
     </style>
 </head>
 <body>
-   <!-- 索引菜单 -->
+    <!-- 索引菜单 -->
     <div class="index">
         <a href="timeline.html">时间轴</a>
         <a href="profile.html">个人主页</a>
@@ -212,6 +202,7 @@
             clearInterval(interval);
             time = 25 * 60;
             updateTimerDisplay();
+            document.getElementById("character").style.backgroundImage = "url('character_idle.gif')"; // 恢复默认动画
         }
 
         function setCustomTime() {
@@ -228,14 +219,27 @@
             const logInput = document.getElementById("logInput").value.trim();
             if (logInput) {
                 const now = new Date();
-                const record = `<div class="date-record">${now.toLocaleString()} - ${logInput}</div>`;
-                document.getElementById("timelineRecords").innerHTML += record;
+                const record = { time: now.toLocaleString(), content: logInput };
+                const records = JSON.parse(localStorage.getItem("timelineRecords") || "[]");
+                records.push(record);
+                localStorage.setItem("timelineRecords", JSON.stringify(records));
+                renderTimeline();
                 document.getElementById("logInput").value = "";
                 alert("记录已保存！");
             } else {
                 alert("请填写学习内容！");
             }
         }
+
+        function renderTimeline() {
+            const records = JSON.parse(localStorage.getItem("timelineRecords") || "[]");
+            const timeline = document.getElementById("timelineRecords");
+            timeline.innerHTML = records
+                .map(record => `<div class="date-record">${record.time} - ${record.content}</div>`)
+                .join("");
+        }
+
+        window.onload = renderTimeline;
     </script>
 </body>
-</html> 
+</html>
