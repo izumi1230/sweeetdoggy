@@ -7,7 +7,6 @@
     <style>
         body {
             font-family: "Microsoft Yahei", sans-serif;
-            font-family: "Microsoft Yahei", sans-serif;
             background-image: url('background.3.jpg');
             background-size: cover;
             background-attachment: fixed;
@@ -15,114 +14,96 @@
             padding: 0;
         }
         .container {
+            width: 90%;
+            margin: 20px auto;
             display: flex;
-            width: 100%;
-            height: 100vh;
+            gap: 20px;
         }
-
-        /* 时间线模块 */
+        /* TimeLine Section */
         .timeline {
-            position: fixed;
-            left: 20px;
-            top: 0;
-            bottom: 0;
-            width: 100px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-        }
-        .timeline-line {
-            width: 2px;
-            height: 100%;
-            background-color: #ccc;
-            position: absolute;
-        }
-        .timeline-star {
-            width: 20px;
-            height: 20px;
-            background-color: #D9B1BD;
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            margin: 20px 0;
-            cursor: pointer;
+            flex: 1;
             position: relative;
         }
-        .timeline-star:hover .timeline-content {
+        .timeline-line {
+            position: absolute;
+            left: 50px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #ccc;
+        }
+        .timeline-event {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .timeline-event:hover .timeline-content {
             display: block;
+        }
+        .timeline-star {
+            width: 16px;
+            height: 16px;
+            background-color: #ccc;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            position: absolute;
+            left: 42px;
+            transform: translateY(-50%);
+            cursor: pointer;
         }
         .timeline-content {
             display: none;
             position: absolute;
-            left: 30px;
-            background: rgba(255, 255, 255, 0.9);
+            left: 80px;
+            top: -10px;
+            background: rgba(200, 200, 200, 0.9);
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 8px;
+            max-width: 300px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
-        /* 自我介绍模块 */
+        /* Profile Section */
         .profile {
-            margin: 50px auto;
-            width: 40%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .profile-section {
-            margin: 20px 0;
-            text-align: center;
+            flex: 1;
+            background: rgba(255, 255, 255, 0.8);
             padding: 20px;
-            background: rgba(200, 200, 200, 0.8);
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .profile img {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
+            display: block;
+            margin: 0 auto 10px;
+        }
+        .profile h2 {
+            text-align: center;
+            font-size: 1.2em;
             margin-bottom: 10px;
         }
-        .profile input[type="file"] {
-            margin-top: 10px;
+        .profile p {
+            font-size: 0.9em;
+            line-height: 1.6;
         }
-
-        /* 留言板模块 */
-        .message-board {
-            position: fixed;
-            right: 20px;
-            top: 50px;
-            width: 25%;
-            height: calc(100vh - 100px);
-            background: rgba(200, 200, 200, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
+        /*泉泉的自我介绍*/
+        .泉泉-profile {
+            margin-top: 20px;
             padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
         }
-        .message {
-            margin-bottom: 15px;
-        }
-        .message .nickname {
-            font-weight: bold;
-        }
-        .message textarea {
-            width: 100%;
+        /* 上传头像按钮样式 */
+        .upload-avatar input {
             margin-top: 10px;
-            border-radius: 5px;
         }
-
-        /* 索引模块 */
+        /* 索引部分样式 */
         .index {
             position: fixed;
-            right: 20px;
-            bottom: 50%;
-            transform: translateY(50%);
-            width: 120px;
-            background: rgba(200, 200, 200, 0.8);
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
             padding: 10px;
-            border-radius: 10px;
+            border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
         }
         .index a {
             display: block;
@@ -130,89 +111,110 @@
             text-decoration: none;
             color: #333;
             font-size: 1em;
+            text-align: center;
         }
         .index a:hover {
             color: #7b2a3f;
         }
+        /* Message Board Section */
+        .message-board {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .message-board h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(230, 230, 230, 1);
+            border-radius: 5px;
+        }
+        .message .nickname {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .message textarea {
+            width: 100%;
+            height: 80px;
+            margin-top: 10px;
+            border-radius: 5px;
+            background: rgba(230, 230, 230, 1);
+        }
     </style>
 </head>
 <body>
-    <!-- 时间线模块 -->
-    <div class="timeline">
-        <div class="timeline-line"></div>
-        <div class="timeline-star">
-            <div class="timeline-content">
-                <strong>2024.12.30</strong>
-                <p>我们的初遇，从这里开始书写故事。</p>
-            </div>
-        </div>
-        <div class="timeline-star">
-            <div class="timeline-content">
-                <strong>未完待续</strong>
-                <p>点击编辑新时间点。</p>
-            </div>
-        </div>
-    </div>
-    <!-- 自我介绍模块 -->
-    <div class="profile">
-        <div class="profile-section" id="阿湛">
-            <img src="阿湛_default.jpg" alt="阿湛头像">
-            <h2>阿湛的自我介绍</h2>
-            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 和泉泉在一起的每一刻<br>对大家说: 泉泉是我的全世界，希望你们珍惜她！</p>
-            <input type="file" onchange="uploadAvatar('阿湛')">
-        </div>
-        <div class="profile-section" id="泉泉">
-            <img src="泉泉_default.jpg" alt="泉泉头像">
-            <h2>泉泉的自我介绍</h2>
-            <p>MBTI: INFJ<br>性格关键词: 温柔、细腻<br>爱好: 电影、甜甜的亲亲抱抱<br>对大家说: 我是阿湛的小狗，请不要抢他！</p>
-            <input type="file" onchange="uploadAvatar('泉泉')">
-        </div>
-    </div>
-
-    <!-- 留言板模块 -->
-    <div class="message-board">
-        <h2>留言板</h2>
-        <div id="message-list"></div>
-        <textarea id="message-input" placeholder="留下你的留言吧！"></textarea>
-        <button onclick="addMessage()">发送</button>
-    </div>
-
-    <!-- 索引模块 -->
+    <!-- 索引菜单 -->
     <div class="index">
-       <a href="pomodoro.html">番茄钟</a>
-        <a href="profile.html">个人主页</a>
-        <a href="notebook.html">记录本</a>
+        <a href="#timeline">时间线</a>
+        <a href="#profile">自我介绍</a>
+        <a href="#message-board">留言板</a>
     </div>
 
+    <div class="container">
+        <!-- Timeline Section -->
+        <div class="timeline" id="timeline">
+            <div class="timeline-line"></div>
+            <div class="timeline-event">
+                <div class="timeline-star"></div>
+                <div class="timeline-content">
+                    <strong>2024.12.30</strong>
+                    <p>我们的初遇，从这里开始书写故事。</p>
+                </div>
+            </div>
+            <div class="timeline-event">
+                <div class="timeline-star"></div>
+                <div class="timeline-content">
+                    <strong>未来的节点</strong>
+                    <p>继续增加我们的回忆吧！</p>
+                </div>
+            </div>
+        </div>
+        <!-- Profile Section -->
+        <div class="profile" id="profile">
+            <img src="default_avatar.jpg" alt="阿湛头像" id="阿湛头像">
+            <h2>阿湛的自我介绍</h2>
+            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 研究一切和泉泉有关的事物，喜欢和泉泉在一起的每一刻<br>对大家说: 泉泉是我的全世界，希望你们都能珍惜她！希望你们也可以在这里感受到爱！</p>
+            <div class="upload-avatar">
+                <label for="upload-阿湛头像">上传阿湛的头像：</label>
+                <input type="file" id="upload-阿湛头像" onchange="uploadAvatar('阿湛头像')">
+            </div>
+            <!-- 泉泉的自我介绍 -->
+            <div class="泉泉-profile">
+                <img src="泉泉_default.jpg" alt="泉泉头像" id="泉泉头像">
+                <h2>泉泉's 自我介绍</h2>
+                <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好:爱好有关文艺的一切，也喜欢看各种血腥猎奇cult片，有时候也玩一点电吉他<br>对大家说:希望大家都幸福！！爱你萌（啾啾 </p>
+                <div class="upload-avatar">
+                    <label for="upload-泉泉头像">上传泉泉的头像：</label>
+                    <input type="file" id="upload-泉泉头像" onchange="uploadAvatar('泉泉头像')">
+                </div>
+            </div>
+        </div>
+        <!-- Message Board Section -->
+        <div class="message-board" id="message-board">
+            <h2>这是一块留言板</h2>
+            <div class="message">
+                <div class="nickname">Doggy's Love</div>
+                <div class="text">希望在探索我们的过程中你也能感到幸福与快乐</div>
+            </div>
+            <textarea placeholder="留下你的留言吧！(请填写昵称)"></textarea>
+        </div>
+    </div>
     <script>
         function uploadAvatar(id) {
-            const fileInput = document.getElementById(`${id}`).querySelector('input[type="file"]');
-            const imgElement = document.querySelector(`#${id} img`);
+            const fileInput = document.getElementById(`upload-${id}`);
+            const imgElement = document.getElementById(id);
             const file = fileInput.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     imgElement.src = e.target.result;
-                    localStorage.setItem(`${id}-avatar`, e.target.result);
                 };
                 reader.readAsDataURL(file);
             }
-        }
-
-        function addMessage() {
-            const messageInput = document.getElementById('message-input');
-            const messageList = document.getElementById('message-list');
-            const messageText = messageInput.value.trim();
-            if (!messageText) return;
-
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message');
-            const now = new Date();
-            messageDiv.innerHTML = `<div class="nickname">匿名用户</div>
-                                    <div class="text">${messageText}</div>
-                                    <div class="time">${now.toLocaleString()}</div>`;
-            messageList.appendChild(messageDiv);
-            messageInput.value = '';
         }
     </script>
 </body>
