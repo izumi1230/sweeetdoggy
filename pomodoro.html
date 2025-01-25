@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>番茄钟 - 梦是榛果巧克力</title>
+    <title>梦是榛果巧克力</title>
     <style>
         body {
             font-family: "Microsoft Yahei", sans-serif;
@@ -16,20 +16,21 @@
 
         .container {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            align-items: center;
             width: 90%;
             margin: 20px auto;
         }
 
         /* 番茄钟样式 */
         .pomodoro {
-            flex: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
+            margin-bottom: 20px;
         }
         .progress-circle {
             position: relative;
@@ -75,153 +76,171 @@
             border: none;
             font-size: 1em;
         }
-        /* 时间轴样式 */
-        .timeline {
-            flex: 1;
+          /* 积分系统和成就墙样式 */
+        .section {
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
-            height: 500px;
-            overflow-y: auto;
+            margin-bottom: 20px;
+            width: 100%;
         }
-        .timeline h3 {
+        .section h3 {
             text-align: center;
             margin-bottom: 20px;
         }
-        .date-record {
-            padding: 10px;
-            background: rgba(230, 230, 230, 1);
-            border-radius: 5px;
-            margin-bottom: 10px;
+        .button {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
         }
-        /* 右侧索引样式 */
-        .index {
+        .button button {
+            padding: 10px 20px;
+        }
+
+        /* 动态特效 */
+        .sparkle {
             position: fixed;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            top: -50px;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 223, 0, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 223, 0, 0.8);
+            animation: fall 2s ease-in-out forwards;
         }
-        .index a {
-            display: block;
-            margin: 10px 0;
-            text-decoration: none;
-            color: #333;
-            font-size: 1em;
-            text-align: center;
-        }
-        .index a:hover {
-            color: #7b2a3f;
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(800px) translateX(200px);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 索引菜单 -->
-<div class="index">
-    <a href="timeline.html">时间轴</a>
-    <a href="profile.html">个人主页</a>
-    <a href="notebook.html">记录本</a>
-</div>
+    <div class="container">
+        <!-- 番茄钟 -->
+        <div class="pomodoro">
+            <h2>番茄钟</h2>
+            <div class="progress-circle" id="progress">
+                <span id="timer">25:00</span>
+            </div>
+            <div class="controls">
+                <input type="number" id="customTime" placeholder="分钟数" min="1" max="60">
+                <button onclick="setCustomTime()">设置时间</button>
+                <button onclick="startTimer()">开始</button>
+                <button onclick="pauseTimer()">暂停</button>
+                <button onclick="resetTimer()">重置</button>
+            </div>
+            <div class="log">
+                <textarea id="logInput" placeholder="完成学习后写下学了什么..."></textarea>
+                <button onclick="saveLog()">保存记录</button>
+            </div>
+        </div>
 
-<div class="container">
-    <!-- 番茄钟 -->
-    <div class="pomodoro">
-        <h2>番茄钟</h2>
-        <div class="progress-circle" id="progress">
-            <span id="timer">25:00</span>
+        <!-- 学习积分 -->
+        <div class="section">
+            <h3>学习积分</h3>
+            <p>数据截至：<span id="currentTime"></span></p>
+            <p>当前已累计得分：<span id="points">0</span> 分</p>
+            <div class="button">
+                <button id="redeemButton" onclick="redeem()">兑换</button>
+            </div>
         </div>
-        <div class="controls">
-            <input type="number" id="customTime" placeholder="分钟数" min="1" max="60">
-            <button onclick="setCustomTime()">设置时间</button>
-            <button onclick="startTimer()">开始</button>
-            <button onclick="pauseTimer()">暂停</button>
-            <button onclick="resetTimer()">重置</button>
-        </div>
-        <div class="log">
-            <textarea id="logInput" placeholder="完成学习后写下学了什么..."></textarea>
-            <button onclick="saveLog()">保存记录</button>
+
+        <!-- 成就墙 -->
+        <div class="section">
+            <h3>泉泉的成就墙</h3>
+            <p>已累计学习：<span id="totalTime">0</span> 分钟</p>
+            <p>已累计完成番茄钟次数：<span id="totalPomodoros">0</span> 次</p>
+            <p>已完成学习目标：<span id="totalGoals">0</span> 个</p>
+            <p>已收获情书：<span id="letters">0</span> 封</p>
         </div>
     </div>
-    <!-- 时间轴 -->
-    <div class="timeline">
-        <h3>学习记录时间轴</h3>
-        <div id="timelineRecords"></div>
-    </div>
-</div>
 
-<script>
-    let interval;
-    let time = 25 * 60;
+    <script>
+        let interval;
+        let time = 25 * 60;
+        let points = 0;
+        let totalPomodoros = 0;
+        let letters = 0;
 
-    function updateTimerDisplay() {
-        const minutes = Math.floor(time / 60).toString().padStart(2, '0');
-        const seconds = (time % 60).toString().padStart(2, '0');
-        document.getElementById("timer").innerText = `${minutes}:${seconds}`;
-        const percentage = ((25 * 60 - time) / (25 * 60)) * 100;
-        document.getElementById("progress").style.background = `conic-gradient(#D9B1BD 0% ${percentage}%, #e0e0e0 ${percentage}% 100%)`;
-    }
+        function updateTimerDisplay() {
+            const minutes = Math.floor(time / 60).toString().padStart(2, '0');
+            const seconds = (time % 60).toString().padStart(2, '0');
+            document.getElementById("timer").innerText = `${minutes}:${seconds}`;
+            const percentage = ((25 * 60 - time) / (25 * 60)) * 100;
+            document.getElementById("progress").style.background = `conic-gradient(#D9B1BD 0% ${percentage}%, #e0e0e0 ${percentage}% 100%)`;
+        }
 
-    function startTimer() {
-        clearInterval(interval);
-        interval = setInterval(() => {
-            if (time > 0) {
-                time--;
+        function startTimer() {
+            clearInterval(interval);
+            interval = setInterval(() => {
+                if (time > 0) {
+                    time--;
+                    updateTimerDisplay();
+                } else {
+                    clearInterval(interval);
+                    alert("时间到！请记录学习内容。");
+                    addSparkle();
+                    points++;
+                    totalPomodoros++;
+                    updateStats();
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            clearInterval(interval);
+        }
+
+        function resetTimer() {
+            clearInterval(interval);
+            time = 25 * 60;
+            updateTimerDisplay();
+        }
+
+        function setCustomTime() {
+            const customTime = parseInt(document.getElementById("customTime").value);
+            if (customTime && customTime > 0) {
+                time = customTime * 60;
                 updateTimerDisplay();
             } else {
-                clearInterval(interval);
-                alert("时间到！请记录学习内容。");
+                alert("请输入有效的分钟数！");
             }
-        }, 1000);
-    }
-
-    function pauseTimer() {
-        clearInterval(interval);
-    }
-
-    function resetTimer() {
-        clearInterval(interval);
-        time = 25 * 60;
-        updateTimerDisplay();
-    }
-
-    function setCustomTime() {
-        const customTime = parseInt(document.getElementById("customTime").value);
-        if (customTime && customTime > 0) {
-            time = customTime * 60;
-            updateTimerDisplay();
-        } else {
-            alert("请输入有效的分钟数！");
         }
-    }
 
-    function saveLog() {
-        const logInput = document.getElementById("logInput").value.trim();
-        if (logInput) {
-            const now = new Date();
-            const record = { time: now.toLocaleString(), content: logInput };
-            const records = JSON.parse(localStorage.getItem("timelineRecords") || "[]");
-            records.push(record);
-            localStorage.setItem("timelineRecords", JSON.stringify(records));
-            renderTimeline();
-            document.getElementById("logInput").value = "";
-            alert("记录已保存！");
-        } else {
-            alert("请填写学习内容！");
+        function redeem() {
+            if (points >= 30) {
+                letters++;
+                points -= 30;
+                alert("兑换成功！情书已生成！");
+                updateStats();
+            } else {
+                alert("积分不足！完成更多番茄钟吧！");
+            }
         }
-    }
 
-    function renderTimeline() {
-        const records = JSON.parse(localStorage.getItem("timelineRecords") || "[]");
-        const timeline = document.getElementById("timelineRecords");
-        timeline.innerHTML = records
-            .map(record => `<div class="date-record">${record.time} - ${record.content}</div>`)
-            .join("");
-    }
+        function updateStats() {
+            document.getElementById("points").innerText = points;
+            document.getElementById("totalPomodoros").innerText = totalPomodoros;
+            document.getElementById("letters").innerText = letters;
+            document.getElementById("currentTime").innerText = new Date().toLocaleString();
+        }
 
-    window.onload = renderTimeline;
-</script>
+        function addSparkle() {
+            const sparkle = document.createElement("div");
+            sparkle.className = "sparkle";
+            sparkle.style.left = `${Math.random() * window.innerWidth}px`;
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 2000);
+        }
+
+        window.onload = updateStats;
+    </script>
 </body>
 </html>
