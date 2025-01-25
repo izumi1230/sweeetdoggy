@@ -56,6 +56,21 @@
         .timeline-star:hover + .timeline-content {
             display: block;
         }
+        .add-event-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .add-event-button:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
         /* Profile Section */
         .profile {
             flex: 1;
@@ -143,14 +158,15 @@
             <img src="default_avatar.jpg" alt="阿湛头像" id="阿湛头像">
             <h2>阿湛的自我介绍</h2>
             <p>MBTI: INTJ<br>性格关键词: 冷静、温柔、可靠<br>爱好: 泉泉<br>对大家说: 泉泉是我最珍贵的存在！希望你们也能珍惜她，希望你们在这里也能感受到爱。</p>
-            <label for="upload-avatar">上传头像：</label>
-            <input type="file" id="upload-avatar" onchange="uploadAvatar('阿湛头像')">
+            <label for="upload-avatar-azhan">上传头像：</label>
+            <input type="file"id="upload-avatar-azhan" onchange="uploadAvater('阿湛头像')> 
         </div>
-        <div class="profile-section" id="泉泉">
-            <img src="泉泉_default.jpg" alt="泉泉头像">
+        <div class="profile" id="泉泉-profile">
+            <img src="泉泉_default.jpg" alt="泉泉头像" id="泉泉头像“>
             <h2>泉泉的自我介绍</h2>
             <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好: 爱好文艺有关的一切，也喜欢看各种血腥猎奇cult片，喜欢一个人<br>对大家说:希望在探索我们的过程中你也能感到愉悦幸福。爱你萌！（啾啾</p>
-            <input type="file" id="upload-avatar" onchange="uploadAvatar('泉泉头像')">
+            <label for="upload-avatar-quan">上传头像：</label>
+            <input type="file" id="upload-avatar-quan" onchange="uploadAvatar('泉泉头像')">
         </div>
     </div>
         <!-- Message Board Section -->
@@ -165,12 +181,13 @@
     </div>
     <script>
         // 时间线功能
-        const events = [];
+        const events = JSON.parse(localStorage.getItem("events")) || [];
         function addEvent() {
             const eventDate = prompt("请输入时间点（如2025.1.25）:");
             const eventDesc = prompt("请输入事件描述:");
             if (eventDate && eventDesc) {
                 events.push({ date: eventDate, description: eventDesc });
+                localStorage.setItem("events", JSON.stringify(events));
                 renderTimeline();
             }
         }
@@ -189,10 +206,9 @@
                 container.appendChild(content);
             });
         }
-
         // 上传头像功能
         function uploadAvatar(id) {
-            const fileInput = document.getElementById("upload-avatar");
+            const fileInput = document.getElementById(`upload-avatar-${id === "阿湛头像" ? "azhan" : "quan"}`);
             const imgElement = document.getElementById(id);
             const file = fileInput.files[0];
             if (file) {
@@ -235,10 +251,12 @@
         window.onload = function () {
             renderTimeline();
             renderMessages();
-            const savedAvatar = localStorage.getItem("阿湛头像");
-            if (savedAvatar) {
-                document.getElementById("阿湛头像").src = savedAvatar;
-            }
+            ["阿湛头像", "泉泉头像"].forEach(id => {
+                const savedAvatar = localStorage.getItem(id);
+                if (savedAvatar) {
+                    document.getElementById(id).src = savedAvatar;
+                }
+            });
         };
     </script>
 </body>
