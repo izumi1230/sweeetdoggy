@@ -3,130 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>梦是榛果巧克力</title>
+    <title>梦是榛果巧克力 - 时间线</title>
     <style>
         body {
             font-family: "Microsoft Yahei", sans-serif;
-            background-image: url('background.3.jpg');
+            background-image: url('background.jpg');
             background-size: cover;
             background-attachment: fixed;
             margin: 0;
             padding: 0;
         }
         .container {
-            width: 90%;
-            margin: 20px auto;
             display: flex;
-            gap: 20px;
+            width: 100%;
         }
-        /* TimeLine Section */
         .timeline {
-            flex: 1;
-            position: relative;
-            max-width: 200px;
+            width: 20%;
+            padding: 20px;
+            border-right: 2px solid #ccc;
         }
         .timeline-line {
-            position: absolute;
-            left: 50px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
+            position: relative;
             background-color: #ccc;
+            width: 2px;
+            height: 100%;
+            margin: 0 auto;
         }
         .timeline-event {
             position: relative;
-            margin-bottom: 40px;
+            margin: 20px 0;
         }
         .timeline-star {
             width: 16px;
             height: 16px;
-            background-color: #ccc;
+            background-color: #D9B1BD;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            position: absolute;
-            left: 42px;
-            transform: translateY(-50%);
             cursor: pointer;
+            margin: 0 auto;
         }
         .timeline-content {
             display: none;
             position: absolute;
-            left: 80px;
+            left: 30px;
             top: -10px;
-            background: rgba(200, 200, 200, 0.9);
+            background: rgba(255, 255, 255, 0.8);
             padding: 10px;
-            border-radius: 8px;
-            max-width: 300px;
+            border-radius: 5px;
+            max-width: 200px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .timeline-event:hover .timeline-content {
             display: block;
         }
-        /* Profile Section */
+        .profile-container {
+            width: 40%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
         .profile {
-            flex: 1;
+            text-align: center;
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
+            width: 80%;
         }
         .profile img {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            display: block;
-            margin: 0 auto 10px;
         }
-        .profile h2 {
-            text-align: center;
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-        .profile p {
-            font-size: 0.9em;
-            line-height: 1.6;
-        }
-         /* 泉泉的自我介绍 */
-        .泉泉-profile {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-        }
-        /* 上传头像按钮样式 */
-        .upload-avatar input {
-            margin-top: 10px;
-        }
-        /* 索引部分样式 */
-        .index {
-            position: fixed;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .index a {
-            display: block;
-            margin: 10px 0;
-            text-decoration: none;
-            color: #333;
-            font-size: 1em;
-            text-align: center;
-        }
-        .index a:hover {
-            color: #7b2a3f;
-        }
-        /* Message Board Section */
         .message-board {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.8);
+            width: 40%;
             padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            margin: 20px auto;
             border-radius: 10px;
-        }
-        .message-board h2 {
-            text-align: center;
-            margin-bottom: 20px;
         }
         .message {
             margin-bottom: 15px;
@@ -134,59 +88,22 @@
             background: rgba(230, 230, 230, 1);
             border-radius: 5px;
         }
-        .message .nickname {
-            font-weight: bold;
-            margin-bottom: 5px;
+        .message .time {
+            font-size: 0.8em;
+            color: #777;
+            text-align: right;
+            margin-top: 5px;
         }
-        .message textarea {
+        textarea {
             width: 100%;
-            height: 80px;
+            height: 50px;
             margin-top: 10px;
-            border-radius: 5px;
-            background: rgba(230, 230, 230, 1);
         }
     </style>
 </head>
 <body>
-    <script>
-        function uploadAvatar(id) {
-            const fileInput = document.getElementById(`upload-${id}`);
-            const imgElement = document.getElementById(id);
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const imgData = e.target.result;
-                    imgElement.src = imgData;
-
-                    // 保存图片数据到LocalStorage
-                    localStorage.setItem(id, imgData);
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-        // 页面加载时检查LocalStorage中是否有保存的头像数据
-        window.onload = function () {
-            const 阿湛头像 = localStorage.getItem("阿湛头像");
-            const 泉泉头像 = localStorage.getItem("泉泉头像");
-            if (阿湛头像) {
-                document.getElementById("阿湛头像").src = 阿湛头像;
-            }
-            if (泉泉头像) {
-                document.getElementById("泉泉头像").src = 泉泉头像;
-            }
-        };
-    </script>
-
-    <!-- 索引菜单 -->
-    <div class="index">
-        <a href="pomodoro.html">番茄钟</a>
-        <a href="profile.html">个人主页</a>
-        <a href="notebook.html">记录本</a>
-    </div>
-
     <div class="container">
-        <!-- Timeline Section -->
+        <!-- 时间线部分 -->
         <div class="timeline">
             <div class="timeline-line"></div>
             <div class="timeline-event">
@@ -199,128 +116,98 @@
             <div class="timeline-event">
                 <div class="timeline-star"></div>
                 <div class="timeline-content">
-                    <strong>未来的节点</strong>
-                    <p>继续增加我们的回忆吧！</p>
+                    <strong>未完待续</strong>
+                    <p>点击这里增设新的时间点！</p>
                 </div>
             </div>
         </div>
-        <!-- Profile Section -->
-        <div class="profile">
-            <img src="default_avatar.jpg" alt="阿湛头像" id="阿湛头像">
-            <h2>阿湛的自我介绍</h2>
-            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 研究一切和泉泉有关的事物，喜欢和泉泉在一起的每一刻<br>对大家说: 泉泉是我的全世界，希望你们都能珍惜她！希望你们也可以在这里感受到爱！</p>
-            <div class="upload-avatar">
-                <label for="upload-阿湛头像">上传阿湛的头像：</label>
-                <input type="file" id="upload-阿湛头像" onchange="uploadAvatar('阿湛头像')">
+        <!-- 自我介绍部分 -->
+        <div class="profile-container">
+            <!-- 阿湛的自我介绍 -->
+            <div class="profile">
+                <img src="阿湛_default.jpg" alt="阿湛头像" id="阿湛头像">
+                <h2>阿湛的自我介绍</h2>
+                <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 研究一切和泉泉有关的事物，喜欢和泉泉在一起的每一刻<br>对大家说: 泉泉是我的全世界，希望你们都能珍惜她！</p>
+                <button onclick="uploadAvatar('阿湛头像')">上传头像</button>
             </div>
             <!-- 泉泉的自我介绍 -->
-            <div class="泉泉-profile">
+            <div class="profile">
                 <img src="泉泉_default.jpg" alt="泉泉头像" id="泉泉头像">
-                <h2>泉泉's 自我介绍</h2>
-                <p>MBTI: INTJ<br>性格关键词: 理性、敏感、企图站在宇宙中心呼唤爱<br>爱好:爱好有关文艺的一切，也喜欢看各种血腥猎奇cult片，有时候也玩一点电吉他<br>对大家说:希望大家都幸福！！爱你萌（啾啾 </p>
-                <div class="upload-avatar">
-                    <label for="upload-泉泉头像">上传泉泉的头像：</label>
-                    <input type="file" id="upload-泉泉头像" onchange="uploadAvatar('泉泉头像')">
-                </div>
+                <h2>泉泉的自我介绍</h2>
+                <p>MBTI: INFJ<br>性格关键词: 温柔、敏感、向往世界的美好<br>爱好: 喜欢文学、音乐和旅行，期待探索每一个动人的瞬间<br>对大家说: 希望你们也能感受到我们的快乐！</p>
+                <button onclick="uploadAvatar('泉泉头像')">上传头像</button>
             </div>
         </div>
-        <!-- Message Board Section -->
-        <!-- 留言板 HTML -->
-<div class="message-board">
-    <h2>这是一块留言板</h2>
-    <div class="messages"></div> <!-- 用于显示留言 -->
-    <textarea placeholder="留下你的留言吧！(请填写昵称)"></textarea>
-    <button onclick="saveMessage()">提交留言</button>
-</div>
 
-<!-- 留言功能脚本 -->
-<script>
-    // 保存留言
-    function saveMessage() {
-        const textarea = document.querySelector("textarea");
-        const nickname = "泉泉"; // 可以改成动态获取昵称
-        const message = textarea.value.trim();
-        const timestamp = new Date().toLocaleString(); // 获取当前时间
-
-        if (message) {
-            // 从LocalStorage获取已有留言
-            let messages = JSON.parse(localStorage.getItem("messages")) || [];
-            
-            // 添加新留言
-            messages.push({ nickname, message, timestamp });
-            localStorage.setItem("messages", JSON.stringify(messages)); // 保存到LocalStorage
-            
-            // 更新页面
-            displayMessages();
-            textarea.value = ""; // 清空输入框
-        } else {
-            alert("留言不能为空哦～");
+        <!-- 留言板部分 -->
+        <div class="message-board">
+            <h2>留言板</h2>
+            <div class="messages"></div>
+            <textarea placeholder="留下你的留言吧！"></textarea>
+            <button onclick="saveMessage()">提交留言</button>
+        </div>
+    </div>
+    <script>
+        // 上传头像并保存到 LocalStorage
+        function uploadAvatar(id) {
+            const fileInput = document.createElement("input");
+            fileInput.type = "file";
+            fileInput.onchange = (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.getElementById(id).src = e.target.result;
+                        localStorage.setItem(id, e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            fileInput.click();
         }
-    }
 
-    // 显示留言
-    function displayMessages() {
-        const messageBoard = document.querySelector(".message-board .messages");
-        messageBoard.innerHTML = ""; // 清空当前内容
-        let messages = JSON.parse(localStorage.getItem("messages")) || [];
+        // 页面加载时从 LocalStorage 加载头像
+        window.onload = function () {
+            ["阿湛头像", "泉泉头像"].forEach((id) => {
+                const savedAvatar = localStorage.getItem(id);
+                if (savedAvatar) {
+                    document.getElementById(id).src = savedAvatar;
+                }
+            });
+            displayMessages();
+        };
 
-        messages.forEach(msg => {
-            const messageDiv = document.createElement("div");
-            messageDiv.classList.add("message");
-            messageDiv.innerHTML = `
-                <div class="nickname">${msg.nickname}</div>
-                <div class="text">${msg.message}</div>
-                <div class="time">${msg.timestamp}</div>
-            `;
-            messageBoard.appendChild(messageDiv);
-        });
-    }
+        // 保存留言到 LocalStorage 并显示
+        function saveMessage() {
+            const textarea = document.querySelector(".message-board textarea");
+            const message = textarea.value.trim();
+            if (!message) return alert("请输入留言内容！");
+            
+            const messages = JSON.parse(localStorage.getItem("messages")) || [];
+            const timestamp = new Date().toLocaleString();
+            messages.push({ text: message, time: timestamp });
+            localStorage.setItem("messages", JSON.stringify(messages));
 
-    // 页面加载时显示历史留言
-    window.onload = displayMessages;
-</script>
+            textarea.value = ""; // 清空输入框
+            displayMessages();
+        }
 
-<!-- 留言样式 -->
-<style>
-    .message-board {
-        flex: 1;
-        background: rgba(255, 255, 255, 0.8);
-        padding: 20px;
-        border-radius: 10px;
-    }
-    .message-board h2 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    .messages {
-        margin-bottom: 15px;
-        max-height: 300px;
-        overflow-y: auto;
-        padding-right: 10px;
-    }
-    .message {
-        margin-bottom: 15px;
-        padding: 10px;
-        background: rgba(230, 230, 230, 1);
-        border-radius: 5px;
-    }
-    .message .nickname {
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-    .message .time {
-        font-size: 0.8em;
-        color: #777;
-        text-align: right;
-        margin-top: 5px;
-    }
-    .message textarea {
-        width: 100%;
-        height: 80px;
-        margin-top: 10px;
-        border-radius: 5px;
-        background: rgba(230, 230, 230, 1);
-    }
-</style>
+        // 显示所有留言
+        function displayMessages() {
+            const messages = JSON.parse(localStorage.getItem("messages")) || [];
+            const messageContainer = document.querySelector(".messages");
+            messageContainer.innerHTML = ""; // 清空旧的内容
+
+            messages.forEach(({ text, time }) => {
+                const messageDiv = document.createElement("div");
+                messageDiv.classList.add("message");
+                messageDiv.innerHTML = `
+                    <p>${text}</p>
+                    <div class="time">${time}</div>
+                `;
+                messageContainer.appendChild(messageDiv);
+            });
+        }
+    </script>
 </body>
 </html>
