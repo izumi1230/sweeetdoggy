@@ -7,60 +7,61 @@
     <style>
         body {
             font-family: "Microsoft Yahei", sans-serif;
-            background-image: url('background.3.jpg');
+            background-image: url('background.jpg');
             background-size: cover;
             background-attachment: fixed;
             margin: 0;
             padding: 0;
-        }
-        .container {
             display: flex;
-            width: 100%;
+            flex-direction: row;
         }
+        /* 时间线样式 */
         .timeline {
             width: 20%;
             padding: 20px;
             border-right: 2px solid #ccc;
+            position: relative;
         }
         .timeline-line {
-            position: relative;
-            background-color: #ccc;
             width: 2px;
-            height: 100%;
-            margin: 0 auto;
+            background-color: #ccc;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
         }
         .timeline-event {
             position: relative;
             margin: 20px 0;
+            text-align: center;
         }
         .timeline-star {
             width: 16px;
             height: 16px;
             background-color: #D9B1BD;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            cursor: pointer;
             margin: 0 auto;
+            cursor: pointer;
         }
         .timeline-content {
             display: none;
             position: absolute;
-            left: 30px;
-            top: -10px;
-            background: rgba(255, 255, 255, 0.8);
+            left: 50%;
+            transform: translateX(20px);
+            background: rgba(255, 255, 255, 0.9);
             padding: 10px;
             border-radius: 5px;
-            max-width: 200px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .timeline-event:hover .timeline-content {
             display: block;
         }
+        /* 自我介绍样式 */
         .profile-container {
             width: 40%;
-            margin: auto;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            align-items: center;
             gap: 20px;
         }
         .profile {
@@ -68,18 +69,17 @@
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
-            width: 80%;
         }
         .profile img {
             width: 100px;
             height: 100px;
             border-radius: 50%;
         }
+        /* 留言板样式 */
         .message-board {
             width: 40%;
             padding: 20px;
             background: rgba(255, 255, 255, 0.8);
-            margin: 20px auto;
             border-radius: 10px;
         }
         .message {
@@ -99,56 +99,90 @@
             height: 50px;
             margin-top: 10px;
         }
+        /* 索引栏样式 */
+        .index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .index a {
+            display: block;
+            margin: 5px 0;
+            text-decoration: none;
+            color: #333;
+            text-align: center;
+        }
+        .index a:hover {
+            color: #7b2a3f;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- 时间线部分 -->
-        <div class="timeline">
-            <div class="timeline-line"></div>
-            <div class="timeline-event">
-                <div class="timeline-star"></div>
-                <div class="timeline-content">
-                    <strong>2024.12.30</strong>
-                    <p>我们的初遇，从这里开始书写故事。</p>
-                </div>
-            </div>
-            <div class="timeline-event">
-                <div class="timeline-star"></div>
-                <div class="timeline-content">
-                    <strong>未完待续</strong>
-                    <p>点击这里增设新的时间点！</p>
-                </div>
+    <!-- 时间线部分 -->
+    <div class="timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-event">
+            <div class="timeline-star" onclick="editEvent('2024.12.30')"></div>
+            <div class="timeline-content">
+                <strong>2024.12.30</strong>
+                <p>我们的初遇，从这里开始书写故事。</p>
             </div>
         </div>
-        <!-- 自我介绍部分 -->
-        <div class="profile-container">
-            <!-- 阿湛的自我介绍 -->
-            <div class="profile">
-                <img src="阿湛_default.jpg" alt="阿湛头像" id="阿湛头像">
-                <h2>阿湛的自我介绍</h2>
-                <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 研究一切和泉泉有关的事物，喜欢和泉泉在一起的每一刻<br>对大家说: 泉泉是我的全世界，希望你们都能珍惜她！</p>
-                <button onclick="uploadAvatar('阿湛头像')">上传头像</button>
+        <div class="timeline-event">
+            <div class="timeline-star" onclick="addNewEvent()"></div>
+            <div class="timeline-content">
+                <strong>未完待续</strong>
+                <p>点击增设新的时间点！</p>
             </div>
-            <!-- 泉泉的自我介绍 -->
-            <div class="profile">
-                <img src="泉泉_default.jpg" alt="泉泉头像" id="泉泉头像">
-                <h2>泉泉的自我介绍</h2>
-                <p>MBTI: INFJ<br>性格关键词: 温柔、敏感、向往世界的美好<br>爱好: 喜欢文学、音乐和旅行，期待探索每一个动人的瞬间<br>对大家说: 希望你们也能感受到我们的快乐！</p>
-                <button onclick="uploadAvatar('泉泉头像')">上传头像</button>
-            </div>
-        </div>
-
-        <!-- 留言板部分 -->
-        <div class="message-board">
-            <h2>留言板</h2>
-            <div class="messages"></div>
-            <textarea placeholder="留下你的留言吧！"></textarea>
-            <button onclick="saveMessage()">提交留言</button>
         </div>
     </div>
+    <!-- 自我介绍部分 -->
+    <div class="profile-container">
+        <!-- 阿湛的自我介绍 -->
+        <div class="profile">
+            <img src="阿湛_default.jpg" alt="阿湛头像" id="阿湛头像">
+            <h2>阿湛的自我介绍</h2>
+            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠<br>爱好: 研究一切和泉泉有关的事物<br>对大家说: 泉泉是我的全世界！</p>
+            <button onclick="uploadAvatar('阿湛头像')">上传头像</button>
+        </div>
+        <!-- 泉泉的自我介绍 -->
+        <div class="profile">
+            <img src="泉泉_default.jpg" alt="泉泉头像" id="泉泉头像">
+            <h2>泉泉的自我介绍</h2>
+            <p>MBTI: INFJ<br>性格关键词: 温柔、敏感<br>爱好: 文学、音乐<br>对大家说: 愿我们都能感受到幸福！</p>
+            <button onclick="uploadAvatar('泉泉头像')">上传头像</button>
+        </div>
+    </div>
+
+    <!-- 留言板部分 -->
+    <div class="message-board">
+        <h2>留言板</h2>
+        <div class="messages"></div>
+        <textarea placeholder="请输入留言内容..."></textarea>
+        <button onclick="saveMessage()">提交留言</button>
+    </div>
+
+    <!-- 索引 -->
+    <div class="index">
+        <a href="pomodoro.html">番茄钟</a>
+        <a href="profile.html">个人主页</a>
+        <a href="notebook.html">记录本</a>
+    </div>
+
     <script>
-        // 上传头像并保存到 LocalStorage
+        // 时间点添加功能
+        function addNewEvent() {
+            const date = prompt("请输入新的时间点（格式：YYYY.MM.DD）");
+            if (date) {
+                alert("新增时间点：" + date);
+                // 这里实现动态新增逻辑
+            }
+        }
+
+        // 上传头像保存到 LocalStorage
         function uploadAvatar(id) {
             const fileInput = document.createElement("input");
             fileInput.type = "file";
@@ -166,48 +200,40 @@
             fileInput.click();
         }
 
-        // 页面加载时从 LocalStorage 加载头像
-        window.onload = function () {
-            ["阿湛头像", "泉泉头像"].forEach((id) => {
-                const savedAvatar = localStorage.getItem(id);
-                if (savedAvatar) {
-                    document.getElementById(id).src = savedAvatar;
-                }
-            });
-            displayMessages();
-        };
-
-        // 保存留言到 LocalStorage 并显示
+        // 保存留言功能
         function saveMessage() {
             const textarea = document.querySelector(".message-board textarea");
             const message = textarea.value.trim();
             if (!message) return alert("请输入留言内容！");
-            
             const messages = JSON.parse(localStorage.getItem("messages")) || [];
             const timestamp = new Date().toLocaleString();
             messages.push({ text: message, time: timestamp });
             localStorage.setItem("messages", JSON.stringify(messages));
-
-            textarea.value = ""; // 清空输入框
+            textarea.value = "";
             displayMessages();
         }
 
-        // 显示所有留言
+        // 显示留言
         function displayMessages() {
             const messages = JSON.parse(localStorage.getItem("messages")) || [];
-            const messageContainer = document.querySelector(".messages");
-            messageContainer.innerHTML = ""; // 清空旧的内容
-
+            const container = document.querySelector(".messages");
+            container.innerHTML = "";
             messages.forEach(({ text, time }) => {
-                const messageDiv = document.createElement("div");
-                messageDiv.classList.add("message");
-                messageDiv.innerHTML = `
-                    <p>${text}</p>
-                    <div class="time">${time}</div>
-                `;
-                messageContainer.appendChild(messageDiv);
+                const div = document.createElement("div");
+                div.className = "message";
+                div.innerHTML = `<p>${text}</p><div class="time">${time}</div>`;
+                container.appendChild(div);
             });
         }
+
+        // 初始化页面加载
+        window.onload = function () {
+            ["阿湛头像", "泉泉头像"].forEach((id) => {
+                const saved = localStorage.getItem(id);
+                if (saved) document.getElementById(id).src = saved;
+            });
+            displayMessages();
+        };
     </script>
 </body>
 </html>
