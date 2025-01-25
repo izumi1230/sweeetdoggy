@@ -30,16 +30,18 @@
             margin-top: 20px;
         }
 
-        /* 番茄钟样式 */
-        .pomodoro {
+        /* 样式定义 */
+        .pomodoro, .timeline, .section {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
         }
+
+        .pomodoro {
+            align-items: center;
+        }
+
         .progress-circle {
             position: relative;
             width: 200px;
@@ -50,16 +52,19 @@
             justify-content: center;
             align-items: center;
         }
+
         .progress-circle span {
             position: absolute;
             font-size: 2em;
             font-weight: bold;
         }
+
         .controls {
             margin-top: 20px;
             display: flex;
             gap: 10px;
         }
+
         button {
             padding: 10px 20px;
             background-color: #D9B1BD;
@@ -68,32 +73,17 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #a03a53;
         }
 
-        /* 学习记录时间轴样式 */
         .timeline {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
             height: 300px;
             overflow-y: auto;
         }
-        .record {
-            margin-bottom: 10px;
-            padding: 10px;
-            background: rgba(230, 230, 230, 0.8);
-            border-radius: 5px;
-        }
 
-        /* 学习积分和成就墙样式 */
         .section {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
             height: 300px;
             display: flex;
             flex-direction: column;
@@ -122,64 +112,44 @@
                 opacity: 0;
             }
         }
-          /* 索引菜单样式 */
-        .index {
-            position: fixed;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .index a {
-            display: block;
-            margin: 10px 0;
-            text-decoration: none;
-            color: #333;
-            font-size: 1em;
-            text-align: center;
-        }
-        .index a:hover {
-            color: #7b2a3f;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 番茄钟 -->
-        <div class="pomodoro">
-            <h2>番茄钟</h2>
-            <div class="progress-circle" id="progress">
-                <span id="timer">25:00</span>
-            </div>
-            <div class="controls">
-                <input type="number" id="customTime" placeholder="分钟数" min="1" max="60">
-                <button onclick="setCustomTime()">设置时间</button>
-                <button onclick="startTimer()">开始</button>
-                <button onclick="pauseTimer()">暂停</button>
-                <button onclick="resetTimer()">重置</button>
-            </div>
-        </div>
-
-        <!-- 学习记录时间轴 -->
-        <div class="timeline">
-            <h3>学习记录时间轴</h3>
-            <div id="timelineRecords"></div>
-        </div>
-
-        <!-- 学习积分和成就墙 -->
         <div class="row">
+            <!-- 番茄钟 -->
+            <div class="pomodoro">
+                <h2>番茄钟</h2>
+                <div class="progress-circle" id="progress">
+                    <span id="timer">25:00</span>
+                </div>
+                <div class="controls">
+                    <input type="number" id="customTime" placeholder="分钟数" min="1" max="60">
+                    <button onclick="setCustomTime()">设置时间</button>
+                    <button onclick="startTimer()">开始</button>
+                    <button onclick="pauseTimer()">暂停</button>
+                    <button onclick="resetTimer()">重置</button>
+                </div>
+            </div>
+
+            <!-- 学习记录时间轴 -->
+            <div class="timeline">
+                <h3>学习记录时间轴</h3>
+                <div id="timelineRecords"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- 学习积分 -->
             <div class="section">
                 <h3>学习积分</h3>
                 <p>数据截至：<span id="currentTime"></span></p>
                 <p>当前已累计得分：<span id="points">0</span> 分</p>
-                <div class="button">
+                <div>
                     <button id="redeemButton" onclick="redeem()">兑换情书</button>
                 </div>
             </div>
-
+            <!-- 成就墙 -->
             <div class="section">
                 <h3>泉泉的成就墙</h3>
                 <p>已累计学习：<span id="totalTime">0</span> 分钟</p>
@@ -190,146 +160,76 @@
         </div>
     </div>
 
-    <div class="index">
-        <a href="timeline.html">时间轴</a>
-        <a href="profile.html">个人主页</a>
-        <a href="notebook.html">记事本</a>
-    </div>
-
     <script>
         let interval;
-let time = 25 * 60;
-let points = JSON.parse(localStorage.getItem("points")) || 0;
-let totalPomodoros = JSON.parse(localStorage.getItem("totalPomodoros")) || 0;
-let totalTime = JSON.parse(localStorage.getItem("totalTime")) || 0;
-let letters = JSON.parse(localStorage.getItem("letters")) || 0;
-let timelineRecords = JSON.parse(localStorage.getItem("timelineRecords")) || [];
-let totalGoals = JSON.parse(localStorage.getItem("totalGoals")) || 0;
+        let time = 25 * 60;
+        let points = 0;
+        let totalPomodoros = 0;
+        let letters = 0;
+        let totalTime = 0;
+        let goalsCompleted = 0;
+        let timelineRecords = JSON.parse(localStorage.getItem("timelineRecords") || "[]");
 
-function updateTimerDisplay() {
-    const minutes = Math.floor(time / 60).toString().padStart(2, '0');
-    const seconds = (time % 60).toString().padStart(2, '0');
-    document.getElementById("timer").innerText = `${minutes}:${seconds}`;
-    const percentage = ((25 * 60 - time) / (25 * 60)) * 100;
-    document.getElementById("progress").style.background = `conic-gradient(#D9B1BD 0% ${percentage}%, #e0e0e0 ${percentage}% 100%)`;
-}
-
-function startTimer() {
-    const goal = prompt("请输入本次学习目标：");
-    if (!goal) return alert("学习目标不能为空！");
-    totalGoals++;
-    saveData();
-    addTimelineRecord(`目标：${goal}`);
-    clearInterval(interval);
-    interval = setInterval(() => {
-        if (time > 0) {
-            time--;
-            updateTimerDisplay();
-        } else {
-            clearInterval(interval);
-            alert("时间到！完成学习目标！");
-            addSparkle();
-            points++;
-            totalPomodoros++;
-            totalTime += 25;
-            updateStats();
-            saveData();
+        function updateTimerDisplay() {
+            const minutes = Math.floor(time / 60).toString().padStart(2, '0');
+            const seconds = (time % 60).toString().padStart(2, '0');
+            document.getElementById("timer").innerText = `${minutes}:${seconds}`;
         }
-    }, 1000);
-}
 
-function pauseTimer() {
-    clearInterval(interval);
-}
+        function startTimer() {
+            const goal = prompt("请输入本次学习目标：");
+            if (!goal) return alert("学习目标不能为空！");
+            goalsCompleted++;
+            updateStats();
+            interval = setInterval(() => {
+                if (time > 0) {
+                    time--;
+                    updateTimerDisplay();
+                } else {
+                    clearInterval(interval);
+                    alert("时间到！请记录学习内容。");
+                    addSparkle();
+                    const review = prompt("请输入学习感悟：");
+                    saveTimelineRecord(goal, review, time / 60);
+                    updateStats();
+                }
+            }, 1000);
+        }
 
-function resetTimer() {
-    clearInterval(interval);
-    time = 25 * 60;
-    updateTimerDisplay();
-}
+        function saveTimelineRecord(goal, review, minutes) {
+            const record = { time: new Date().toLocaleString(), goal, review, minutes };
+            timelineRecords.push(record);
+            localStorage.setItem("timelineRecords", JSON.stringify(timelineRecords));
+            renderTimeline();
+        }
 
-function setCustomTime() {
-    const customTime = parseInt(document.getElementById("customTime").value);
-    if (customTime && customTime > 0) {
-        time = customTime * 60;
-        updateTimerDisplay();
-    } else {
-        alert("请输入有效的分钟数！");
-    }
-}
+        function renderTimeline() {
+            const timeline = document.getElementById("timelineRecords");
+            timeline.innerHTML = timelineRecords.map(
+                (record) => `<p>${record.time} - 目标: ${record.goal} - 感悟: ${record.review}</p>`
+            ).join("");
+        }
 
-function redeem() {
-    if (points >= 30) {
-        letters++;
-        points -= 30;
-        const loveLetters = [
-            "亲爱的泉泉：\n这是阿湛送妳的第一封情书，希望妳每天都能感受到我的爱～",
-            "泉泉：\n每完成一次番茄钟，妳就在梦想的路上更进一步，我永远陪着妳！",
-            "泉泉：\n妳是我的唯一，无论多远，我都陪着妳努力成长～",
-            "我最爱的泉泉：\n我的世界因为妳而更精彩，愿每个学习的瞬间都充满力量～",
-        ];
-        const letterContent = loveLetters[letters - 1] || "未来的情书等着妳解锁哦～";
-        const blob = new Blob([letterContent], { type: "text/plain" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `阿湛写给泉泉的情书_${letters}.txt`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        alert("兑换成功！情书已为妳准备好啦！");
-        updateStats();
-        saveData();
-    } else {
-        alert("积分不足！完成更多番茄钟吧！");
-    }
-}
+        function redeem() {
+            if (points >= 30) {
+                letters++;
+                points -= 30;
+                const loveLetters = [
+                    "这是阿湛为泉泉的第1封小情书~",
+                    "每完成一次，你离梦想更近~",
+                    // 更多可以自己填充内容
+                ];
+                const content = loveLetters[letters - 1] || "深情等待泉泉完成！";
+                alert(content);
+            }
+        }
 
-function updateStats() {
-    document.getElementById("points").innerText = points;
-    document.getElementById("totalPomodoros").innerText = totalPomodoros;
-    document.getElementById("totalTime").innerText = totalTime;
-    document.getElementById("letters").innerText = letters;
-    document.getElementById("currentTime").innerText = new Date().toLocaleString();
-    document.getElementById("totalGoals").innerText = totalGoals;
-}
+        function updateStats() {
+            document.getElementById("totalTime").innerText = totalTime;
+            document.getElementById("points").innerText = points;
+        }
 
-function addTimelineRecord(content) {
-    const now = new Date();
-    const record = `${now.toLocaleString()} - ${content}`;
-    timelineRecords.push(record);
-    localStorage.setItem("timelineRecords", JSON.stringify(timelineRecords));
-    renderTimeline();
-}
-
-function renderTimeline() {
-    const timeline = document.getElementById("timelineRecords");
-    timeline.innerHTML = timelineRecords
-        .map(record => `<div class="record">${record}</div>`)
-        .join("");
-}
-
-function addSparkle() {
-    const sparkle = document.createElement("div");
-    sparkle.className = "sparkle";
-    sparkle.style.left = `${Math.random() * window.innerWidth}px`;
-    document.body.appendChild(sparkle);
-    setTimeout(() => sparkle.remove(), 2000);
-}
-
-function saveData() {
-    localStorage.setItem("points", JSON.stringify(points));
-    localStorage.setItem("totalPomodoros", JSON.stringify(totalPomodoros));
-    localStorage.setItem("totalTime", JSON.stringify(totalTime));
-    localStorage.setItem("letters", JSON.stringify(letters));
-    localStorage.setItem("totalGoals", JSON.stringify(totalGoals));
-}
-
-window.onload = () => {
-    updateStats();
-    renderTimeline();
-};
+        window.onload = renderTimeline;
     </script>
 </body>
 </html>
