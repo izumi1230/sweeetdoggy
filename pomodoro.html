@@ -89,6 +89,30 @@
             justify-content: space-between;
         }
 
+        /* 右侧居中索引 */
+        .index {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .index a {
+            padding: 10px 15px;
+            background-color: #D9B1BD;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .index a:hover {
+            background-color: #a03a53;
+        }
+
         /* 动态特效 */
         .sparkle {
             position: fixed;
@@ -116,7 +140,7 @@
 <body>
     <div class="container">
         <div class="row">
-            <!-- 番茄钟 -->
+             <!-- 番茄钟 -->
             <div class="pomodoro">
                 <h2>番茄钟</h2>
                 <div class="progress-circle" id="progress">
@@ -148,7 +172,8 @@
                     <button id="redeemButton" onclick="redeem()">兑换情书</button>
                 </div>
             </div>
-             <!-- 成就墙 -->
+
+            <!-- 成就墙 -->
             <div class="section">
                 <h3>泉泉的成就墙</h3>
                 <p>已累计学习：<span id="totalTime">0</span> 分钟</p>
@@ -157,6 +182,13 @@
                 <p>已收获情书：<span id="letters">0</span> 封</p>
             </div>
         </div>
+    </div>
+
+    <!-- 跳转索引 -->
+    <div class="index">
+        <a href="#timeline">时间线</a>
+        <a href="#profile">个人主页</a>
+        <a href="#notebook">记事本</a>
     </div>
 
     <script>
@@ -168,7 +200,6 @@
         let totalTime = parseInt(localStorage.getItem("totalTime")) || 0;
         let goalsCompleted = parseInt(localStorage.getItem("totalGoals")) || 0;
         let timelineRecords = JSON.parse(localStorage.getItem("timelineRecords") || "[]");
-
         function updateTimerDisplay() {
             const minutes = Math.floor(time / 60).toString().padStart(2, '0');
             const seconds = (time % 60).toString().padStart(2, '0');
@@ -180,6 +211,7 @@
             if (!goal) return alert("学习目标不能为空！");
             goalsCompleted++;
             updateStats();
+            const startTime = time; // 保存初始时间
             interval = setInterval(() => {
                 if (time > 0) {
                     time--;
@@ -189,7 +221,11 @@
                     alert("时间到！请记录学习内容。");
                     addSparkle();
                     const review = prompt("请输入学习感悟：");
-                    saveTimelineRecord(goal, review, time / 60);
+                    const minutesStudied = Math.round(startTime / 60);
+                    saveTimelineRecord(goal, review, minutesStudied);
+                    totalTime += minutesStudied; // 动态更新学习时间
+                    points++; // 每次完成都计入积分
+                    totalPomodoros++; // 计入完成次数
                     updateStats();
                 }
             }, 1000);
@@ -225,7 +261,7 @@
         function renderTimeline() {
             const timeline = document.getElementById("timelineRecords");
             timeline.innerHTML = timelineRecords.map(
-                (record) => `<p>${record.time} - 目标: ${record.goal} - 感悟: ${record.review}</p>`
+                (record) => `<p>${record.time} - 目标: ${record.goal} - 感悟: ${record.review} - ${record.minutes}分钟</p>`
             ).join("");
         }
 
@@ -234,7 +270,7 @@
                 letters++;
                 points -= 30;
                 const loveLetters = [
-               "这是阿湛为泉泉的第1封小情书~",
+                    "这是阿湛为泉泉的第1封小情书~",
                     "每完成一次，你离梦想更近~",
                     "深情等待泉泉完成！",
                 ];
@@ -275,4 +311,4 @@
         };
     </script>
 </body>
-</html>      
+</html>
