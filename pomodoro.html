@@ -76,6 +76,7 @@
             border: none;
             font-size: 1em;
         }
+
         /* 积分系统和成就墙样式 */
         .section {
             background: rgba(255, 255, 255, 0.8);
@@ -125,7 +126,7 @@
     <div class="container">
         <!-- 番茄钟 -->
         <div class="pomodoro">
-           <h2>番茄钟</h2>
+            <h2>番茄钟</h2>
             <div class="progress-circle" id="progress">
                 <span id="timer">25:00</span>
             </div>
@@ -151,7 +152,6 @@
                 <button id="redeemButton" onclick="redeem()">兑换</button>
             </div>
         </div>
-
         <!-- 成就墙 -->
         <div class="section">
             <h3>泉泉的成就墙</h3>
@@ -218,7 +218,22 @@
             if (points >= 30) {
                 letters++;
                 points -= 30;
-                alert("兑换成功！情书已生成！");
+                const loveLetters = [
+                    "亲爱的泉泉：\n这是阿湛送妳的第一封情书，希望妳每天都能感受到我的爱～",
+                    "泉泉：\n每完成一次番茄钟，妳就在梦想的路上更进一步，我永远陪着妳！",
+                    // 更多情书内容……
+                ];
+                const letterContent = loveLetters[letters - 1] || "未来的情书等着妳解锁哦～";
+                const blob = new Blob([letterContent], { type: "text/plain" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `阿湛写给泉泉的情书_${letters}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                alert("兑换成功！情书已为妳准备好啦！");
                 updateStats();
             } else {
                 alert("积分不足！完成更多番茄钟吧！");
@@ -243,4 +258,4 @@
         window.onload = updateStats;
     </script>
 </body>
-</html> 
+</html>
