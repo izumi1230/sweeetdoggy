@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>梦是榛果巧克力</title>
+    <title>主页 - 梦是榛果巧克力</title>
     <style>
         body {
             font-family: "Microsoft Yahei", sans-serif;
@@ -77,6 +77,13 @@
             background: #D9B1BD;
         }
 
+        .comment-section {
+            margin-top: 10px;
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
         .music-player {
             margin-top: 20px;
             text-align: center;
@@ -115,13 +122,15 @@
     <div class="container">
         <!-- 阿湛的主页 -->
         <div class="profile">
-            <img id="asamiAvatar" src="asami.jpg" alt="阿湛头像" onclick="changeAvatar('asami')">
+            <input type="file" id="asamiAvatarInput" style="display: none;" accept="image/*" onchange="uploadAvatar('asami')">
+            <img id="asamiAvatar" src="default-avatar.jpg" alt="阿湛头像" onclick="document.getElementById('asamiAvatarInput').click()">
             <h2>阿湛的主页</h2>
-            <p id="asamiSignature">独属于泉泉的阿湛</p>
+            <textarea id="asamiNewDynamic" placeholder="帮阿湛更新动态吧～"></textarea>
+            <button onclick="addDynamic('asami')">发布动态</button>
             <div class="music-player">
                 <h3>音乐播放器</h3>
                 <audio id="asamiMusic" controls>
-                    <source src="music.mp3" type="audio/mp3">
+                    <source src="" type="audio/mp3">
                 </audio>
                 <input type="file" accept="audio/*" onchange="uploadMusic(this, 'asamiMusic')">
             </div>
@@ -129,16 +138,17 @@
                 <!-- 动态更新 -->
             </div>
         </div>
-<!-- 泉泉的主页 -->
+        <!-- 泉泉的主页 -->
         <div class="profile">
-            <img id="izumiAvatar" src="izumi.jpg" alt="泉泉头像" onclick="changeAvatar('izumi')">
+            <input type="file" id="izumiAvatarInput" style="display: none;" accept="image/*" onchange="uploadAvatar('izumi')">
+            <img id="izumiAvatar" src="default-avatar.jpg" alt="泉泉头像" onclick="document.getElementById('izumiAvatarInput').click()">
             <h2>泉泉的主页</h2>
             <textarea id="izumiNewDynamic" placeholder="分享你的动态吧～"></textarea>
             <button onclick="addDynamic('izumi')">发布动态</button>
             <div class="music-player">
                 <h3>音乐播放器</h3>
                 <audio id="izumiMusic" controls>
-                    <source src="music.mp3" type="audio/mp3">
+                    <source src="" type="audio/mp3">
                 </audio>
                 <input type="file" accept="audio/*" onchange="uploadMusic(this, 'izumiMusic')">
             </div>
@@ -150,12 +160,17 @@
 
     <script>
         const dynamics = JSON.parse(localStorage.getItem("dynamics")) || { asami: [], izumi: [] };
+        const avatars = JSON.parse(localStorage.getItem("avatars")) || { asami: "default-avatar.jpg", izumi: "default-avatar.jpg" };
+        const music = JSON.parse(localStorage.getItem("music")) || { asami: "", izumi: "" };
 
-        function changeAvatar(user) {
-            const newAvatar = prompt("请输入新的头像链接：");
-            if (newAvatar) {
-                document.getElementById(`${user}Avatar`).src = newAvatar;
-                alert("头像更新成功！");
+        function uploadAvatar(user) {
+            const input = document.getElementById(`${user}AvatarInput`);
+            const file = input.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                document.getElementById(`${user}Avatar`).src = url;
+                avatars[user] = url;
+                localStorage.setItem("avatars", JSON.stringify(avatars));
             }
         }
 
@@ -164,6 +179,8 @@
             if (file) {
                 const url = URL.createObjectURL(file);
                 document.getElementById(playerId).src = url;
+                music[playerId] = url;
+                localStorage.setItem("music", JSON.stringify(music));
             }
         }
 
@@ -171,7 +188,7 @@
             const textarea = document.getElementById(`${user}NewDynamic`);
             const content = textarea.value.trim();
             if (content) {
-                dynamics[user].push({ content, timestamp: new Date().toLocaleString() });
+                dynamics[user].push({ content, timestamp: new Date().toLocaleString(), comments: [] });
                 localStorage.setItem("dynamics", JSON.stringify(dynamics));
                 renderDynamics(user);
                 textarea.value = "";
@@ -188,6 +205,10 @@
                         <button onclick="deleteDynamic('${user}', ${index})">删除</button>
                         <p>${dynamic.content}</p>
                         <small>${dynamic.timestamp}</small>
+                        <div class="comment-section">
+                            ${dynamic.comments.map(comment => `<p><b>${comment.name}:</b> ${comment.text}</p>`).join("")}
+                            <button onclick="addComment('${user}', ${index})">留言</button>
+                        </div>
                     </div>
                 `)
                 .join("");
@@ -201,7 +222,28 @@
             }
         }
 
+        function addComment(user, index) {
+            const name = prompt("请输入你的昵称：");
+            const text = prompt("请输入留言内容：");
+            if (name && text) {
+                dynamics[user][index].comments.push({ name, text });
+                localStorage.setItem("dynamics", JSON.stringify(dynamics));
+                renderDynamics(user);
+            } else {
+                alert("昵称和留言内容不能为空！");
+            }
+        }
+
         window.onload = () => {
+            // 加载头像
+             document.getElementById("asamiAvatar").src = avatars.asami;
+            document.getElementById("izumiAvatar").src = avatars.izumi;
+
+            // 加载音乐
+            if (music.asami) document.getElementById("asamiMusic").src = music.asami;
+            if (music.izumi) document.getElementById("izumiMusic").src = music.izumi;
+
+            // 加载动态
             renderDynamics("asami");
             renderDynamics("izumi");
         };
