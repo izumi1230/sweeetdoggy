@@ -92,27 +92,25 @@
         /* 右侧居中索引 */
         .index {
             position: fixed;
-            right: 20px;
             top: 50%;
+            right: 10px;
             transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
         .index a {
-            padding: 10px 15px;
-            background-color: #D9B1BD;
-            color: white;
+            display: block;
+            margin: 10px 0;
             text-decoration: none;
-            border-radius: 5px;
+            color: #333;
+            font-size: 1em;
             text-align: center;
         }
-
         .index a:hover {
-            background-color: #a03a53;
+            color: #7b2a3f;
         }
-
         /* 动态特效 */
         .sparkle {
             position: fixed;
@@ -154,7 +152,7 @@
                     <button onclick="resetTimer()">重置</button>
                 </div>
             </div>
-
+         
             <!-- 学习记录时间轴 -->
             <div class="timeline">
                 <h3>学习记录时间轴</h3>
@@ -186,9 +184,9 @@
 
     <!-- 跳转索引 -->
     <div class="index">
-        <a href="#timeline">时间线</a>
-        <a href="#profile">个人主页</a>
-        <a href="#notebook">记事本</a>
+        <a href="#timeline.html">时间线</a>
+        <a href="#profile.html">个人主页</a>
+        <a href="#notebook.html">记事本</a>
     </div>
 
     <script>
