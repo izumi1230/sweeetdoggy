@@ -16,12 +16,13 @@
         .container {
             width: 90%;
             margin: 20px auto;
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1.5fr;
+            gap: 20px;
         }
         /* TimeLine Section */
         .timeline {
-            flex: 1;
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
@@ -31,7 +32,6 @@
             background-color: #D9B1BD;
             height: 100%;
             position: relative;
-            margin-right: 50px;
         }
         .timeline-star {
             width: 16px;
@@ -63,11 +63,12 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
-            margin-right: 50px;
+            margin-bottom: 20px;
+            position: absolute;
+            left: -80px;
         }
         /* Profile Section */
         .profile {
-            flex: 1;
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
@@ -91,11 +92,10 @@
         }
         /* Message Board Section */
         .message-board {
-            flex: 1;
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
-            margin-top: 20px;
+            height: fit-content;
         }
         .message-board h2 {
             text-align: center;
@@ -147,7 +147,7 @@
         <div>
             <div class="profile">
                 <img src="阿湛头像.jpg" alt="阿湛头像" id="阿湛头像">
-                <h2>阿湛的自我介绍</h2>
+                 <h2>阿湛的自我介绍</h2>
                 <p>MBTI: INTJ<br>性格关键词: 冷静、温柔、可靠<br>爱好: 泉泉<br>对大家说: 泉泉是我最珍贵的存在！希望你们也能珍惜她，希望你们在这里也能感受到爱。</p>
                 <label for="upload-avatar-azhan">上传头像：</label>
                 <input type="file" id="upload-avatar-azhan" onchange="uploadAvatar('阿湛头像')">
