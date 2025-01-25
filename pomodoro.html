@@ -94,105 +94,134 @@
             border-radius: 5px;
             margin-bottom: 10px;
         }
+        /* 右侧索引样式 */
+        .index {
+            position: fixed;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .index a {
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #333;
+            font-size: 1em;
+            text-align: center;
+        }
+        .index a:hover {
+            color: #7b2a3f;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- 番茄钟 -->
-        <div class="pomodoro">
-            <h2>番茄钟</h2>
-            <div class="progress-circle" id="progress">
-                <span id="timer">25:00</span>
-            </div>
-            <div class="controls">
-                <input type="number" id="customTime" placeholder="分钟数" min="1" max="60">
-                <button onclick="setCustomTime()">设置时间</button>
-                <button onclick="startTimer()">开始</button>
-                <button onclick="pauseTimer()">暂停</button>
-                <button onclick="resetTimer()">重置</button>
-            </div>
-            <div class="log">
-                <textarea id="logInput" placeholder="完成学习后写下学了什么..."></textarea>
-                <button onclick="saveLog()">保存记录</button>
-            </div>
+    <!-- 索引菜单 -->
+<div class="index">
+    <a href="timeline.html">时间轴</a>
+    <a href="profile.html">个人主页</a>
+    <a href="notebook.html">记录本</a>
+</div>
+
+<div class="container">
+    <!-- 番茄钟 -->
+    <div class="pomodoro">
+        <h2>番茄钟</h2>
+        <div class="progress-circle" id="progress">
+            <span id="timer">25:00</span>
         </div>
-        <!-- 时间轴 -->
-        <div class="timeline">
-              <h3>学习记录时间轴</h3>
-            <div id="timelineRecords"></div>
+        <div class="controls">
+            <input type="number" id="customTime" placeholder="分钟数" min="1" max="60">
+            <button onclick="setCustomTime()">设置时间</button>
+            <button onclick="startTimer()">开始</button>
+            <button onclick="pauseTimer()">暂停</button>
+            <button onclick="resetTimer()">重置</button>
+        </div>
+        <div class="log">
+            <textarea id="logInput" placeholder="完成学习后写下学了什么..."></textarea>
+            <button onclick="saveLog()">保存记录</button>
         </div>
     </div>
+    <!-- 时间轴 -->
+    <div class="timeline">
+        <h3>学习记录时间轴</h3>
+        <div id="timelineRecords"></div>
+    </div>
+</div>
 
-    <script>
-        let interval;
-        let time = 25 * 60;
+<script>
+    let interval;
+    let time = 25 * 60;
 
-        function updateTimerDisplay() {
-            const minutes = Math.floor(time / 60).toString().padStart(2, '0');
-            const seconds = (time % 60).toString().padStart(2, '0');
-            document.getElementById("timer").innerText = `${minutes}:${seconds}`;
-            const percentage = ((25 * 60 - time) / (25 * 60)) * 100;
-            document.getElementById("progress").style.background = `conic-gradient(#D9B1BD 0% ${percentage}%, #e0e0e0 ${percentage}% 100%)`;
-        }
+    function updateTimerDisplay() {
+        const minutes = Math.floor(time / 60).toString().padStart(2, '0');
+        const seconds = (time % 60).toString().padStart(2, '0');
+        document.getElementById("timer").innerText = `${minutes}:${seconds}`;
+        const percentage = ((25 * 60 - time) / (25 * 60)) * 100;
+        document.getElementById("progress").style.background = `conic-gradient(#D9B1BD 0% ${percentage}%, #e0e0e0 ${percentage}% 100%)`;
+    }
 
-        function startTimer() {
-            clearInterval(interval);
-            interval = setInterval(() => {
-                if (time > 0) {
-                    time--;
-                    updateTimerDisplay();
-                } else {
-                    clearInterval(interval);
-                    alert("时间到！请记录学习内容。");
-                }
-            }, 1000);
-        }
-
-        function pauseTimer() {
-            clearInterval(interval);
-        }
-
-        function resetTimer() {
-            clearInterval(interval);
-            time = 25 * 60;
-            updateTimerDisplay();
-        }
-
-        function setCustomTime() {
-            const customTime = parseInt(document.getElementById("customTime").value);
-            if (customTime && customTime > 0) {
-                time = customTime * 60;
+    function startTimer() {
+        clearInterval(interval);
+        interval = setInterval(() => {
+            if (time > 0) {
+                time--;
                 updateTimerDisplay();
             } else {
-                alert("请输入有效的分钟数！");
+                clearInterval(interval);
+                alert("时间到！请记录学习内容。");
             }
-        }
+        }, 1000);
+    }
 
-        function saveLog() {
-            const logInput = document.getElementById("logInput").value.trim();
-            if (logInput) {
-                const now = new Date();
-                const record = { time: now.toLocaleString(), content: logInput };
-                const records = JSON.parse(localStorage.getItem("timelineRecords") || "[]");
-                records.push(record);
-                localStorage.setItem("timelineRecords", JSON.stringify(records));
-                renderTimeline();
-                document.getElementById("logInput").value = "";
-                alert("记录已保存！");
-            } else {
-                alert("请填写学习内容！");
-            }
-        }
+    function pauseTimer() {
+        clearInterval(interval);
+    }
 
-        function renderTimeline() {
+    function resetTimer() {
+        clearInterval(interval);
+        time = 25 * 60;
+        updateTimerDisplay();
+    }
+
+    function setCustomTime() {
+        const customTime = parseInt(document.getElementById("customTime").value);
+        if (customTime && customTime > 0) {
+            time = customTime * 60;
+            updateTimerDisplay();
+        } else {
+            alert("请输入有效的分钟数！");
+        }
+    }
+
+    function saveLog() {
+        const logInput = document.getElementById("logInput").value.trim();
+        if (logInput) {
+            const now = new Date();
+            const record = { time: now.toLocaleString(), content: logInput };
             const records = JSON.parse(localStorage.getItem("timelineRecords") || "[]");
-            const timeline = document.getElementById("timelineRecords");
-            timeline.innerHTML = records
-                .map(record => `<div class="date-record">${record.time} - ${record.content}</div>`)
-                .join("");
+            records.push(record);
+            localStorage.setItem("timelineRecords", JSON.stringify(records));
+            renderTimeline();
+            document.getElementById("logInput").value = "";
+            alert("记录已保存！");
+        } else {
+            alert("请填写学习内容！");
         }
+    }
 
-        window.onload = renderTimeline;
-    </script>
+    function renderTimeline() {
+        const records = JSON.parse(localStorage.getItem("timelineRecords") || "[]");
+        const timeline = document.getElementById("timelineRecords");
+        timeline.innerHTML = records
+            .map(record => `<div class="date-record">${record.time} - ${record.content}</div>`)
+            .join("");
+    }
+
+    window.onload = renderTimeline;
+</script>
 </body>
 </html>
