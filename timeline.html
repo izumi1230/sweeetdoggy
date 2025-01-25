@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>梦是榛果巧克力</title>
     <style>
-       body {
+        body {
             font-family: "Microsoft Yahei", sans-serif;
             font-family: "Microsoft Yahei", sans-serif;
             background-image: url('background.3.jpg');
@@ -63,7 +63,7 @@
         /* 自我介绍模块 */
         .profile {
             margin: 50px auto;
-            width: 60%;
+            width: 40%;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -72,14 +72,13 @@
             margin: 20px 0;
             text-align: center;
             padding: 20px;
-            background: #ffffff;
+            background: rgba(200, 200, 200, 0.8);
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 80%;
         }
         .profile img {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             margin-bottom: 10px;
         }
@@ -94,7 +93,7 @@
             top: 50px;
             width: 25%;
             height: calc(100vh - 100px);
-            background: #ffffff;
+            background: rgba(200, 200, 200, 0.8);
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
@@ -119,7 +118,7 @@
             bottom: 50%;
             transform: translateY(50%);
             width: 120px;
-            background: #ffffff;
+            background: rgba(200, 200, 200, 0.8);
             padding: 10px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -154,38 +153,67 @@
             </div>
         </div>
     </div>
-
     <!-- 自我介绍模块 -->
     <div class="profile">
         <div class="profile-section" id="阿湛">
             <img src="阿湛_default.jpg" alt="阿湛头像">
             <h2>阿湛的自我介绍</h2>
             <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 和泉泉在一起的每一刻<br>对大家说: 泉泉是我的全世界，希望你们珍惜她！</p>
-            <input type="file">
+            <input type="file" onchange="uploadAvatar('阿湛')">
         </div>
         <div class="profile-section" id="泉泉">
             <img src="泉泉_default.jpg" alt="泉泉头像">
             <h2>泉泉的自我介绍</h2>
             <p>MBTI: INFJ<br>性格关键词: 温柔、细腻<br>爱好: 电影、甜甜的亲亲抱抱<br>对大家说: 我是阿湛的小狗，请不要抢他！</p>
-            <input type="file">
+            <input type="file" onchange="uploadAvatar('泉泉')">
         </div>
     </div>
 
     <!-- 留言板模块 -->
     <div class="message-board">
         <h2>留言板</h2>
-        <div class="message">
-            <div class="nickname">Doggy's Love</div>
-            <div class="text">希望你们在探索我们的故事时感受到幸福！</div>
-        </div>
-        <textarea placeholder="留下你的留言吧！"></textarea>
+        <div id="message-list"></div>
+        <textarea id="message-input" placeholder="留下你的留言吧！"></textarea>
+        <button onclick="addMessage()">发送</button>
     </div>
 
     <!-- 索引模块 -->
     <div class="index">
-        <a href="pomodoro.html">番茄钟</a>
+       <a href="pomodoro.html">番茄钟</a>
         <a href="profile.html">个人主页</a>
         <a href="notebook.html">记录本</a>
     </div>
+
+    <script>
+        function uploadAvatar(id) {
+            const fileInput = document.getElementById(`${id}`).querySelector('input[type="file"]');
+            const imgElement = document.querySelector(`#${id} img`);
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imgElement.src = e.target.result;
+                    localStorage.setItem(`${id}-avatar`, e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function addMessage() {
+            const messageInput = document.getElementById('message-input');
+            const messageList = document.getElementById('message-list');
+            const messageText = messageInput.value.trim();
+            if (!messageText) return;
+
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            const now = new Date();
+            messageDiv.innerHTML = `<div class="nickname">匿名用户</div>
+                                    <div class="text">${messageText}</div>
+                                    <div class="time">${now.toLocaleString()}</div>`;
+            messageList.appendChild(messageDiv);
+            messageInput.value = '';
+        }
+    </script>
 </body>
 </html>
