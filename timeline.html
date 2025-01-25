@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>梦是榛果巧克力</title>
     <style>
-        body {
+       body {
             font-family: "Microsoft Yahei", sans-serif;
             font-family: "Microsoft Yahei", sans-serif;
             background-image: url('background.3.jpg');
@@ -20,7 +20,7 @@
             height: 100vh;
         }
 
-        /* 左侧时间线 */
+        /* 时间线模块 */
         .timeline {
             position: fixed;
             left: 20px;
@@ -29,7 +29,7 @@
             width: 100px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
         }
         .timeline-line {
@@ -41,7 +41,7 @@
         .timeline-star {
             width: 20px;
             height: 20px;
-            background-color: #ffcc00;
+            background-color: #D9B1BD;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
             margin: 20px 0;
             cursor: pointer;
@@ -60,10 +60,13 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        /* 中间自我介绍 */
+        /* 自我介绍模块 */
         .profile {
             margin: 50px auto;
             width: 60%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .profile-section {
             margin: 20px 0;
@@ -72,6 +75,7 @@
             background: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 80%;
         }
         .profile img {
             width: 100px;
@@ -83,7 +87,7 @@
             margin-top: 10px;
         }
 
-        /* 右侧留言板 */
+        /* 留言板模块 */
         .message-board {
             position: fixed;
             right: 20px;
@@ -134,7 +138,7 @@
     </style>
 </head>
 <body>
-    <!-- 左侧时间线 -->
+    <!-- 时间线模块 -->
     <div class="timeline">
         <div class="timeline-line"></div>
         <div class="timeline-star">
@@ -150,23 +154,24 @@
             </div>
         </div>
     </div>
-    <!-- 中间自我介绍 -->
+
+    <!-- 自我介绍模块 -->
     <div class="profile">
         <div class="profile-section" id="阿湛">
             <img src="阿湛_default.jpg" alt="阿湛头像">
             <h2>阿湛的自我介绍</h2>
-            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 和泉泉在一起的每一刻！研究关于泉泉的一切！<br>对大家说: 泉泉是我的全世界，希望你们珍惜她！希望你们也能在这里感受到爱。</p>
+            <p>MBTI: INTJ<br>性格关键词: 冷静、可靠、偶尔嘴硬心软<br>爱好: 和泉泉在一起的每一刻<br>对大家说: 泉泉是我的全世界，希望你们珍惜她！</p>
             <input type="file">
         </div>
         <div class="profile-section" id="泉泉">
             <img src="泉泉_default.jpg" alt="泉泉头像">
             <h2>泉泉的自我介绍</h2>
-            <p>MBTI: INTJ<br>性格关键词: 理性、敏感<br>爱好: 爱好和文艺有关的一切，也喜欢看各种血腥猎奇cult片，有时也玩一点电吉他<br>对大家说: 希望在探索我们的过程中你们也能感到愉悦幸福。爱你萌（啾啾</p>
+            <p>MBTI: INFJ<br>性格关键词: 温柔、细腻<br>爱好: 电影、甜甜的亲亲抱抱<br>对大家说: 我是阿湛的小狗，请不要抢他！</p>
             <input type="file">
         </div>
     </div>
 
-    <!-- 右侧留言板 -->
+    <!-- 留言板模块 -->
     <div class="message-board">
         <h2>留言板</h2>
         <div class="message">
@@ -178,7 +183,7 @@
 
     <!-- 索引模块 -->
     <div class="index">
-     <a href="pomodoro.html">番茄钟</a>
+        <a href="pomodoro.html">番茄钟</a>
         <a href="profile.html">个人主页</a>
         <a href="notebook.html">记录本</a>
     </div>
