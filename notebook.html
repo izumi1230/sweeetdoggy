@@ -29,26 +29,21 @@
             height: 160px;
         }
 
+        .heart-container {
+            margin: 20px auto;
+            text-align: center;
+        }
+
         .heart {
-            position: absolute;
-            width: 180px;
-            height: 160px;
             background-color: rgba(255, 255, 255, 0.8);
-            clip-path: path('M90 20 Q30 -30 0 50 T90 160 T180 50 Q150 -30 90 20 Z');
-        }
-
-        .heart-content {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .heart-content p {
-            margin: 5px 0;
+            width: 120px;
+            height: 100px;
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 50% 80%, 18% 100%, 0% 38%);
+            margin: 0 auto;
+            text-align: center;
+            line-height: 100px;
+            font-size: 1.2em;
+            color: #D9B1BD;
         }
 
         .bone {
@@ -62,50 +57,37 @@
             justify-content: space-around;
         }
 
-        .bone a {
-            text-decoration: none;
-            color: #D9B1BD;
-            margin: 0 10px;
-        }
-
-        .bone a:hover {
-            color: #7b2a3f;
-        }
-
         .music-player {
-            position: absolute;
-            top: 50px;
-            right: 20px;
+            margin-top: 10px
             text-align: center;
         }
 
         /* Q&A 样式 */
         .qa-section {
+            margin-top: 30px;
             width: 80%;
-            margin-top: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
         }
 
-        .qa-section h2 {
-            margin-bottom: 10px;
+        .qa-section textarea {
+            width: 100%;
+            height: 60px;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+            resize: none;
+            font-size: 1em;
+        }
+
+        .qa-list {
+            margin-top: 20px;
         }
 
         .qa-item {
-            margin-bottom: 10px;
-            padding: 10px;
             background: rgba(230, 230, 230, 0.9);
+            padding: 10px;
+            margin-bottom: 10px;
             border-radius: 5px;
-        }
-
-        .qa-item button {
-            margin-top: 5px;
-            background: #a03a53;
-            color: white;
-            border: none;
-            padding: 5px;
-            cursor: pointer;
         }
 
         /* 索引 */
@@ -178,10 +160,10 @@
         <input type="file" accept="audio/*" onchange="uploadMusic(this, 'notebookMusic')">
     </div>
     <div class="qa-section">
-        <h2>Q&A</h2>
-        <input type="text" id="newQuestion" placeholder="写下你的问题...">
-        <button onclick="addQuestion()">发布问题</button>
-        <div id="qaList"></div>
+        <textarea id="qaInput" placeholder="输入你的问题..."></textarea>
+        <button onclick="addQA()">发布问题</button>
+        <div class="qa-list" id="qaList">
+      </div>
     </div>
     <div class="index">
         <a href="timeline.html">时间线</a>
@@ -209,38 +191,56 @@
             }
         }
 
-        function addQuestion() {
-            const question = document.getElementById("newQuestion").value.trim();
+          function addQA() {
+            const input = document.getElementById("qaInput");
+            const question = input.value.trim();
             if (question) {
-                const newQuestion = { id: qaList.length + 1, question, comments: [] };
+                const newQuestion = {
+                    id: `Q${qaList.length + 1}`,
+                    question,
+                    replies: [],
+                };
                 qaList.push(newQuestion);
                 localStorage.setItem("qaList", JSON.stringify(qaList));
-                renderQuestions();
-                document.getElementById("newQuestion").value = "";
+                renderQA();
+                input.value = "";
             }
         }
 
-        function addComment(qId) {
-            const comment = prompt("请输入你的留言：");
-            if (comment) {
-                const question = qaList.find(q => q.id === qId);
-                question.comments.push(comment);
+        function renderQA() {
+            const list = document.getElementById("qaList");
+            list.innerHTML = qaList
+                .map(
+                    (item) => `
+                    <div class="qa-item">
+                        <p><strong>${item.id}:</strong> ${item.question}</p>
+                        <button onclick="addReply('${item.id}')">留言</button>
+                        <div>
+                            ${item.replies
+                                .map(
+                                    (reply) =>
+                                        `<p><strong>${reply.name}:</strong> ${reply.comment}</p>`
+                                )
+                                .join("")}
+                        </div>
+                    </div>`
+                )
+                .join("");
+        }
+
+        function addReply(id) {
+            const name = prompt("请输入你的昵称：");
+            const comment = prompt("请输入留言内容：");
+            if (name && comment) {
+                const question = qaList.find((q) => q.id === id);
+                question.replies.push({ name, comment });
                 localStorage.setItem("qaList", JSON.stringify(qaList));
-                renderQuestions();
+                renderQA();
+            } else {
+                alert("昵称和留言不能为空！");
             }
         }
-
-        function renderQuestions() {
-            const qaListElement = document.getElementById("qaList");
-            qaListElement.innerHTML = qaList.map(q => `
-                <div class="qa-item">
-                    <p><strong>Q${q.id}:</strong> ${q.question}</p>
-                    <button onclick="addComment(${q.id})">留言</button>
-                    ${q.comments.map(c => `<p>留言: ${c}</p>`).join("")}
-                </div>
-            `).join("");
-        }
-
+        
         function enterSecret() {
             const password = prompt("请输入密码：");
             if (password === "MySweetDoggyDDLG") {
