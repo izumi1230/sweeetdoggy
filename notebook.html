@@ -1,10 +1,9 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Note Book</title>
-    <link href="https://fonts.googleapis.com/css2?family=Copperplate&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: "Microsoft Yahei", sans-serif;
@@ -13,125 +12,119 @@
             background-attachment: fixed;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h1 {
-            text-align: center;
-            font-family: 'Copperplate', sans-serif;
-            font-size: 2.5em;
             color: #D9B1BD;
-            margin-top: 30px;
+            margin-top: 20px;
+        }
+
+        .heart-container {
+            position: relative;
+            margin: 20px auto;
+            width: 150px;
+            height: 150px;
         }
 
         .heart {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: rgba(255, 192, 203, 0.8);
-            width: 120px;
-            height: 120px;
-            clip-path: polygon(50% 0%, 100% 37%, 82% 100%, 50% 80%, 18% 100%, 0% 37%);
-            text-align: center;
-            font-size: 1.2em;
-            color: white;
-            margin: 20px auto;
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background-color: rgba(255, 255, 255, 0.8);
+            clip-path: path('M75 20 Q30 0 0 40 T75 150 T150 40 Q120 0 75 20 Z');
         }
 
         .ribbon {
             position: absolute;
-            width: 140px;
-            height: 10px;
-            background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(230, 230, 230, 0.8));
+            width: 100%;
+            height: 20px;
+            background-color: #D9B1BD;
             top: 50%;
-            transform: translateY(-50%);
+            left: 0;
         }
 
-        .container {
-            width: 80%;
-            margin: 0 auto;
-        }
-
-        .bone-container {
+        .heart-content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             display: flex;
-            justify-content: space-between;
-            margin: 20px 0;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .heart-content p {
+            margin: 5px 0;
         }
 
         .bone {
-            width: 80px;
-            height: 40px;
-            background: rgba(217, 217, 217, 0.7);
-            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            background: rgba(230, 230, 230, 0.8);
+            border-radius: 20px;
+            padding: 15px;
+            margin: 10px 0;
+            width: 70%;
             text-align: center;
-            line-height: 40px;
-            font-size: 1em;
-            color: #333;
-            cursor: pointer;
-            transition: transform 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .bone:hover {
-            transform: scale(1.1);
+        .index-links a {
+            text-decoration: none;
+            color: #D9B1BD;
+            margin: 0 10px;
         }
 
-        .qa-section {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
+        .q-and-a {
             margin-top: 20px;
+            width: 70%;
+            display: flex;
+            flex-direction: column;
         }
 
-        textarea, button {
-            display: block;
-            margin: 10px auto;
-            width: 80%;
+        .question {
+            background: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px;
             padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 1em;
+            border-radius: 10px;
         }
 
-        button {
+        .question .reply {
+            background: rgba(245, 245, 245, 1);
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 50px;
+            margin-top: 10px;
+            padding: 5px;
+        }
+
+        .submit-btn {
             background-color: #D9B1BD;
             color: white;
-            cursor: pointer;
             border: none;
-        }
-
-        button:hover {
-            background-color: #a03a53;
-        }
-
-        .qa-list {
-            margin-top: 20px;
-        }
-
-        .qa-item {
-            background: rgba(240, 240, 240, 0.9);
-            padding: 10px;
+            padding: 10px 20px;
             border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .comments {
             margin-top: 10px;
-            background: #f9f9f9;
-            padding: 10px;
-            border-radius: 5px;
+            cursor: pointer;
         }
 
-        .sparkle {
+        /* 飘雪特效 */
+        .snowflake {
             position: fixed;
-            top: -50px;
-            width: 10px;
-            height: 10px;
-            background: rgba(255, 223, 0, 0.8);
+            top: -10px;
+            background: white;
             border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255, 223, 0, 0.8);
-            animation: fall 2s ease-in-out forwards;
-            z-index: 9999;
+            width: 5px;
+            height: 5px;
+            animation: fall 10s infinite;
         }
 
         @keyframes fall {
@@ -140,7 +133,7 @@
                 opacity: 1;
             }
             100% {
-                transform: translateY(800px) translateX(200px);
+                transform: translateY(100vh) translateX(100px);
                 opacity: 0;
             }
         }
@@ -148,85 +141,100 @@
 </head>
 <body>
     <h1>Note Book</h1>
-    <div class="heart">
-        <span id="daysTogether">100 天</span>
+    <div class="heart-container">
+        <div class="heart"></div>
         <div class="ribbon"></div>
+        <div class="heart-content">
+            <p id="daysTogether">0 天</p>
+             <p>2025年1月1日</p>
+        </div>
     </div>
-    <div class="container">
-        <div class="bone-container">
-            <div class="bone" onclick="navigate('some')">一些</div>
-            <div class="bone" onclick="navigate('withAsami')">和阿湛</div>
-            <div class="bone" onclick="navigate('secret')">秘</div>
+    <div class="bone">
+        <div>分类索引</div>
+        <div class="index-links">
+            <a href="timeline.html">时间线</a>
+            <a href="pomodoro.html">番茄钟</a>
+            <a href="personal.html">个人主页</a>
         </div>
-        <div class="qa-section">
-            <textarea id="newQuestion" placeholder="输入你的问题..."></textarea>
-            <button onclick="postQuestion()">发布问题</button>
-            <div class="qa-list" id="qaList">
-                <!-- 动态生成 -->
-            </div>
-        </div>
+    </div>
+    <div class="q-and-a">
+        <textarea id="newQuestion" placeholder="写下你的问题..."></textarea>
+        <button class="submit-btn" onclick="addQuestion()">发布问题</button>
+        <div id="questionList"></div>
     </div>
 
     <script>
-        let daysSinceStart = Math.floor((new Date() - new Date(2023, 11, 30)) / (1000 * 60 * 60 * 24));
-        document.getElementById("daysTogether").innerText = `${daysSinceStart} 天`;
+        const relationshipStartDate = new Date("2025-01-01");
+        const questionList = JSON.parse(localStorage.getItem("questions")) || [];
 
-        const qaList = [];
+        function updateDaysTogether() {
+            const now = new Date();
+            const difference = Math.floor((now - relationshipStartDate) / (1000 * 60 * 60 * 24));
+            document.getElementById("daysTogether").innerText = `${difference} 天`;
+        }
 
-        function postQuestion() {
-            const question = document.getElementById("newQuestion").value.trim();
+        function addQuestion() {
+            const questionInput = document.getElementById("newQuestion");
+            const question = questionInput.value.trim();
             if (question) {
-                qaList.push({ question, timestamp: new Date().toLocaleString(), comments: [] });
-                document.getElementById("newQuestion").value = "";
-                renderQA();
+                const newQuestion = {
+                    id: "Q" + (questionList.length + 1),
+                    text: question,
+                    replies: [],
+                };
+                questionList.push(newQuestion);
+                localStorage.setItem("questions", JSON.stringify(questionList));
+                renderQuestions();
+                questionInput.value = "";
+            } else {
+                alert("问题不能为空！");
             }
         }
 
-        function renderQA() {
-            const list = document.getElementById("qaList");
-            list.innerHTML = qaList
+        function addReply(questionId) {
+            const replyText = prompt("请输入留言内容：");
+            if (replyText) {
+                const question = questionList.find((q) => q.id === questionId);
+                question.replies.push(replyText);
+                localStorage.setItem("questions", JSON.stringify(questionList));
+                renderQuestions();
+            } else {
+                alert("留言内容不能为空！");
+            }
+        }
+
+        function renderQuestions() {
+            const questionListDiv = document.getElementById("questionList");
+            questionListDiv.innerHTML = questionList
                 .map(
-                    (item, index) =>
-                        `<div class="qa-item">
-                            <p>${item.question}</p>
-                            <small>${item.timestamp}</small>
-                            <div class="comments">
-                                ${item.comments.map((c) => `<p><strong>${c.name}</strong>: ${c.comment}</p>`).join("")}
-                            </div>
-                            <button onclick="addComment(${index})">留言</button>
-                        </div>`
+                    (q) => `
+                    <div class="question">
+                        <p><b>${q.id}:</b> ${q.text}</p>
+                        <button onclick="addReply('${q.id}')">留言</button>
+                        ${q.replies
+                            .map((reply) => `<div class="reply">${reply}</div>`)
+                            .join("")}
+                    </div>
+                `
                 )
                 .join("");
         }
 
-        function addComment(index) {
-            const name = prompt("请输入你的昵称：");
-            const comment = prompt("请输入留言内容：");
-            if (name && comment) {
-                qaList[index].comments.push({ name, comment });
-                renderQA();
+        function createSnowflakes() {
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement("div");
+                snowflake.className = "snowflake";
+                snowflake.style.left = Math.random() * 100 + "vw";
+                snowflake.style.animationDuration = Math.random() * 3 + 7 + "s";
+                document.body.appendChild(snowflake);
             }
         }
 
-        function navigate(page) {
-            if (page === "secret") {
-                const password = prompt("请输入密码：");
-                if (password !== "mysweetdoggyDDLG") {
-                    alert("密码错误！");
-                    return;
-                }
-            }
-            alert(`跳转到${page}页面！`);
-        }
-
-        function createSparkle() {
-            const sparkle = document.createElement("div");
-            sparkle.className = "sparkle";
-            sparkle.style.left = Math.random() * window.innerWidth + "px";
-            document.body.appendChild(sparkle);
-            setTimeout(() => sparkle.remove(), 2000);
-        }
-        setInterval(createSparkle, 500);
+        window.onload = () => {
+            updateDaysTogether();
+            renderQuestions();
+            createSnowflakes();
+        };
     </script>
 </body>
 </html>
