@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Note Book</title>
+    <title>梦是榛果巧克力</title>
     <style>
         body {
             font-family: "Microsoft Yahei", sans-serif;
@@ -25,25 +25,16 @@
         .heart-container {
             position: relative;
             margin: 20px auto;
-            width: 150px;
-            height: 150px;
+            width: 180px;
+            height: 160px;
         }
 
         .heart {
             position: absolute;
-            width: 150px;
-            height: 150px;
+            width: 180px;
+            height: 160px;
             background-color: rgba(255, 255, 255, 0.8);
-            clip-path: path('M75 20 Q30 0 0 40 T75 150 T150 40 Q120 0 75 20 Z');
-        }
-
-        .ribbon {
-            position: absolute;
-            width: 100%;
-            height: 20px;
-            background-color: #D9B1BD;
-            top: 50%;
-            left: 0;
+            clip-path: path('M90 40 Q30 0 0 50 T90 160 T180 50 Q150 0 90 40 Z');
         }
 
         .heart-content {
@@ -68,52 +59,51 @@
             width: 70%;
             text-align: center;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: space-around;
         }
 
-        .index-links a {
+        .bone a {
             text-decoration: none;
             color: #D9B1BD;
             margin: 0 10px;
         }
 
-        .q-and-a {
-            margin-top: 20px;
-            width: 70%;
-            display: flex;
-            flex-direction: column;
+        .bone a:hover {
+            color: #7b2a3f;
         }
 
-        .question {
-            background: rgba(255, 255, 255, 0.9);
-            margin-bottom: 15px;
+        .music-player {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .music-player input {
+            margin-top: 10px;
+        }
+
+        /* 索引 */
+        .index {
+            position: fixed;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
             padding: 10px;
-            border-radius: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .question .reply {
-            background: rgba(245, 245, 245, 1);
-            margin-top: 10px;
-            padding: 8px;
-            border-radius: 5px;
+        .index a {
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #333;
+            font-size: 1em;
+            text-align: center;
         }
 
-        textarea {
-            width: 100%;
-            height: 50px;
-            margin-top: 10px;
-            padding: 5px;
-        }
-
-        .submit-btn {
-            background-color: #D9B1BD;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin-top: 10px;
-            cursor: pointer;
+        .index a:hover {
+            color: #7b2a3f;
         }
 
         /* 飘雪特效 */
@@ -124,7 +114,7 @@
             border-radius: 50%;
             width: 5px;
             height: 5px;
-            animation: fall 10s infinite;
+            animation: fall linear infinite;
         }
 
         @keyframes fall {
@@ -133,7 +123,7 @@
                 opacity: 1;
             }
             100% {
-                transform: translateY(100vh) translateX(100px);
+                transform: translateY(100vh) translateX(30px);
                 opacity: 0;
             }
         }
@@ -143,29 +133,32 @@
     <h1>Note Book</h1>
     <div class="heart-container">
         <div class="heart"></div>
-        <div class="ribbon"></div>
         <div class="heart-content">
             <p id="daysTogether">0 天</p>
              <p>2025年1月1日</p>
         </div>
     </div>
     <div class="bone">
-        <div>分类索引</div>
-        <div class="index-links">
-            <a href="timeline.html">时间线</a>
-            <a href="pomodoro.html">番茄钟</a>
-            <a href="personal.html">个人主页</a>
-        </div>
+        <a href="#">一些</a>
+        <a href="#">和阿湛</a>
+        <a href="#" onclick="enterSecret()">秘密</a>
     </div>
-    <div class="q-and-a">
-        <textarea id="newQuestion" placeholder="写下你的问题..."></textarea>
-        <button class="submit-btn" onclick="addQuestion()">发布问题</button>
-        <div id="questionList"></div>
+    <div class="music-player">
+        <h3>音乐播放器</h3>
+        <audio id="notebookMusic" controls>
+            <source src="" type="audio/mp3">
+        </audio>
+        <input type="file" accept="audio/*" onchange="uploadMusic(this, 'notebookMusic')">
+    </div>
+    <div class="index">
+        <a href="timeline.html">时间线</a>
+        <a href="pomodoro.html">番茄钟</a>
+        <a href="profile.html">个人主页</a>
     </div>
 
     <script>
-        const relationshipStartDate = new Date("2025-01-01");
-        const questionList = JSON.parse(localStorage.getItem("questions")) || [];
+        const relationshipStartDate = new Date("2024-12-30");
+        const savedMusic = localStorage.getItem("notebookMusic");
 
         function updateDaysTogether() {
             const now = new Date();
@@ -173,66 +166,40 @@
             document.getElementById("daysTogether").innerText = `${difference} 天`;
         }
 
-        function addQuestion() {
-            const questionInput = document.getElementById("newQuestion");
-            const question = questionInput.value.trim();
-            if (question) {
-                const newQuestion = {
-                    id: "Q" + (questionList.length + 1),
-                    text: question,
-                    replies: [],
-                };
-                questionList.push(newQuestion);
-                localStorage.setItem("questions", JSON.stringify(questionList));
-                renderQuestions();
-                questionInput.value = "";
-            } else {
-                alert("问题不能为空！");
+        function uploadMusic(input, audioId) {
+            const file = input.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                document.getElementById(audioId).src = url;
+                localStorage.setItem("notebookMusic", url);
             }
         }
 
-        function addReply(questionId) {
-            const replyText = prompt("请输入留言内容：");
-            if (replyText) {
-                const question = questionList.find((q) => q.id === questionId);
-                question.replies.push(replyText);
-                localStorage.setItem("questions", JSON.stringify(questionList));
-                renderQuestions();
+        function enterSecret() {
+            const password = prompt("请输入密码：");
+            if (password === "MySweetDoggyDDLG") {
+                alert("欢迎进入秘密页面！");
+                // 重定向到秘密页面
+                window.location.href = "secret.html";
             } else {
-                alert("留言内容不能为空！");
+                alert("密码错误！");
             }
-        }
-
-        function renderQuestions() {
-            const questionListDiv = document.getElementById("questionList");
-            questionListDiv.innerHTML = questionList
-                .map(
-                    (q) => `
-                    <div class="question">
-                        <p><b>${q.id}:</b> ${q.text}</p>
-                        <button onclick="addReply('${q.id}')">留言</button>
-                        ${q.replies
-                            .map((reply) => `<div class="reply">${reply}</div>`)
-                            .join("")}
-                    </div>
-                `
-                )
-                .join("");
         }
 
         function createSnowflakes() {
-            for (let i = 0; i < 50; i++) {
+            setInterval(() => {
                 const snowflake = document.createElement("div");
                 snowflake.className = "snowflake";
-                snowflake.style.left = Math.random() * 100 + "vw";
+                snowflake.style.left = Math.random() * window.innerWidth + "px";
                 snowflake.style.animationDuration = Math.random() * 3 + 7 + "s";
                 document.body.appendChild(snowflake);
-            }
+                setTimeout(() => snowflake.remove(), 10000);
+            }, 300);
         }
 
         window.onload = () => {
             updateDaysTogether();
-            renderQuestions();
+            if (savedMusic) document.getElementById("notebookMusic").src = savedMusic;
             createSnowflakes();
         };
     </script>
