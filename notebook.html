@@ -34,7 +34,7 @@
             width: 180px;
             height: 160px;
             background-color: rgba(255, 255, 255, 0.8);
-            clip-path: path('M90 40 Q30 0 0 50 T90 160 T180 50 Q150 0 90 40 Z');
+            clip-path: path('M90 20 Q30 -30 0 50 T90 160 T180 50 Q150 -30 90 20 Z');
         }
 
         .heart-content {
@@ -73,12 +73,39 @@
         }
 
         .music-player {
-            margin-top: 10px;
+            position: absolute;
+            top: 50px;
+            right: 20px;
             text-align: center;
         }
 
-        .music-player input {
-            margin-top: 10px;
+        /* Q&A 样式 */
+        .qa-section {
+            width: 80%;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .qa-section h2 {
+            margin-bottom: 10px;
+        }
+
+        .qa-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(230, 230, 230, 0.9);
+            border-radius: 5px;
+        }
+
+        .qa-item button {
+            margin-top: 5px;
+            background: #a03a53;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
         }
 
         /* 索引 */
@@ -135,7 +162,7 @@
         <div class="heart"></div>
         <div class="heart-content">
             <p id="daysTogether">0 天</p>
-             <p>2025年1月1日</p>
+            <p>2024年12月30日</p>
         </div>
     </div>
     <div class="bone">
@@ -150,6 +177,12 @@
         </audio>
         <input type="file" accept="audio/*" onchange="uploadMusic(this, 'notebookMusic')">
     </div>
+    <div class="qa-section">
+        <h2>Q&A</h2>
+        <input type="text" id="newQuestion" placeholder="写下你的问题...">
+        <button onclick="addQuestion()">发布问题</button>
+        <div id="qaList"></div>
+    </div>
     <div class="index">
         <a href="timeline.html">时间线</a>
         <a href="pomodoro.html">番茄钟</a>
@@ -157,8 +190,9 @@
     </div>
 
     <script>
-        const relationshipStartDate = new Date("2024-12-30");
+        const relationshipStartDate = new Date("2025-01-01");
         const savedMusic = localStorage.getItem("notebookMusic");
+        const qaList = JSON.parse(localStorage.getItem("qaList")) || [];
 
         function updateDaysTogether() {
             const now = new Date();
@@ -175,11 +209,42 @@
             }
         }
 
+        function addQuestion() {
+            const question = document.getElementById("newQuestion").value.trim();
+            if (question) {
+                const newQuestion = { id: qaList.length + 1, question, comments: [] };
+                qaList.push(newQuestion);
+                localStorage.setItem("qaList", JSON.stringify(qaList));
+                renderQuestions();
+                document.getElementById("newQuestion").value = "";
+            }
+        }
+
+        function addComment(qId) {
+            const comment = prompt("请输入你的留言：");
+            if (comment) {
+                const question = qaList.find(q => q.id === qId);
+                question.comments.push(comment);
+                localStorage.setItem("qaList", JSON.stringify(qaList));
+                renderQuestions();
+            }
+        }
+
+        function renderQuestions() {
+            const qaListElement = document.getElementById("qaList");
+            qaListElement.innerHTML = qaList.map(q => `
+                <div class="qa-item">
+                    <p><strong>Q${q.id}:</strong> ${q.question}</p>
+                    <button onclick="addComment(${q.id})">留言</button>
+                    ${q.comments.map(c => `<p>留言: ${c}</p>`).join("")}
+                </div>
+            `).join("");
+        }
+
         function enterSecret() {
             const password = prompt("请输入密码：");
             if (password === "MySweetDoggyDDLG") {
                 alert("欢迎进入秘密页面！");
-                // 重定向到秘密页面
                 window.location.href = "secret.html";
             } else {
                 alert("密码错误！");
@@ -187,7 +252,9 @@
         }
 
         function createSnowflakes() {
-            setInterval(() => {
+            setInterval(()
+
+=>
                 const snowflake = document.createElement("div");
                 snowflake.className = "snowflake";
                 snowflake.style.left = Math.random() * window.innerWidth + "px";
@@ -200,6 +267,7 @@
         window.onload = () => {
             updateDaysTogether();
             if (savedMusic) document.getElementById("notebookMusic").src = savedMusic;
+            renderQuestions();
             createSnowflakes();
         };
     </script>
