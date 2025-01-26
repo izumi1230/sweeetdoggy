@@ -1,12 +1,11 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Note Book</title>
+    <link href="https://fonts.googleapis.com/css2?family=Copperplate&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Copperplate&display=swap');
-
         body {
             font-family: "Microsoft Yahei", sans-serif;
             background-image: url('background.3.jpg');
@@ -14,114 +13,91 @@
             background-attachment: fixed;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            text-align: center;
-            width: 80%;
-            padding: 20px;
+            overflow-x: hidden;
         }
 
         h1 {
-            font-family: 'Copperplate', serif;
+            text-align: center;
+            font-family: 'Copperplate', sans-serif;
+            font-size: 2.5em;
             color: #D9B1BD;
-            font-size: 3em;
-            margin-bottom: 10px;
+            margin-top: 30px;
         }
 
         .heart {
             position: relative;
-            display: inline-block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background: rgba(255, 192, 203, 0.8);
             width: 120px;
             height: 120px;
             clip-path: polygon(50% 0%, 100% 37%, 82% 100%, 50% 80%, 18% 100%, 0% 37%);
             text-align: center;
-            line-height: 140px;
-            margin: 0 auto 20px auto;
             font-size: 1.2em;
-            color: #fff;
+            color: white;
+            margin: 20px auto;
         }
 
-        .heart::after {
-            content: "🎀";
-            font-size: 1.5em;
+        .ribbon {
             position: absolute;
-            top: 90%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #f7f3e9;
+            width: 140px;
+            height: 10px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(230, 230, 230, 0.8));
+            top: 50%;
+            transform: translateY(-50%);
         }
 
-        .indexes {
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .bone-container {
             display: flex;
-            justify-content: center;
-            gap: 20px;
+            justify-content: space-between;
             margin: 20px 0;
         }
 
-        .indexes a {
-            display: block;
+        .bone {
             width: 80px;
             height: 40px;
+            background: rgba(217, 217, 217, 0.7);
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            text-align: center;
             line-height: 40px;
-            background: rgba(230, 230, 230, 0.8);
-            border-radius: 10px;
-            text-decoration: none;
-            color: #333;
             font-size: 1em;
-            text-align: center;
-        }
-
-        .indexes a:hover {
-            background: #D9B1BD;
-            color: white;
-        }
-
-        /* 骨头形索引按钮 */
-        .bone {
-            background: rgba(230, 230, 230, 0.8);
-            clip-path: polygon(10% 50%, 20% 30%, 50% 10%, 80% 30%, 90% 50%, 80% 70%, 50% 90%, 20% 70%);
-            width: 100px;
-            height: 40px;
-            line-height: 40px;
             color: #333;
-            text-align: center;
-            margin: 0 auto;
             cursor: pointer;
+            transition: transform 0.2s ease;
         }
 
         .bone:hover {
-            background: #D9B1BD;
-            color: white;
+            transform: scale(1.1);
         }
 
         .qa-section {
-            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
         }
 
-        .qa-section textarea {
+        textarea, button {
+            display: block;
+            margin: 10px auto;
             width: 80%;
-            height: 60px;
             padding: 10px;
-            margin-top: 10px;
             border-radius: 5px;
-            border: none;
-            resize: none;
+            border: 1px solid #ccc;
             font-size: 1em;
         }
 
         button {
             background-color: #D9B1BD;
             color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
             cursor: pointer;
+            border: none;
         }
 
         button:hover {
@@ -130,38 +106,32 @@
 
         .qa-list {
             margin-top: 20px;
-            text-align: left;
         }
 
         .qa-item {
-            background: rgba(230, 230, 230, 0.9);
+            background: rgba(240, 240, 240, 0.9);
             padding: 10px;
-            margin-bottom: 10px;
             border-radius: 5px;
-            position: relative;
+            margin-bottom: 10px;
         }
 
-        .qa-item button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+        .comments {
+            margin-top: 10px;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
         }
 
-        .qa-item small {
-            display: block;
-            font-size: 0.8em;
-            color: #666;
-        }
-         /* 动态特效 */
         .sparkle {
             position: fixed;
             top: -50px;
-            width: 20px;
-            height: 20px;
+            width: 10px;
+            height: 10px;
             background: rgba(255, 223, 0, 0.8);
             border-radius: 50%;
             box-shadow: 0 0 10px rgba(255, 223, 0, 0.8);
             animation: fall 2s ease-in-out forwards;
+            z-index: 9999;
         }
 
         @keyframes fall {
@@ -177,39 +147,38 @@
     </style>
 </head>
 <body>
+    <h1>Note Book</h1>
+    <div class="heart">
+        <span id="daysTogether">100 天</span>
+        <div class="ribbon"></div>
+    </div>
     <div class="container">
-        <h1>Note Book</h1>
-        <div class="heart">
-            100 天
-            <small>开始于2023年12月30日</small>
-        </div>
-        <div class="indexes">
-            <div class="bone">一些</div>
-            <div class="bone">和阿湛</div>
-            <div class="bone">秘</div>
+        <div class="bone-container">
+            <div class="bone" onclick="navigate('some')">一些</div>
+            <div class="bone" onclick="navigate('withAsami')">和阿湛</div>
+            <div class="bone" onclick="navigate('secret')">秘</div>
         </div>
         <div class="qa-section">
-            <textarea id="qaInput" placeholder="输入你的问题..."></textarea>
-            <button onclick="addQA()">发布问题</button>
-        </div>
-        <div class="qa-list" id="qaList">
-            <!-- 问题列表 -->
+            <textarea id="newQuestion" placeholder="输入你的问题..."></textarea>
+            <button onclick="postQuestion()">发布问题</button>
+            <div class="qa-list" id="qaList">
+                <!-- 动态生成 -->
+            </div>
         </div>
     </div>
 
     <script>
-        let qaList = JSON.parse(localStorage.getItem("qaList")) || [];
+        let daysSinceStart = Math.floor((new Date() - new Date(2023, 11, 30)) / (1000 * 60 * 60 * 24));
+        document.getElementById("daysTogether").innerText = `${daysSinceStart} 天`;
 
-        function addQA() {
-            const input = document.getElementById("qaInput");
-            const question = input.value.trim();
+        const qaList = [];
+
+        function postQuestion() {
+            const question = document.getElementById("newQuestion").value.trim();
             if (question) {
                 qaList.push({ question, timestamp: new Date().toLocaleString(), comments: [] });
-                localStorage.setItem("qaList", JSON.stringify(qaList));
+                document.getElementById("newQuestion").value = "";
                 renderQA();
-                input.value = "";
-            } else {
-                alert("问题不能为空！");
             }
         }
 
@@ -221,6 +190,9 @@
                         `<div class="qa-item">
                             <p>${item.question}</p>
                             <small>${item.timestamp}</small>
+                            <div class="comments">
+                                ${item.comments.map((c) => `<p><strong>${c.name}</strong>: ${c.comment}</p>`).join("")}
+                            </div>
                             <button onclick="addComment(${index})">留言</button>
                         </div>`
                 )
@@ -232,16 +204,29 @@
             const comment = prompt("请输入留言内容：");
             if (name && comment) {
                 qaList[index].comments.push({ name, comment });
-                localStorage.setItem("qaList", JSON.stringify(qaList));
                 renderQA();
-            } else {
-                alert("昵称和留言不能为空！");
             }
         }
 
-        window.onload = () => {
-            renderQA();
-        };
+        function navigate(page) {
+            if (page === "secret") {
+                const password = prompt("请输入密码：");
+                if (password !== "mysweetdoggyDDLG") {
+                    alert("密码错误！");
+                    return;
+                }
+            }
+            alert(`跳转到${page}页面！`);
+        }
+
+        function createSparkle() {
+            const sparkle = document.createElement("div");
+            sparkle.className = "sparkle";
+            sparkle.style.left = Math.random() * window.innerWidth + "px";
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 2000);
+        }
+        setInterval(createSparkle, 500);
     </script>
 </body>
 </html>
