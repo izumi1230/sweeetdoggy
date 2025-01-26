@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>梦是榛果巧克力 - 记事本</title>
+    <title>梦是榛果巧克力</title>
     <style>
         body {
             font-family: "Microsoft Yahei", sans-serif;
@@ -13,155 +13,218 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #D9B1BD;
+            margin: 20px 0;
+            font-size: 2.5em;
+        }
+
+        .heart-box {
+            position: relative;
+            background: rgba(217, 177, 189, 0.2);
+            border: 2px solid #D9B1BD;
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            margin-bottom: 20px;
         }
 
-        .container {
+        .heart-box h2 {
+            color: #D9B1BD;
+            font-size: 2em;
+            margin: 0;
+        }
+
+        .heart-box small {
+            color: #333;
+        }
+
+        .bone-box {
+            background: rgba(230, 230, 230, 0.7);
+            padding: 20px;
+            border-radius: 30px;
             display: flex;
-            width: 90%;
-            gap: 20px;
+            justify-content: space-between;
+            width: 60%;
+            margin-bottom: 30px;
         }
 
-        .left-panel {
-            flex: 1;
+        .bone-box a {
+            text-decoration: none;
+            color: #7b2a3f;
+            font-size: 1.2em;
+            padding: 10px 20px;
             background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .right-panel {
-            flex: 2;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        textarea {
-            width: 100%;
-            height: 150px;
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            resize: none;
-            font-size: 1em;
-        }
-
-        button {
-            background-color: #D9B1BD;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #a03a53;
-        }
-
-        select, input {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            font-size: 1em;
-        }
-
-        /* 索引样式 */
-        .index {
-            position: fixed;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 8px;
+            border-radius: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .index a {
-            display: block;
-            margin: 10px 0;
-            text-decoration: none;
-            color: #333;
-            font-size: 1em;
-            text-align: center;
+        .bone-box a:hover {
+            background: #D9B1BD;
+            color: white;
         }
 
-        .index a:hover {
-            color: #7b2a3f;
+        .qa-section {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            width: 60%;
+            margin-bottom: 50px;
+        }
+
+        .qa-section textarea {
+            width: 100%;
+            height: 60px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #D9B1BD;
+            font-size: 1em;
+            padding: 10px;
+            resize: none;
+        }
+
+        .qa-section button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #D9B1BD;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .qa-section button:hover {
+            background: #a03a53;
+        }
+
+        .qa-list {
+            margin-top: 20px;
+        }
+
+        .qa-list p {
+            background: rgba(230, 230, 230, 0.9);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .qa-list button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #a03a53;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .qa-list button:hover {
+            background: #D9B1BD;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: fall 2s infinite;
+        }
+
+        @keyframes fall {
+            from {
+                transform: translateY(-50px) translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(100vh) translateX(50px);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 索引 -->
-    <div class="index">
-        <a href="timeline.html">时间线</a>
-        <a href="pomodoro.html">番茄钟</a>
-        <a href="profile.html">个人主页</a>
+    <h1>Note Book</h1>
+    <div class="heart-box">
+         <h2>100 天</h2>
+        <small>开始于 2023-12-30</small>
     </div>
-
-    <div class="container">
-        <!-- 左侧面板 -->
-        <div class="left-panel">
-            <h2>创建新记录</h2>
-            <select id="category">
-                <option value="一些">一些</option>
-                <option value="和阿湛">和阿湛</option>
-                <option value="秘">秘</option>
-            </select>
-            <textarea id="content" placeholder="写下你的内容吧～"></textarea>
-            <input type="file" id="fileUpload" accept="image/*,video/*">
-            <button onclick="saveRecord()">保存记录</button>
-        </div>
-        <!-- 右侧面板 -->
-        <div class="right-panel">
-            <h2>预览与保存</h2>
-            <div id="preview"></div>
+    <div class="bone-box">
+        <a href="some.html">一些</a>
+        <a href="asami.html">和阿湛</a>
+        <a href="secret.html" onclick="enterPassword()">秘</a>
+    </div>
+    <div class="qa-section">
+        <textarea id="qaInput" placeholder="请输入您的问题..."></textarea>
+        <button onclick="addQuestion()">发布问题</button>
+        <div class="qa-list" id="qaList">
+            <!-- Q&A 区域 -->
         </div>
     </div>
+    <div class="stars" id="stars"></div>
 
     <script>
-        function saveRecord() {
-            const category = document.getElementById("category").value;
-            const content = document.getElementById("content").value.trim();
-            const fileInput = document.getElementById("fileUpload");
-            let fileUrl = "";
-
-            if (category === "秘" && prompt("请输入密码：") !== "mysweetdoggyDDLG") {
+        function enterPassword() {
+            const password = prompt("请输入密码进入秘区域：");
+            if (password !== "mysweetdoggyDDLG") {
                 alert("密码错误！");
-                return;
+                return false;
             }
+            return true;
+        }
 
-            if (fileInput.files[0]) {
-                fileUrl = URL.createObjectURL(fileInput.files[0]);
-            }
-
-            if (content) {
-                const timestamp = new Date().toLocaleString();
-                const recordContent = `时间: ${timestamp}\n分类: ${category}\n内容: ${content}\n${
-                    fileUrl ? `附件: ${fileUrl}` : ""
-                }`;
-
-                const blob = new Blob([recordContent], { type: "text/plain" });
-                const fileName = `记录_${timestamp.replace(/[\s:]/g, "_")}.txt`;
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = fileName;
-                link.innerText = `下载 ${fileName}`;
-                link.style.display = "block";
-
-                const preview = document.getElementById("preview");
-                preview.appendChild(link);
-
-                alert("记录保存成功！");
+        function addQuestion() {
+            const input = document.getElementById("qaInput");
+            const list = document.getElementById("qaList");
+            const text = input.value.trim();
+            if (text) {
+                const question = document.createElement("p");
+                question.innerHTML = `Q${list.childElementCount + 1}: ${text} 
+                <button onclick="this.parentElement.remove()">删除</button>`;
+                list.appendChild(question);
+                input.value = "";
             } else {
-                alert("内容不能为空！");
+                alert("问题不能为空！");
             }
         }
+
+        // 流星特效
+        function addStars() {
+            const stars = document.getElementById("stars");
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement("div");
+                star.className = "star";
+                star.style.width = `${Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                star.style.top = `${Math.random() * 100}vh`;
+                star.style.left = `${Math.random() * 100}vw`;
+                star.style.animationDuration = `${Math.random() * 2 + 1}s`;
+                stars.appendChild(star);
+            }
+        }
+
+        addStars();
     </script>
 </body>
 </html>
