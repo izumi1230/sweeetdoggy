@@ -34,13 +34,33 @@
         function setupAudio() {
             const audio = document.getElementById("bg-music");
             const storedVolume = localStorage.getItem("musicVolume");
+            const storedMusic = localStorage.getItem("musicFile");
+
             if (storedVolume) {
                 audio.volume = parseFloat(storedVolume);
+            }
+
+            if (storedMusic) {
+                audio.src = storedMusic;
             }
 
             audio.addEventListener("volumechange", () => {
                 localStorage.setItem("musicVolume", audio.volume);
             });
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const audio = document.getElementById("bg-music");
+                    audio.src = e.target.result;
+                    localStorage.setItem("musicFile", e.target.result);
+                    audio.play();
+                };
+                reader.readAsDataURL(file);
+            }
         }
     </script>
     <style>
@@ -123,10 +143,15 @@
             border-radius: 5px;
             display: flex;
             align-items: center;
+            gap: 10px;
         }
 
         .audio-container audio {
             width: 150px;
+        }
+
+        .audio-container input {
+            font-size: 12px;
         }
     </style>
 </head>
@@ -142,9 +167,9 @@
 
     <div class="audio-container">
         <audio id="bg-music" controls autoplay loop>
-            <source src="zouyin_cn.mp3" type="audio/mp3">
             您的浏览器不支持音频播放。
         </audio>
+        <input type="file" accept="audio/*" onchange="handleFileUpload(event)">
     </div>
 </body>
 </html>
