@@ -5,14 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>梦是榛果巧克力</title>
     <script>
-        const backgrounds = ['background.2.jpg', 'background.3.jpg', 'background.4.jpg', 'background.5.jpg', ];
-        let currentIndex = 2;
-
-        function changeBackground() {
-            currentIndex = (currentIndex + 1) % backgrounds.length;
-            document.body.style.backgroundImage = `url(${backgrounds[currentIndex]})`;
-        }
-
         function checkPassword() {
             const password = prompt("请输入密码进入下一页：");
             if (password === "oureverlastingcode") {
@@ -24,19 +16,31 @@
 
         window.onload = function() {
             createSnowflakes();
+            setupAudio();
         };
 
         function createSnowflakes() {
-            setInterval(()
-
-=>
+            setInterval(() => {
                 const snowflake = document.createElement("div");
                 snowflake.className = "snowflake";
                 snowflake.style.left = Math.random() * window.innerWidth + "px";
-                snowflake.style.animationDuration = Math.random() * 3 + 7 + "s";
+                snowflake.style.animationDuration = Math.random() * 4 + 5 + "s"; // 飘落时间
+                snowflake.style.opacity = Math.random() * 0.8 + 0.2; // 透明度变化
                 document.body.appendChild(snowflake);
-                setTimeout(() => snowflake.remove(), 10000);
-            }, 300);
+                setTimeout(() => snowflake.remove(), 8000);
+            }, 400); // 控制雪花密度
+        }
+
+        function setupAudio() {
+            const audio = document.getElementById("bg-music");
+            const storedVolume = localStorage.getItem("musicVolume");
+            if (storedVolume) {
+                audio.volume = parseFloat(storedVolume);
+            }
+
+            audio.addEventListener("volumechange", () => {
+                localStorage.setItem("musicVolume", audio.volume);
+            });
         }
     </script>
     <style>
@@ -46,7 +50,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-image: url('background.1.jpg');
+            background-image: url('background.3.jpg'); /* 固定背景 */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -76,19 +80,7 @@
             text-align: center;
         }
 
-        button.change-bg {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            font-size: 12px;
-            padding: 5px 10px;
-            background: rgba(255, 255, 255, 0.5);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button.next-page {
+        .next-page {
             position: fixed;
             bottom: 10px;
             right: 10px;
@@ -100,13 +92,14 @@
             cursor: pointer;
         }
 
-         .snowflake {
+        .snowflake {
             position: fixed;
             top: -10px;
             background: white;
             border-radius: 50%;
             width: 5px;
             height: 5px;
+            opacity: 0.8;
             animation: fall linear infinite;
         }
 
@@ -116,9 +109,24 @@
                 opacity: 1;
             }
             100% {
-                transform: translateY(100vh) translateX(30px);
+                transform: translateY(100vh) translateX(20px);
                 opacity: 0;
             }
+        }
+
+        .audio-container {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 5px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .audio-container audio {
+            width: 150px;
         }
     </style>
 </head>
@@ -130,11 +138,13 @@
         </div>
         <div class="signature">by 浅见湛 & 泉</div>
     </div>
-    <button class="change-bg" onclick="changeBackground()">切换背景</button>
     <button class="next-page" onclick="checkPassword()">进入下一页</button>
-    <audio id="bg-music" autoplay loop>
-        <source src="zouyin_cn.mp3" type="audio/flac">
-        您的浏览器不支持音频播放。
-    </audio>
+
+    <div class="audio-container">
+        <audio id="bg-music" controls autoplay loop>
+            <source src="zouyin_cn.mp3" type="audio/mp3">
+            您的浏览器不支持音频播放。
+        </audio>
+    </div>
 </body>
 </html>
