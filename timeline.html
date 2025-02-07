@@ -57,43 +57,6 @@
         .timeline-star:hover + .timeline-content {
             display: block;
         }
-        /* 新增第二根时间线 */
-        .timeline-secondary {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        .timeline-secondary-line {
-            width: 2px;
-            background-color: #D9B1BD;
-            height: 100vh;
-            position: relative;
-            margin-left: 10px;
-        }
-        .timeline-secondary-star {
-            width: 16px;
-            height: 16px;
-            background-color: #D9B1BD;
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            position: absolute;
-            right: -8px; /* 向左展开 */
-            cursor: pointer;
-        }
-        .timeline-secondary-content {
-            display: none;
-            position: absolute;
-            right: 20px;
-            top: -10px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 10px;
-            border-radius: 8px;
-            max-width: 300px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .timeline-secondary-star:hover + .timeline-secondary-content {
-            display: block;
-        }
         /* 飘雪特效 */
         .snowflake {
             position: fixed;
