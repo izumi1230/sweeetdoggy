@@ -76,11 +76,16 @@
             left: -80px;
         }
         /* Profile Section */
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
         .profile {
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
-            margin-bottom: 20px;
         }
         .profile img {
             width: 100px;
@@ -103,7 +108,9 @@
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
-            height: fit-content;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
         .message-board h2 {
             text-align: center;
@@ -136,7 +143,7 @@
         .index a:hover {
             color: #7b2a3f;
         }
-         /* 飘雪特效 */
+           /* 飘雪特效 */
         .snowflake {
             position: fixed;
             top: -10px;
@@ -167,17 +174,13 @@
         <a href="notebook.html">记录本</a>
     </div>
     <div class="container">
-        <!-- Timeline Section -->
+        <!-- 左侧时间线 -->
         <div class="timeline" id="timeline">
             <button class="add-event-button" onclick="addEvent()">添加时间点</button>
             <div class="timeline-line" id="timeline-line"></div>
         </div>
-        <!-- 新增的时间线 -->
-        <div class="timeline timeline-left" id="timeline-left">
-            <div class="timeline-line" id="timeline-line-left"></div>
-        </div>
-        <!-- Profile Section -->
-        <div>
+        <!-- 中间部分：个人简介和留言板 -->
+        <div class="profile-container">
             <div class="profile">
                 <img src="阿湛头像.jpg" alt="阿湛头像" id="阿湛头像">
                 <h2>阿湛的自我介绍</h2>
@@ -193,7 +196,11 @@
                 <input type="file" id="upload-avatar-quan" onchange="uploadAvatar('泉泉头像')">
             </div>
         </div>
-        <!-- Message Board Section -->
+        <!-- 右侧时间线 -->
+        <div class="timeline timeline-left" id="timeline-left">
+            <div class="timeline-line" id="timeline-line-left"></div>
+        </div>
+        <!-- 留言板 -->
         <div class="message-board" id="message-board">
             <h2>留言板</h2>
             <textarea id="message-input" placeholder="写点什么吧..."></textarea>
@@ -227,8 +234,7 @@
                 content.innerHTML = `<strong>${event.date}</strong><p>${event.description}</p>`;
                 container.appendChild(star);
                 container.appendChild(content);
-
-                // 第二根时间线的星星和内容
+                 // 第二根时间线的星星和内容
                 const starLeft = document.createElement("div");
                 starLeft.className = "timeline-star";
                 starLeft.style.top = `${index * 50}px`;
@@ -288,7 +294,6 @@
         window.onload = function() {
             createSnowflakes();
         };
-
         function createSnowflakes() {
             setInterval(() => {
                 const snowflake = document.createElement("div");
