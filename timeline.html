@@ -33,6 +33,7 @@
             height: 100vh;
             position: relative;
             margin-left:10px;
+            overflow-y: auto; /* 启用垂直滚动条 */
         }
         .timeline-star {
             width: 16px;
@@ -221,7 +222,14 @@
                 container.appendChild(content);
             });
         }
-
+        // 删除时间点
+        function deleteEvent(index) {
+           if (confirm("确定要删除这个时间点吗？")) {
+           events.splice(index, 1); // 从数组中移除
+           localStorage.setItem("events", JSON.stringify(events)); // 更新 localStorage
+           renderTimeline(); // 重新渲染时间线
+           }
+        }
         // 上传头像
         function uploadAvatar(id) {
             const fileInput = document.getElementById(`upload-avatar-${id === "阿湛头像" ? "azhan" : "quan"}`);
