@@ -217,7 +217,7 @@
                 star.style.top = `${index * 50}px`;
                 const content = document.createElement("div");
                 content.className = "timeline-content";
-                content.innerHTML = `<strong>${event.date}</strong><p>${event.description}</p>`;
+                content.innerHTML = `<strong>${event.date}</strong><p>${event.description}</p>`;<button onclick="deleteEvent(${index})">删除</button>`;
                 container.appendChild(star);
                 container.appendChild(content);
             });
