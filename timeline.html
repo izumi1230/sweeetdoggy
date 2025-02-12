@@ -57,7 +57,7 @@
         .timeline-star:hover + .timeline-content {
             display: block;
         }
-         /* 飘雪特效 */
+        /* 飘雪特效 */
         .snowflake {
             position: fixed;
             top: -10px;
@@ -153,7 +153,7 @@
     </style>
 </head>
 <body>
-    <!-- 索引菜单 -->
+<!-- 索引菜单 -->
     <div class="index">
         <a href="pomodoro.html">番茄钟</a>
         <a href="profile.html">个人主页</a>
@@ -182,7 +182,7 @@
                 <input type="file" id="upload-avatar-quan" onchange="uploadAvatar('泉泉头像')">
             </div>
         </div>
-        <!-- Message Board Section -->
+         <!-- Message Board Section -->
         <div class="message-board" id="message-board">
             <h2>留言板</h2>
             <textarea id="message-input" placeholder="写点什么吧..."></textarea>
@@ -191,7 +191,11 @@
         </div>
     </div>
     <script>
+        // 从 localStorage 中读取数据
         const events = JSON.parse(localStorage.getItem("events")) || [];
+        const messages = JSON.parse(localStorage.getItem("messages")) || [];
+
+        // 添加时间点
         function addEvent() {
             const eventDate = prompt("请输入时间点（如2025.1.25）:");
             const eventDesc = prompt("请输入事件描述:");
@@ -201,6 +205,8 @@
                 renderTimeline();
             }
         }
+
+        // 渲染时间线
         function renderTimeline() {
             const container = document.getElementById("timeline-line");
             container.innerHTML = "";
@@ -215,6 +221,8 @@
                 container.appendChild(content);
             });
         }
+
+        // 上传头像
         function uploadAvatar(id) {
             const fileInput = document.getElementById(`upload-avatar-${id === "阿湛头像" ? "azhan" : "quan"}`);
             const imgElement = document.getElementById(id);
@@ -223,12 +231,13 @@
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     imgElement.src = e.target.result;
-                    localStorage.setItem(id, e.target.result);
+                    localStorage.setItem(id, e.target.result); // 保存头像到 localStorage
                 };
                 reader.readAsDataURL(file);
             }
         }
-        const messages = JSON.parse(localStorage.getItem("messages")) || [];
+
+        // 添加留言
         function addMessage() {
             const messageInput = document.getElementById("message-input");
             const messageText = messageInput.value.trim();
@@ -236,11 +245,13 @@
                 const nickname = prompt("请输入昵称:");
                 const timestamp = new Date().toLocaleString();
                 messages.push({ nickname, text: messageText, time: timestamp });
-                localStorage.setItem("messages", JSON.stringify(messages));
+                localStorage.setItem("messages", JSON.stringify(messages)); // 保存留言到 localStorage
                 renderMessages();
                 messageInput.value = "";
             }
         }
+
+        // 渲染留言板
         function renderMessages() {
             const messagesContainer = document.getElementById("messages");
             messagesContainer.innerHTML = "";
@@ -251,19 +262,22 @@
                 messagesContainer.appendChild(messageDiv);
             });
         }
+
+        // 页面加载时初始化数据
         window.onload = function () {
-            renderTimeline();
-            renderMessages();
+            renderTimeline(); // 渲染时间线
+            renderMessages(); // 渲染留言板
+            // 加载头像
             ["阿湛头像", "泉泉头像"].forEach(id => {
                 const savedAvatar = localStorage.getItem(id);
                 if (savedAvatar) {
                     document.getElementById(id).src = savedAvatar;
                 }
             });
+            createSnowflakes(); // 飘雪特效
         };
-        window.onload = function() {
-            createSnowflakes();
-        };
+
+        // 飘雪特效
         function createSnowflakes() {
             setInterval(() => {
                 const snowflake = document.createElement("div");
